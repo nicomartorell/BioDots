@@ -15,77 +15,92 @@ import java.util.Random;
 
 public class Bacteria extends Actor {
 
+    // tipos de bacterias
     public static final short BACTERIA_BLUE = 1;
     public static final short BACTERIA_RED = 2;
     public static final short BACTERIA_ORANGE = 3;
     public static final short BACTERIA_PINK = 4;
     public static final short BACTERIA_GREEN = 5;
 
+    // ID para que puedan ser reconocidas por el antibotico
     private static int ID_COUNT = 0;
     public int ID;
 
+    // un target, una cuenta desde el ultimo y el limite para cambiar
     private Vector2 target;
     private float targetTimer;
     private float targetTimerLimit;
+
+    //el path de la imagen y el tipo de bacteria
     private String path;
     private short type;
+    public short getType() {
+        return type;
+    }
 
+    //llevo la cuenta de si se está reproduciendo
     private boolean reproducing;
+    //cuento como va la función seno, y escalo acorde con repScale
     private int scaleCount;
     private float repScale;
 
+    //me divido ya?
     public boolean isDividing() {
         return dividing;
     }
-
     private boolean dividing;
-    private boolean firstTarget;
 
+    //me mataron?
     public boolean isDead() {
         return isDead;
     }
-
     private boolean isDead;
 
-    public float getpOfDying() {
-        return pOfDying;
-    }
-
+    // qué probabilidad tengo de que me maten?
+    public float getpOfDying() {return pOfDying;}
     private float pOfDying;
 
     public Bacteria (PlayScreen screen, float x, float y, short type, float pOfDying){
         super(screen, x, y);
 
         ID = Bacteria.ID_COUNT;
-        Bacteria.ID_COUNT++;
+        Bacteria.ID_COUNT++; // aumento en 1 la ID general
 
         Filter filter = new Filter();
-        filter.categoryBits = screen.BACTERIA_BIT;
-        filter.maskBits = screen.DEFAULT_BIT;
+        filter.categoryBits = screen.BACTERIA_BIT; //soy bacteria
+        filter.maskBits = screen.DEFAULT_BIT; //choco con cosas NO bacteria
         fixture.setFilterData(filter);
         this.type = type;
 
         scale = 0.37f;
-        width = 350;
-        height = 512;
-        setPath(type);
+        width = 350; //width de la imagen que creé
+        height = 512; //height de la imagen
+        setPath(type); //dependiendo de mi tipo switcheo las imagenes
 
-        target = getNewTarget();
+        target = getNewTarget(); //un nuevo target
+
+        //mi v inicial es ir de donde estoy a mi target
         body.setLinearVelocity(target.cpy().sub(body.getPosition()));
+        //mi ángulo coincide con mi velocidad inicial
         angle = body.getLinearVelocity().nor().angle();
         angle -=90;
-        setVisuals();
+
+        setVisuals(); //voy a buscar mi imagen y construyo la animación
 
         reproducing = false;
         dividing = false;
         repScale = 1;
 
-        firstTarget = false;
-
         isDead = false;
 
-        Random r = new Random();
+        //pOfDying la asigno a un valor aleatorio
+        //PERO distribuido normalmente alrededor de una media
+        //esa media se la pasé al constructor y es pOfDying de madre
+
+        Random r = new Random(); //debería optimizar
         this.pOfDying = (float)r.nextGaussian()*0.1f + pOfDying;
+
+        //no dejo que sea más que 1 ni menos que 0
         if(this.pOfDying > 1){
             this.pOfDying = 1;
         } else if(this.pOfDying < 0){
@@ -93,15 +108,21 @@ public class Bacteria extends Actor {
         }
     }
 
+    //constructor para cosas extras que pasan en bacterias hijas
     public Bacteria(PlayScreen screen, float x, float y, short type, float pOfDying, Vector2 velocity, Vector2 target){
         this(screen, x, y, type, pOfDying);
-        body.setLinearVelocity(velocity);
-        this.target = target;
+
+        body.setLinearVelocity(velocity); //conservo la velocidad
+
+        this.targetTimerLimit = 0.5f; //pasa medio segundo hasta el próximo
+        this.target = target; //conservo el target
+
+        //el ángulo también se mantiene
         angle = body.getLinearVelocity().nor().angle();
         angle -=90;
-        firstTarget = true;
-    };
+    }
 
+    // simplemente busco la textura, seteo la animación y la inicializo
     @Override
     protected void setVisuals() {
         setTexture(new Texture(path));
@@ -118,20 +139,26 @@ public class Bacteria extends Actor {
     }
 
     public void update(float delta){
-        timer += delta;
-        targetTimer += delta;
+        timer += delta; //cuentan las bacterias
+        targetTimer += delta; //desde el último target
+
+        //voy a buscar mi posición del body - para eso existe box2d
         setPosition(body.getPosition().x, body.getPosition().y);
+
+        //velocidad y ángulo
         calculateVelocity();
         angle = body.getLinearVelocity().nor().angle();
         angle -=90;
 
+        //nuevo target si se cumplió el límite
         if(targetTimer> targetTimerLimit) target = getNewTarget();
 
-        handleReproduce();
+        handleReproduce(); //me reproduzco?
 
     }
 
     public void render(SpriteBatch batch){
+            // dibujo el frame que corresponde, con cierta escala y rotación
             TextureRegion region = animation.getKeyFrame(timer, true);
             batch.draw(region,
                     getX() - (width/2),
@@ -145,52 +172,54 @@ public class Bacteria extends Actor {
                     angle);
     }
 
-    private Vector2 getNewTarget(){
+    private Vector2 getNewTarget(){ //devuelve un nuevo target
         Random r = new Random();
-        float scale = 0.9f;
+        //en screen tengo métodos que definen cuáles son las coordenadas
+        //válidas para esto
         Vector2 t = new Vector2(screen.getNewBacteriaX(r.nextFloat()),
                 screen.getNewBacteriaY(r.nextFloat()));
-        targetTimer = 0;
 
-        if(firstTarget){
-            targetTimerLimit = r.nextFloat()*0.2f + 0.3f;
-            firstTarget = false;
-        } else {
-            targetTimerLimit = r.nextFloat()*6 + 4;
-        }
+        //reseteo el timer y el límite
+        targetTimer = 0;
+        targetTimerLimit = r.nextFloat()*6 + 4;
 
         return t;
     }
 
-    private void calculateVelocity(){
-        Vector2 targetSaved = target.cpy();
+    private void calculateVelocity(){ // el gran algoritmo
+        Vector2 targetSaved = target.cpy(); //sino modifico target
+
+        //si estoy muy cerca del target calculo otro
         if(targetSaved.sub(body.getPosition()).len()< 100){
             target = getNewTarget();
         }
 
         targetSaved = target.cpy();
+        //esta es la magia que hace que parezcan vivas
         Vector2 desired = targetSaved.sub(getX(), getY()).nor().scl(100);
         body.applyForce((desired.sub(body.getLinearVelocity())).limit(50), body.getWorldCenter(), true);
     }
 
     private void handleReproduce(){
         Random r = new Random();
-        if(r.nextDouble() < 0.0004 && !reproducing) {
-            Gdx.app.log("log", "rep!");
+        if(r.nextDouble() < 0.0004 && !reproducing) { //muy baja probabilidad
             reproducing = true;
-            scaleCount = 0;
+            scaleCount = 0; //me reproduzco y empiezo a contar la funcion seno
         } else if (reproducing){
             if(scaleCount < screen.getBacteriaScale().size){
+                //paso por los valores de seno ya creados y escalo a partir de eso
                 repScale = screen.getBacteriaScale().get(scaleCount);
                 scaleCount++;
             } else {
-                divide();
+                divide(); //si me reproduzco y ya se me terminó la función
             }
         }
     }
 
     private void divide() {
         Gdx.app.log("log", "dividing!");
+
+        //creo dos nuevas bacterias y muero yo
         screen.getBacterias().add(new Bacteria(screen, getX(), getY(), getType(), pOfDying, body.getLinearVelocity(), target));
         screen.getBacterias().add(new Bacteria(screen, getX(), getY(), getType(), pOfDying, body.getLinearVelocity(), target));
         dividing = true;
@@ -198,6 +227,7 @@ public class Bacteria extends Actor {
 
 
     public void setPath(short type) {
+        //switch el path para cada type
         switch(type){
             case BACTERIA_BLUE:
                 path = "bacteria-blue.png";
@@ -217,11 +247,9 @@ public class Bacteria extends Actor {
         }
     }
 
-    public short getType() {
-        return type;
-    }
 
-    public void die() {
+
+    public void die() { //me muero, quizás, segun pOfDying
         Random r = new Random();
         if(r.nextFloat() < pOfDying){
             isDead = true;

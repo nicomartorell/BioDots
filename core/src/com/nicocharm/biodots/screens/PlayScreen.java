@@ -14,7 +14,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.nicocharm.biodots.Antibiotic;
 import com.nicocharm.biodots.Bacteria;
 import com.nicocharm.biodots.BioDots;
-import com.nicocharm.biodots.Player;
 import com.nicocharm.biodots.PowerBar;
 
 import java.util.Random;
