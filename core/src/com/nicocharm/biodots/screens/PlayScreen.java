@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.nicocharm.biodots.Antibiotic;
 import com.nicocharm.biodots.Bacteria;
 import com.nicocharm.biodots.BioDots;
+import com.nicocharm.biodots.Block;
 import com.nicocharm.biodots.PowerBar;
 
 import java.util.Random;
@@ -73,6 +74,9 @@ public class PlayScreen implements Screen {
     private float arenaWidth;
     private float arenaHeight;
 
+    //por ahora
+    private Block block;
+
     public PlayScreen(BioDots game){
         this.game = game;
         cam = new OrthographicCamera();
@@ -105,6 +109,8 @@ public class PlayScreen implements Screen {
             x+=0.05;
         }
 
+        //por ahora
+        block = new Block(this, 0, 0, arenaWidth/4f);
     }
 
     //retorno valores X e Y para una nueva bacteria, según un random pasado
@@ -195,6 +201,8 @@ public class PlayScreen implements Screen {
         for(Antibiotic antibiotic: antibiotics){ //dibujo antibioticos
             antibiotic.render(game.batch);
         }
+
+        block.render(game.batch); //por ahora
 
         bar.render(game.batch); //dibujo la barra
 

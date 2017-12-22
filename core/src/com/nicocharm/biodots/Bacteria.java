@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.collision.BoundingBox;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.utils.Array;
 import com.nicocharm.biodots.screens.PlayScreen;
@@ -106,6 +107,8 @@ public class Bacteria extends Actor {
         } else if(this.pOfDying < 0){
             this.pOfDying = 0;
         }
+
+
     }
 
     //constructor para cosas extras que pasan en bacterias hijas
