@@ -15,6 +15,7 @@ import com.nicocharm.biodots.Antibiotic;
 import com.nicocharm.biodots.Bacteria;
 import com.nicocharm.biodots.BioDots;
 import com.nicocharm.biodots.Block;
+import com.nicocharm.biodots.Grid;
 import com.nicocharm.biodots.PowerBar;
 
 import java.util.Random;
@@ -67,15 +68,16 @@ public class PlayScreen implements Screen {
 
     //instancio mi powerbar y defino cuánto se separa de y=0
     private PowerBar bar;
-    private float barLift = 240;
+    private float barLift = 165; //altura del centro de la barra
+    private float totalLift; //altura del tope de la barra
 
     //defino valores de límite para la arena (donde las bacterias se mueven)
     //esto lo uso para calcular donde aparecen y sus targets
     private float arenaWidth;
     private float arenaHeight;
 
-    //por ahora
-    private Block block;
+    //la grid de blocks
+    private Grid grid;
 
     public PlayScreen(BioDots game){
         this.game = game;
@@ -91,13 +93,13 @@ public class PlayScreen implements Screen {
         dr = new Box2DDebugRenderer();
 
         // 50% de morir en un principio
-        initial_pOfDying = 0.5f;
+        initial_pOfDying = 0.7f;
 
         bar = new PowerBar(this, game.WIDTH / 2, barLift); //centrada en x
 
-        //la arena tiene w igual y h menos el lift
-        arenaWidth = game.WIDTH;
-        arenaHeight = game.HEIGHT - barLift;
+        //el tope de la barra es su separación de y=0 más su altura
+        //la altura /2 es porque el barLift es hasta el centro de bar
+        totalLift = barLift + (bar.getActorHeight()*bar.getMyScale())/2;
 
         // calculo los puntos que necesito de la función seno para rep
         bacteriaScale = new Array<Float>();
@@ -109,19 +111,23 @@ public class PlayScreen implements Screen {
             x+=0.05;
         }
 
-        //por ahora
-        block = new Block(this, 0, 0, arenaWidth/4f);
+        //creo mi grid
+        grid = new Grid(this, 0, totalLift, game.WIDTH, 4, 5);
+
+        //la arena tiene w y h de grid
+        arenaWidth = grid.getWidth();
+        arenaHeight = grid.getHeight();
     }
 
     //retorno valores X e Y para una nueva bacteria, según un random pasado
     public float getNewBacteriaX(float r){
-        return r*arenaWidth*0.7f + arenaWidth*0.15f;
+        return r*arenaWidth*0.84f + arenaWidth*0.08f;
     }
-    public float getNewBacteriaY(float r){return (r*arenaHeight*0.7f + barLift + arenaHeight*0.15f);}
+    public float getNewBacteriaY(float r){return (r*arenaHeight*0.9f + totalLift + arenaHeight*0.05f);}
 
     private void update(float delta){
         //cada 3 segundos nueva bacteria
-        if(bacteriaTimer>3){
+        if(bacteriaTimer>6 && bacterias.size<15){
             Random r = new Random();
             short type = (short)(r.nextInt(5) + 1); //el tipo de bacteria es aleatorio
             bacterias.add(new Bacteria(this, getNewBacteriaX(r.nextFloat()), getNewBacteriaY(r.nextFloat()), type, initial_pOfDying));
@@ -202,7 +208,7 @@ public class PlayScreen implements Screen {
             antibiotic.render(game.batch);
         }
 
-        block.render(game.batch); //por ahora
+        grid.render(game.batch);
 
         bar.render(game.batch); //dibujo la barra
 
