@@ -20,8 +20,18 @@ public class Actor extends Sprite {
     protected Array<TextureRegion> frames;
     protected Animation<TextureRegion> animation;
     protected float timer;
+
+    public float getMyScale() {
+        return scale;
+    }
+
     protected float scale;
     protected float width;
+
+    public float getActorHeight() {
+        return height;
+    }
+
     protected float height;
     protected float angle;
 
