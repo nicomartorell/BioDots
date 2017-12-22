@@ -9,9 +9,12 @@ public class Block extends Actor{
 
     private Bounds bounds;
     private boolean active;
+    private Grid grid;
 
-    public Block(PlayScreen screen, float x, float y, float width) {
+    public Block(PlayScreen screen, Grid grid, float x, float y, float width) {
         super(screen, x, y, false);
+        this.grid = grid;
+
         setPosition(x, y);
         bounds = new Bounds(x, y, width, width);
         setVisuals();
