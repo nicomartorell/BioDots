@@ -175,9 +175,10 @@ public class Bacteria extends Actor {
                 }
             }
         } else {
-            if(!block.isActive()){
+            if(!block.isActive() || block.isTouched(getX(),getY())){
                 block = null;
                 bounds = screen.getArena();
+                target = getNewTarget();
             }
         }
 
@@ -222,7 +223,7 @@ public class Bacteria extends Actor {
         Vector2 targetSaved = target.cpy(); //sino modifico target
 
         //si estoy muy cerca del target calculo otro
-        if(targetSaved.sub(body.getPosition()).len()< 50){
+        if(targetSaved.sub(body.getPosition()).len()< 100){
             target = getNewTarget();
         }
 
