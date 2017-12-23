@@ -7,6 +7,10 @@ import com.badlogic.gdx.utils.Array;
 import com.nicocharm.biodots.screens.PlayScreen;
 
 public class Grid {
+    public Array<Block> getBlocks() {
+        return blocks;
+    }
+
     private Array<Block> blocks;
     private PlayScreen screen;
     private float x;

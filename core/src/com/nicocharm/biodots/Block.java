@@ -8,6 +8,10 @@ import com.nicocharm.biodots.screens.PlayScreen;
 
 public class Block extends Actor{
 
+    public Bounds getBounds() {
+        return bounds;
+    }
+
     private Bounds bounds;
     private boolean active;
     private Grid grid;

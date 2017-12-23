@@ -15,6 +15,7 @@ import com.nicocharm.biodots.Antibiotic;
 import com.nicocharm.biodots.Bacteria;
 import com.nicocharm.biodots.BioDots;
 import com.nicocharm.biodots.Block;
+import com.nicocharm.biodots.Bounds;
 import com.nicocharm.biodots.Grid;
 import com.nicocharm.biodots.PowerBar;
 
@@ -71,10 +72,13 @@ public class PlayScreen implements Screen {
     private float barLift = 165; //altura del centro de la barra
     private float totalLift; //altura del tope de la barra
 
+    public Bounds getArena() {
+        return arena;
+    }
+
     //defino valores de límite para la arena (donde las bacterias se mueven)
     //esto lo uso para calcular donde aparecen y sus targets
-    private float arenaWidth;
-    private float arenaHeight;
+    private Bounds arena;
 
     public Grid getGrid() {
         return grid;
@@ -119,22 +123,23 @@ public class PlayScreen implements Screen {
         grid = new Grid(this, 0, totalLift, game.WIDTH, 4, 5);
 
         //la arena tiene w y h de grid
-        arenaWidth = grid.getWidth();
-        arenaHeight = grid.getHeight();
+        arena = new Bounds(0, totalLift, grid.getWidth(), grid.getHeight());
     }
 
     //retorno valores X e Y para una nueva bacteria, según un random pasado
-    public float getNewBacteriaX(float r){
-        return r*arenaWidth*0.84f + arenaWidth*0.08f;
+    public float getNewBacteriaX(float r, Bounds bounds){
+        return r*bounds.getWidth()*0.84f + bounds.getX() + bounds.getWidth()*0.08f;
     }
-    public float getNewBacteriaY(float r){return (r*arenaHeight*0.9f + totalLift + arenaHeight*0.05f);}
+    public float getNewBacteriaY(float r, Bounds bounds){
+        return (r*bounds.getHeight()*0.9f + bounds.getY() + bounds.getHeight()*0.05f);
+    }
 
     private void update(float delta){
         //cada 3 segundos nueva bacteria
         if(bacteriaTimer>6 && bacterias.size<15){
             Random r = new Random();
             short type = (short)(r.nextInt(5) + 1); //el tipo de bacteria es aleatorio
-            bacterias.add(new Bacteria(this, getNewBacteriaX(r.nextFloat()), getNewBacteriaY(r.nextFloat()), type, initial_pOfDying));
+            bacterias.add(new Bacteria(this, getNewBacteriaX(r.nextFloat(), arena), getNewBacteriaY(r.nextFloat(), arena), type, initial_pOfDying));
             bacteriaTimer=0;
         } else {
             //avanzo el timer de hace cuanto nació última bacteria

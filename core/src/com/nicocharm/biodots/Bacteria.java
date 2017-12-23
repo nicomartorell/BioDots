@@ -61,6 +61,10 @@ public class Bacteria extends Actor {
     public float getpOfDying() {return pOfDying;}
     private float pOfDying;
 
+    // so they can be trapped in a block
+    private Bounds bounds;
+    private Block block;
+
     public Bacteria (PlayScreen screen, float x, float y, short type, float pOfDying){
         super(screen, x, y);
 
@@ -78,6 +82,7 @@ public class Bacteria extends Actor {
         height = 512; //height de la imagen
         setPath(type); //dependiendo de mi tipo switcheo las imagenes
 
+        bounds = screen.getArena();
         target = getNewTarget(); //un nuevo target
 
         //mi v inicial es ir de donde estoy a mi target
@@ -153,6 +158,30 @@ public class Bacteria extends Actor {
         angle = body.getLinearVelocity().nor().angle();
         angle -=90;
 
+        Grid grid = screen.getGrid();
+
+        /* Si no tengo un bloque asociado, fijate si estoy adentro de
+        * algún bloque que esté activo. Si es así, asociame a ese bloque
+        * y que mis bounds sean los suyos
+        * Si tengo un bloque asociado, fijate si está activo. Si no es así,
+        * desasocialo y que mis bounds vuelvan a ser los de la arena
+        * */
+        if(block == null){
+            for(Block block: grid.getBlocks()){
+                if(block.isActive() && block.isTouched(getX(), getY())){
+                    this.block = block;
+                    bounds = block.getBounds();
+                    target = getNewTarget();
+                }
+            }
+        } else {
+            if(!block.isActive()){
+                block = null;
+                bounds = screen.getArena();
+            }
+        }
+
+
         //nuevo target si se cumplió el límite
         if(targetTimer> targetTimerLimit) target = getNewTarget();
 
@@ -179,8 +208,8 @@ public class Bacteria extends Actor {
         Random r = new Random();
         //en screen tengo métodos que definen cuáles son las coordenadas
         //válidas para esto
-        Vector2 t = new Vector2(screen.getNewBacteriaX(r.nextFloat()),
-                screen.getNewBacteriaY(r.nextFloat()));
+        Vector2 t = new Vector2(screen.getNewBacteriaX(r.nextFloat(), bounds),
+                screen.getNewBacteriaY(r.nextFloat(), bounds));
 
         //reseteo el timer y el límite
         targetTimer = 0;
@@ -193,7 +222,7 @@ public class Bacteria extends Actor {
         Vector2 targetSaved = target.cpy(); //sino modifico target
 
         //si estoy muy cerca del target calculo otro
-        if(targetSaved.sub(body.getPosition()).len()< 100){
+        if(targetSaved.sub(body.getPosition()).len()< 50){
             target = getNewTarget();
         }
 
