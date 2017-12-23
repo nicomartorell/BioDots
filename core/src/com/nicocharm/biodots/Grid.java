@@ -47,6 +47,12 @@ public class Grid {
 
     }
 
+    public void update(float delta){
+        for(Block block: blocks){
+            block.update(delta);
+        }
+    }
+
     public void render(SpriteBatch batch){
         for(Block block: blocks){
             block.render(batch);
