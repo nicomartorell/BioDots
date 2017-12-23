@@ -150,6 +150,8 @@ public class PlayScreen implements Screen {
         if(bar.getAverageP() > 0.0 && bar.getAverageP() < 0.01 && bacterias.size > 15){
             Gdx.app.log("tag", "Average p: " + bar.getAverageP());
             lose();
+        } else if (bacterias.size < 1){
+            win();
         }
 
         //cada 3 segundos nueva bacteria
@@ -247,6 +249,10 @@ public class PlayScreen implements Screen {
 
     private void lose(){
         backgroundColor = new Color(119f/255f, 10f/255f, 10f/255f, 1);
+    }
+
+    private void win(){
+        backgroundColor = new Color(20f/255f, 158f/255f, 9f/255f, 1);
     }
 
     @Override
