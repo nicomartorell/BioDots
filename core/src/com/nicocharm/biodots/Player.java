@@ -67,7 +67,7 @@ public class Player implements InputProcessor{
 
         double delta = ((double)(secondTouch - firstTouch))/1000000000.0;
 
-        if(delta >= 1){
+        if(delta >= 0.4){
             if(!(screen.getAntibiotics().size>2)){
                 applyAntibiotic(screenX, screenY);
             }
