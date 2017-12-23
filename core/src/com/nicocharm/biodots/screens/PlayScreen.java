@@ -2,6 +2,7 @@ package com.nicocharm.biodots.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
@@ -24,6 +25,8 @@ import java.util.Random;
 
 public class PlayScreen implements Screen {
 
+    private Color backgroundColor;
+
     // constantes que definen el filtro para distintos elementos del juego
     // definen con qué puede chocar un cuerpo de box2d
     public final short BACTERIA_BIT = 1;
@@ -41,7 +44,7 @@ public class PlayScreen implements Screen {
     }
 
     //timer que marca el tiempo pasado desde la última bacteria nueva
-    private float bacteriaTimer;
+    //private float bacteriaTimer;
 
     //probabilidad inicial de morir por antibiotico para nueva bacteria
     public float initial_pOfDying;
@@ -88,6 +91,8 @@ public class PlayScreen implements Screen {
     private Grid grid;
 
     public PlayScreen(BioDots game){
+        backgroundColor = new Color(0, 70f/255f, 70f/255f, 1);
+
         this.game = game;
         cam = new OrthographicCamera();
         // creo un viewport con mi cámara y la llevo al centro
@@ -95,13 +100,14 @@ public class PlayScreen implements Screen {
         cam.translate(game.WIDTH / 2, game.HEIGHT / 2);
 
         bacterias = new Array<Bacteria>();
-        bacteriaTimer = 0;
+        //bacteriaTimer = 0;
+
         antibiotics = new Array<Antibiotic>();
         world = new World(new Vector2(0, 0), true); // sin gravedad
         dr = new Box2DDebugRenderer();
 
         // 50% de morir en un principio
-        initial_pOfDying = 0.7f;
+        initial_pOfDying = 0.5f;
 
         bar = new PowerBar(this, game.WIDTH / 2, barLift); //centrada en x
 
@@ -112,7 +118,7 @@ public class PlayScreen implements Screen {
         // calculo los puntos que necesito de la función seno para rep
         bacteriaScale = new Array<Float>();
         double x = 0;
-        while(x < 6*Math.PI){
+        while(x < 2*Math.PI){
             float y = 3;
             Float f = (float)((1f/(y - 1f))*(y - Math.cos(x)));
             bacteriaScale.add(f);
@@ -124,6 +130,12 @@ public class PlayScreen implements Screen {
 
         //la arena tiene w y h de grid
         arena = new Bounds(0, totalLift, grid.getWidth(), grid.getHeight());
+
+        for(int i = 0; i < 20; i++){
+            Random r = new Random();
+            short type = (short)(r.nextInt(5) + 1); //el tipo de bacteria es aleatorio
+            bacterias.add(new Bacteria(this, getNewBacteriaX(r.nextFloat(), arena), getNewBacteriaY(r.nextFloat(), arena), type, initial_pOfDying));
+        }
     }
 
     //retorno valores X e Y para una nueva bacteria, según un random pasado
@@ -135,16 +147,20 @@ public class PlayScreen implements Screen {
     }
 
     private void update(float delta){
+        if(bar.getAverageP() > 0.0 && bar.getAverageP() < 0.01 && bacterias.size > 15){
+            Gdx.app.log("tag", "Average p: " + bar.getAverageP());
+            lose();
+        }
+
         //cada 3 segundos nueva bacteria
-        if(bacteriaTimer>6 && bacterias.size<1){
+        /*if(bacteriaTimer>6 && bacterias.size<1){
             Random r = new Random();
             short type = (short)(r.nextInt(5) + 1); //el tipo de bacteria es aleatorio
             bacterias.add(new Bacteria(this, getNewBacteriaX(r.nextFloat(), arena), getNewBacteriaY(r.nextFloat(), arena), type, initial_pOfDying));
             bacteriaTimer=0;
         } else {
             //avanzo el timer de hace cuanto nació última bacteria
-            bacteriaTimer+=delta;
-        }
+            bacteriaTimer+=delta;}*/
 
 
         // paso por todas las bacterias!
@@ -201,7 +217,7 @@ public class PlayScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 70f/255f, 70f/255f, 1);
+        Gdx.gl.glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         game.batch.setProjectionMatrix(cam.combined); //dibujo según la cam
@@ -229,7 +245,9 @@ public class PlayScreen implements Screen {
     }
 
 
-
+    private void lose(){
+        backgroundColor = new Color(119f/255f, 10f/255f, 10f/255f, 1);
+    }
 
     @Override
     public void show() {
@@ -260,5 +278,6 @@ public class PlayScreen implements Screen {
     public void dispose() { //todos los disposables aca
         world.dispose();
         bar.getTexture().dispose();
+        grid.dispose();
     }
 }

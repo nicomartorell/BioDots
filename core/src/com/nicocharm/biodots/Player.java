@@ -67,11 +67,11 @@ public class Player implements InputProcessor{
 
         double delta = ((double)(secondTouch - firstTouch))/1000000000.0;
 
-        if(delta >= 0.4){
-            if(!(screen.getAntibiotics().size>2)){
+        if(delta >= 0.3){
+            if(screen.getAntibiotics().size<1){
                 applyAntibiotic(screenX, screenY);
             }
-        } else {
+        } else if(screen.getGrid().getActiveBlocks()<3){
             screen.getGrid().activateBlock(screenX, screenY);
         }
 

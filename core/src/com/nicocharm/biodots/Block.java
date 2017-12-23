@@ -45,6 +45,7 @@ public class Block extends Actor{
 
         if(active && timer - activationTime > 5){
             active = false;
+            grid.reduceActiveBlocks();
             setTexture(inactiveTexture);
         }
     }
@@ -69,5 +70,10 @@ public class Block extends Actor{
     @Override
     public void render(SpriteBatch batch) {
         batch.draw(getTexture(), getX(), getY(), width * scale, height * scale);
+    }
+
+    public void dispose(){
+        activeTexture.dispose();
+        inactiveTexture.dispose();
     }
 }

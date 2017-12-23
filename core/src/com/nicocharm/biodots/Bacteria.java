@@ -261,7 +261,7 @@ public class Bacteria extends Actor {
 
     private void handleReproduce(){
         Random r = new Random();
-        if(r.nextDouble() < 0.0004 && !reproducing) { //muy baja probabilidad
+        if(r.nextDouble() < 0.0014 && !reproducing) { //muy baja probabilidad
             reproducing = true;
             scaleCount = 0; //me reproduzco y empiezo a contar la funcion seno
         } else if (reproducing){
@@ -276,8 +276,6 @@ public class Bacteria extends Actor {
     }
 
     private void divide() {
-        Gdx.app.log("log", "dividing!");
-
         //creo dos nuevas bacterias y muero yo
         screen.getBacterias().add(new Bacteria(screen, getX(), getY(), getType(), pOfDying, body.getLinearVelocity(), target));
         screen.getBacterias().add(new Bacteria(screen, getX(), getY(), getType(), pOfDying, body.getLinearVelocity(), target));

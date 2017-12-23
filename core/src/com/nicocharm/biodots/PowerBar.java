@@ -16,6 +16,11 @@ public class PowerBar extends Actor {
 
     public Stage stage;
     private Label average_pOfDying;
+
+    public float getAverageP() {
+        return averageP;
+    }
+
     private float averageP;
     private float pSum;
     public float offset;

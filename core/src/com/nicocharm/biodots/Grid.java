@@ -34,6 +34,11 @@ public class Grid {
     private int columns;
     private int rows;
 
+    public int getActiveBlocks() {
+        return activeBlocks;
+    }
+
+    private int activeBlocks;
 
     public Grid(PlayScreen screen, float x, float y, float width, int columns, int rows){
         this.screen = screen;
@@ -55,6 +60,7 @@ public class Grid {
             }
         }
 
+        activeBlocks = 0;
     }
 
     public void update(float delta){
@@ -78,8 +84,20 @@ public class Grid {
 
         for(Block block: blocks){
             if(!block.isActive() && block.isTouched(x, y)){
+                activeBlocks++;
                 block.activate();
             }
         }
     }
+
+    public void reduceActiveBlocks(){
+        activeBlocks--;
+    }
+
+    public void dispose(){
+        for(Block block: blocks){
+            block.dispose();
+        }
+    }
+
 }
