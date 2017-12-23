@@ -35,6 +35,8 @@ public class Bacteria extends Actor {
     //el path de la imagen y el tipo de bacteria
     private String path;
     private short type;
+    private Vector2 savedVelocity;
+
     public short getType() {
         return type;
     }
@@ -64,6 +66,9 @@ public class Bacteria extends Actor {
     // so they can be trapped in a block
     private Bounds bounds;
     private Block block;
+    private boolean locked;
+
+    private float savedAngle;
 
     public Bacteria (PlayScreen screen, float x, float y, short type, float pOfDying){
         super(screen, x, y);
@@ -113,7 +118,7 @@ public class Bacteria extends Actor {
             this.pOfDying = 0;
         }
 
-
+        locked = false;
     }
 
     //constructor para cosas extras que pasan en bacterias hijas
@@ -154,16 +159,15 @@ public class Bacteria extends Actor {
         setPosition(body.getPosition().x, body.getPosition().y);
 
         //velocidad y ángulo
-        calculateVelocity();
-        angle = body.getLinearVelocity().nor().angle();
-        angle -=90;
+        if(!locked){
+            calculateVelocity();
+            angle = body.getLinearVelocity().nor().angle();
+            angle -=90;
+            handleReproduce(); //me reproduzco? solo si estoy libre
+        }
 
         //nuevo target si se cumplió el límite
         if(targetTimer> targetTimerLimit) target = getNewTarget();
-
-
-
-
 
         Grid grid = screen.getGrid();
 
@@ -173,28 +177,40 @@ public class Bacteria extends Actor {
         * Si tengo un bloque asociado, fijate si está activo. Si no es así,
         * desasocialo y que mis bounds vuelvan a ser los de la arena
         * */
-        if(block == null){
-            handleReproduce(); //me reproduzco? solo si estoy libre
-
+        if(!locked){
             for(Block block: grid.getBlocks()){
                 if(block.isActive() && block.isTouched(getX(), getY())){
+                    Gdx.app.log("tag", "I have no block");
                     this.block = block;
+                    locked = true;
                     bounds = block.getBounds();
+                    savedVelocity = body.getLinearVelocity();
+                    savedAngle = angle;
+                    body.setLinearVelocity(0, 0);
                     target = getNewTarget();
                 }
             }
-        } else {
-            if(!block.isActive() || block.isTouched(getX(),getY())){
+        } else if((block != null && locked)&&(!block.isActive() || !block.isTouched(getX(),getY()))){
                 block = null;
                 bounds = screen.getArena();
+                body.setLinearVelocity(savedVelocity);
                 target = getNewTarget();
+                locked = false;
             }
-        }
+
 
 
     }
 
     public void render(SpriteBatch batch){
+            float drawingAngle;
+
+            if(locked){
+                Gdx.app.log("tag", "Block exists! Saved angle: " + savedAngle);
+                drawingAngle = savedAngle;
+            } else {
+                drawingAngle = angle;
+            }
             // dibujo el frame que corresponde, con cierta escala y rotación
             TextureRegion region = animation.getKeyFrame(timer, true);
             batch.draw(region,
@@ -206,8 +222,10 @@ public class Bacteria extends Actor {
                     height,
                     scale*repScale,
                     scale*repScale,
-                    angle);
+                    drawingAngle);
     }
+
+
 
     private Vector2 getNewTarget(){ //devuelve un nuevo target
         Random r = new Random();
@@ -236,7 +254,7 @@ public class Bacteria extends Actor {
         Vector2 desired = targetSaved.sub(getX(), getY()).nor().scl(100);
         body.applyForce((desired.sub(body.getLinearVelocity())).limit(50), body.getWorldCenter(), true);
 
-        if(block != null){
+        if(locked){
             body.applyForce(body.getLinearVelocity().scl(-0.8f), body.getWorldCenter(), true);
         }
     }
