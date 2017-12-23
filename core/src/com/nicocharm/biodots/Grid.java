@@ -2,7 +2,12 @@ package com.nicocharm.biodots;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.utils.Array;
 import com.nicocharm.biodots.screens.PlayScreen;
 
@@ -28,6 +33,7 @@ public class Grid {
     private float height;
     private int columns;
     private int rows;
+
 
     public Grid(PlayScreen screen, float x, float y, float width, int columns, int rows){
         this.screen = screen;

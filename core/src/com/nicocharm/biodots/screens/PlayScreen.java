@@ -136,7 +136,7 @@ public class PlayScreen implements Screen {
 
     private void update(float delta){
         //cada 3 segundos nueva bacteria
-        if(bacteriaTimer>6 && bacterias.size<15){
+        if(bacteriaTimer>6 && bacterias.size<2){
             Random r = new Random();
             short type = (short)(r.nextInt(5) + 1); //el tipo de bacteria es aleatorio
             bacterias.add(new Bacteria(this, getNewBacteriaX(r.nextFloat(), arena), getNewBacteriaY(r.nextFloat(), arena), type, initial_pOfDying));

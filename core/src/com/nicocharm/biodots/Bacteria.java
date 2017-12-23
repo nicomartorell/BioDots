@@ -158,6 +158,13 @@ public class Bacteria extends Actor {
         angle = body.getLinearVelocity().nor().angle();
         angle -=90;
 
+        //nuevo target si se cumplió el límite
+        if(targetTimer> targetTimerLimit) target = getNewTarget();
+
+
+
+
+
         Grid grid = screen.getGrid();
 
         /* Si no tengo un bloque asociado, fijate si estoy adentro de
@@ -167,6 +174,8 @@ public class Bacteria extends Actor {
         * desasocialo y que mis bounds vuelvan a ser los de la arena
         * */
         if(block == null){
+            handleReproduce(); //me reproduzco? solo si estoy libre
+
             for(Block block: grid.getBlocks()){
                 if(block.isActive() && block.isTouched(getX(), getY())){
                     this.block = block;
@@ -182,11 +191,6 @@ public class Bacteria extends Actor {
             }
         }
 
-
-        //nuevo target si se cumplió el límite
-        if(targetTimer> targetTimerLimit) target = getNewTarget();
-
-        handleReproduce(); //me reproduzco?
 
     }
 
@@ -231,6 +235,10 @@ public class Bacteria extends Actor {
         //esta es la magia que hace que parezcan vivas
         Vector2 desired = targetSaved.sub(getX(), getY()).nor().scl(100);
         body.applyForce((desired.sub(body.getLinearVelocity())).limit(50), body.getWorldCenter(), true);
+
+        if(block != null){
+            body.applyForce(body.getLinearVelocity().scl(-0.8f), body.getWorldCenter(), true);
+        }
     }
 
     private void handleReproduce(){
