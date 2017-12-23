@@ -1,6 +1,7 @@
 package com.nicocharm.biodots;
 
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.nicocharm.biodots.screens.PlayScreen;
@@ -10,6 +11,10 @@ public class Block extends Actor{
     private Bounds bounds;
     private boolean active;
     private Grid grid;
+
+    private Texture activeTexture;
+    private Texture inactiveTexture;
+    private float activationTime;
 
     public Block(PlayScreen screen, Grid grid, float x, float y, float width) {
         super(screen, x, y, false);
@@ -25,12 +30,36 @@ public class Block extends Actor{
 
     @Override
     protected void setVisuals() {
-        setTexture(new Texture("box.png"));
+        activeTexture = new Texture("box-active.png");
+        inactiveTexture = new Texture("box.png");
+        setTexture(inactiveTexture);
     }
 
     @Override
     public void update(float delta) {
+        timer += delta;
 
+        if(active && timer - activationTime > 5){
+            active = false;
+            setTexture(inactiveTexture);
+        }
+    }
+
+    public void activate(){
+        active = true;
+        setTexture(activeTexture);
+        activationTime = timer;
+    }
+
+    public boolean isTouched(float x, float y){
+        if(bounds.intersects(x, y)){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isActive() {
+        return active;
     }
 
     @Override

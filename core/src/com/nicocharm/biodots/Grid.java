@@ -1,6 +1,8 @@
 package com.nicocharm.biodots;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.nicocharm.biodots.screens.PlayScreen;
 
@@ -49,6 +51,19 @@ public class Grid {
         for(Block block: blocks){
             block.render(batch);
 
+        }
+    }
+
+    public void activateBlock(int screenX, int screenY) {
+        Vector3 v = new Vector3(screenX, screenY, 0);
+        Vector3 v2 = screen.cam.unproject(v);
+        x = v2.x;
+        y = v2.y;
+
+        for(Block block: blocks){
+            if(!block.isActive() && block.isTouched(x, y)){
+                block.activate();
+            }
         }
     }
 }

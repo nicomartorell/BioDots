@@ -76,6 +76,10 @@ public class PlayScreen implements Screen {
     private float arenaWidth;
     private float arenaHeight;
 
+    public Grid getGrid() {
+        return grid;
+    }
+
     //la grid de blocks
     private Grid grid;
 

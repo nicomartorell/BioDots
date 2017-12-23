@@ -19,10 +19,16 @@ public class Player implements InputProcessor{
     private float x;
     private float y;
 
+    private long firstTouch;
+    private long secondTouch;
+
     public Player(com.nicocharm.biodots.screens.PlayScreen screen){
         this.screen = screen;
         x = 0;
         y = 0;
+
+        firstTouch = 0;
+        secondTouch = 0;
     }
 
     public void applyAntibiotic(int screenX, int screenY){
@@ -51,14 +57,24 @@ public class Player implements InputProcessor{
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return false;
+        firstTouch = System.nanoTime();
+        return true;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        if(!(screen.getAntibiotics().size>2)){
-            applyAntibiotic(screenX, screenY);
+        secondTouch = System.nanoTime();
+
+        double delta = ((double)(secondTouch - firstTouch))/1000000000.0;
+
+        if(delta >= 1){
+            if(!(screen.getAntibiotics().size>2)){
+                applyAntibiotic(screenX, screenY);
+            }
+        } else {
+            screen.getGrid().activateBlock(screenX, screenY);
         }
+
         return true;
     }
 
