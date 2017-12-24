@@ -91,6 +91,10 @@ public class PlayScreen implements Screen {
     //la grid de blocks
     private Grid grid;
 
+    public InfoBar getInfobar() {
+        return infobar;
+    }
+
     //la barra de información de arriba
     private InfoBar infobar;
 
@@ -135,9 +139,9 @@ public class PlayScreen implements Screen {
         //la arena tiene w y h de grid
         arena = new Bounds(0, totalLift, grid.getWidth(), grid.getHeight());
 
-        infobar = new InfoBar(this, 0, totalLift + arena.getHeight());
+        infobar = new InfoBar(this, 0, totalLift + arena.getHeight(), 300);
 
-        for(int i = 0; i < 20; i++){
+        for(int i = 0; i < 10; i++){
             Random r = new Random();
             short type = (short)(r.nextInt(5) + 1); //el tipo de bacteria es aleatorio
             bacterias.add(new Bacteria(this, getNewBacteriaX(r.nextFloat(), arena), getNewBacteriaY(r.nextFloat(), arena), type, initial_pOfDying));
@@ -153,7 +157,7 @@ public class PlayScreen implements Screen {
     }
 
     private void update(float delta){
-        if(bar.getAverageP() > 0.0 && bar.getAverageP() < 0.01 && bacterias.size > 15){
+        if(infobar.getTime() < 1 || (bar.getAverageP() > 0.0 && bar.getAverageP() < 0.01 && bacterias.size > 15)){
             Gdx.app.log("tag", "Average p: " + bar.getAverageP());
             lose();
         } else if (bacterias.size < 1){
@@ -194,6 +198,7 @@ public class PlayScreen implements Screen {
                     b.getTexture().dispose();
                     bacterias.removeIndex(i);
                     world.destroyBody(b.getBody());
+                    infobar.updatePoints(100); // sumo puntos!
                     if(bacterias.size != 0){ //lo mismo que antes
                         i--;
                     }
@@ -215,6 +220,7 @@ public class PlayScreen implements Screen {
         }
 
         bar.update(delta);
+        infobar.update(delta);
 
         //para cada bloque de grid
         grid.update(delta);
@@ -252,6 +258,7 @@ public class PlayScreen implements Screen {
 
         game.batch.end();
         bar.stage.draw(); // fuera de mi rango de batch porque lo inicializa de nuevo
+        infobar.stage.draw();
     }
 
 

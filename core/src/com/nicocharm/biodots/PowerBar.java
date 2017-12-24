@@ -99,5 +99,7 @@ public class PowerBar extends Actor {
 
     public void dispose(){
         stage.dispose();
+        getTexture().dispose();
+        background.dispose();
     }
 }
