@@ -70,7 +70,7 @@ public class InfoBar extends Actor {
 
     @Override
     public void update(float delta) {
-        if(time > 0){
+        if(time > 0 && !screen.finished()){
             time-=delta;
         }
         pointsLabel.setText("Points: " + points);

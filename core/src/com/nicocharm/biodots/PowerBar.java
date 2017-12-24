@@ -51,9 +51,9 @@ public class PowerBar extends Actor {
         style.fontColor = Color.RED;
 
         //float formattedAverage = (Math.round(averageP * 1000))/1000f;
-        average_pOfDying = new Label("AVERAGE p",
+        average_pOfDying = new Label("",
                 style);
-        average_pOfDying.setFontScale(4);
+        average_pOfDying.setFontScale(3f);
         average_pOfDying.setSize(screen.game.WIDTH, font.getLineHeight());
         average_pOfDying.setPosition(0, offset);
         average_pOfDying.setAlignment(Align.center, Align.center);
@@ -71,8 +71,15 @@ public class PowerBar extends Actor {
     @Override
     public void update(float delta) {
         calculateAverageP();
-        if(screen.getBacterias().size>0){
-            average_pOfDying.setText("AVERAGE p: " + String.format("%.3f", averageP));
+        if(!screen.finished()){
+            average_pOfDying.setText("Matá a todas las bacterias!\n" + String.format("%.1f", averageP*100) + "% de las bacterias mueren al ser atacadas.");
+        } else if(screen.hasWon()){
+            average_pOfDying.getStyle().fontColor = new Color(0, 1, 0, 1);
+            average_pOfDying.setFontScale(4);
+            average_pOfDying.setText("Ganaste! Felicitaciones");
+        } else {
+            average_pOfDying.setFontScale(4);
+            average_pOfDying.setText("Las bacterias te ganaron :(");
         }
         stage.act(delta);
     }

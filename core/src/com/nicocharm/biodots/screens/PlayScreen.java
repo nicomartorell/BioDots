@@ -98,6 +98,19 @@ public class PlayScreen implements Screen {
     //la barra de información de arriba
     private InfoBar infobar;
 
+
+    // llevo la cuenta de si terminó el nivel y si gané o perdí
+
+    public boolean finished() {
+        return ended;
+    }
+    private boolean ended;
+
+    public boolean hasWon() {
+        return won;
+    }
+    private boolean won;
+
     public PlayScreen(BioDots game){
         backgroundColor = new Color(0, 70f/255f, 70f/255f, 1);
 
@@ -139,7 +152,10 @@ public class PlayScreen implements Screen {
         //la arena tiene w y h de grid
         arena = new Bounds(0, totalLift, grid.getWidth(), grid.getHeight());
 
-        infobar = new InfoBar(this, 0, totalLift + arena.getHeight(), 300);
+        infobar = new InfoBar(this, 0, totalLift + arena.getHeight(), 182);
+
+        ended = false;
+        won = false;
 
         for(int i = 0; i < 10; i++){
             Random r = new Random();
@@ -157,11 +173,14 @@ public class PlayScreen implements Screen {
     }
 
     private void update(float delta){
-        if(infobar.getTime() < 1 || (bar.getAverageP() > 0.0 && bar.getAverageP() < 0.01 && bacterias.size > 15)){
+        if(bacterias.size >= 60 || infobar.getTime() < 1 || (bar.getAverageP() > 0.0 && bar.getAverageP() < 0.05 && bacterias.size > 15)){
             Gdx.app.log("tag", "Average p: " + bar.getAverageP());
             lose();
+            ended = true;
         } else if (bacterias.size < 1){
             win();
+            ended = true;
+            won = true;
         }
 
         //cada 3 segundos nueva bacteria

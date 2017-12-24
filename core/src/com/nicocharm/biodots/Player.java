@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
+import com.nicocharm.biodots.screens.PlayScreen;
 
 
 public class Player implements InputProcessor{
@@ -38,6 +39,9 @@ public class Player implements InputProcessor{
         y = v2.y;
         Antibiotic antibiotic = new Antibiotic(screen, x, y, Antibiotic.ANTIBIOTIC_RED);
         screen.getAntibiotics().add(antibiotic);
+
+        //usar antibiotico cuesta puntos!
+        screen.getInfobar().updatePoints(-30);
     }
 
     @Override
@@ -63,6 +67,15 @@ public class Player implements InputProcessor{
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+
+        //empezá un nuevo juego si ya terminaste!
+        if(screen.finished()){
+            PlayScreen newScreen = new PlayScreen(screen.game);
+            screen.game.setScreen(newScreen);
+            screen.dispose();
+            return true;
+        }
+
         secondTouch = System.nanoTime();
 
         double delta = ((double)(secondTouch - firstTouch))/1000000000.0;

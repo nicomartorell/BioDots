@@ -183,6 +183,10 @@ public class Bacteria extends Actor {
                     Gdx.app.log("tag", "I have no block");
                     this.block = block;
                     locked = true;
+
+                    // gano puntos al encerrar bacterias
+                    screen.getInfobar().updatePoints(10);
+
                     bounds = block.getBounds();
                     savedVelocity = body.getLinearVelocity();
                     savedAngle = angle;
@@ -280,6 +284,9 @@ public class Bacteria extends Actor {
         screen.getBacterias().add(new Bacteria(screen, getX(), getY(), getType(), pOfDying, body.getLinearVelocity(), target));
         screen.getBacterias().add(new Bacteria(screen, getX(), getY(), getType(), pOfDying, body.getLinearVelocity(), target));
         dividing = true;
+
+        //pierdo puntos al dividirse
+        screen.getInfobar().updatePoints(-120);
     }
 
 
