@@ -15,6 +15,10 @@ public class BioDots extends Game {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
+
+		// sería una buena idea separar la construcción de playscreen
+		// de su init, para que no se inicialice toodo 2 segundos antes
+		// de que empiece el juego.
 		PlayScreen screen = new PlayScreen(this);
 		player = new Player(screen);
 		Gdx.input.setInputProcessor(player);
