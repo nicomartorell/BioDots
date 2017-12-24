@@ -25,6 +25,8 @@ public class PowerBar extends Actor {
     private float pSum;
     public float offset;
 
+    Texture background;
+
     public PowerBar(PlayScreen screen, float x, float y) {
         super(screen, x, y, false);
         setVisuals();
@@ -62,6 +64,8 @@ public class PowerBar extends Actor {
         Texture t = new Texture("bar-alone.png");
         setTexture(t);
         setScale(1f);
+
+        background = new Texture("power-bar-bg.png");
     }
 
     @Override
@@ -84,6 +88,9 @@ public class PowerBar extends Actor {
 
     public void render(SpriteBatch batch){
 
+        float y = offset + getTexture().getHeight()/2 - background.getHeight();
+
+        batch.draw(background, 0, y);
         batch.draw(getTexture(), getX() - (width/2)*scale,
                 getY() - (height/2)*scale,
                 width*scale,

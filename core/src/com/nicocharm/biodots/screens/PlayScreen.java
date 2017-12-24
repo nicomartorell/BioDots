@@ -18,6 +18,7 @@ import com.nicocharm.biodots.BioDots;
 import com.nicocharm.biodots.Block;
 import com.nicocharm.biodots.Bounds;
 import com.nicocharm.biodots.Grid;
+import com.nicocharm.biodots.InfoBar;
 import com.nicocharm.biodots.PowerBar;
 
 import java.util.Random;
@@ -90,6 +91,9 @@ public class PlayScreen implements Screen {
     //la grid de blocks
     private Grid grid;
 
+    //la barra de información de arriba
+    private InfoBar infobar;
+
     public PlayScreen(BioDots game){
         backgroundColor = new Color(0, 70f/255f, 70f/255f, 1);
 
@@ -130,6 +134,8 @@ public class PlayScreen implements Screen {
 
         //la arena tiene w y h de grid
         arena = new Bounds(0, totalLift, grid.getWidth(), grid.getHeight());
+
+        infobar = new InfoBar(this, 0, totalLift + arena.getHeight());
 
         for(int i = 0; i < 20; i++){
             Random r = new Random();
@@ -240,7 +246,9 @@ public class PlayScreen implements Screen {
 
         grid.render(game.batch);
 
-        bar.render(game.batch); //dibujo la barra
+        bar.render(game.batch);
+
+        infobar.render(game.batch);
 
         game.batch.end();
         bar.stage.draw(); // fuera de mi rango de batch porque lo inicializa de nuevo
@@ -252,7 +260,7 @@ public class PlayScreen implements Screen {
     }
 
     private void win(){
-        backgroundColor = new Color(20f/255f, 158f/255f, 9f/255f, 1);
+        backgroundColor = new Color(20f/255f, 98f/255f, 9f/255f, 1);
     }
 
     @Override
@@ -285,5 +293,6 @@ public class PlayScreen implements Screen {
         world.dispose();
         bar.getTexture().dispose();
         grid.dispose();
+        infobar.dispose();
     }
 }
