@@ -21,18 +21,25 @@ public class Antibiotic extends Actor{
     public static final short ANTIBIOTIC_GREEN = 8;
     public static final short ANTIBIOTIC_PINK = 16;
 
+
+    private short type;
     private String path;
-    public boolean toDestroy;
     private Set<Integer> checkedBacterias;
 
+    public boolean isActive() {
+        return active;
+    }
 
-    public Antibiotic(PlayScreen screen, float x, float y, short type) {
-        super(screen, x, y, false);
+    private boolean active;
+
+    public Antibiotic(PlayScreen screen, short type) {
+        super(screen, 0, 0, false);
         scale = 2.5f;
         width = 400;
         height = 400;
-        toDestroy = false;
         setPath(type);
+        this.type = type;
+
         setVisuals();
         checkedBacterias = new HashSet<Integer>();
     }
@@ -56,6 +63,8 @@ public class Antibiotic extends Actor{
 
     @Override
     protected void setVisuals() {
+        if(type == ANTIBIOTIC_GRAY) return;
+
         setTexture(new Texture(path));
         frames = new Array<TextureRegion>();
         for(int i = 0; i < 11; i++){
@@ -68,10 +77,20 @@ public class Antibiotic extends Actor{
         animation = new Animation<TextureRegion>(1/20f, frames);
     }
 
+    public void init(float x, float y){
+        if(type == ANTIBIOTIC_GRAY) return;
+
+        active = true;
+        setPosition(x, y);
+    }
+
     @Override
     public void update(float delta) {
+        if(!active) return;
+
         if(timer > 4){
-           toDestroy = true;
+           active = false;
+           timer = 0;
         } else {
             timer += delta;
         }
@@ -97,4 +116,7 @@ public class Antibiotic extends Actor{
         }
     }
 
+    public void dispose() {
+        getTexture().dispose();
+    }
 }

@@ -9,6 +9,7 @@ public class AntibioticButton extends Actor {
     private short type;
     private String path;
     private Bounds bounds;
+    private Antibiotic antibiotic;
 
     public static final float WIDTH = 200;
 
@@ -16,12 +17,19 @@ public class AntibioticButton extends Actor {
         super(screen, x, y, false);
 
         this.type = type;
-        setPath(type);
+        setType(type);
 
         setVisuals();
         width = getTexture().getWidth();
         height = getTexture().getHeight();
         scale = getScaleX();
+
+        if(type != Antibiotic.ANTIBIOTIC_GRAY){
+            antibiotic = new Antibiotic(screen, type);
+        } else{
+            antibiotic = null;
+        }
+
 
         //la y está centrada pero la x no
         // esto me hace la vida más fácil nomás
@@ -33,7 +41,7 @@ public class AntibioticButton extends Actor {
         setTexture(new Texture(path));
     }
 
-    private void setPath(short type) {
+    private void setType(short type) {
         switch (type){
             case Antibiotic.ANTIBIOTIC_RED:
                 path = "antibiotic-box-red.png";
@@ -60,8 +68,11 @@ public class AntibioticButton extends Actor {
 
     public void dispose(){
         getTexture().dispose();
+        if(antibiotic != null) antibiotic.dispose();
     }
 
     public void selectAntibiotic() {
+        if(type == Antibiotic.ANTIBIOTIC_GRAY) return;
+        screen.setAntibiotic(antibiotic);
     }
 }

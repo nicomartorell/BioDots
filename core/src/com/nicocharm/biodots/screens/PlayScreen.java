@@ -145,8 +145,6 @@ public class PlayScreen implements Screen {
             x+=0.05;
         }
 
-        currentAntibiotic = null;
-
         //creo mi grid
         grid = new Grid(this, 0, totalLift, game.WIDTH, 4, 5);
 
@@ -157,6 +155,8 @@ public class PlayScreen implements Screen {
 
         ended = false;
         won = false;
+
+        powerBar.getButtons().get(0).selectAntibiotic();
 
         for(int i = 0; i < 10; i++){
             Random r = new Random();
@@ -233,10 +233,6 @@ public class PlayScreen implements Screen {
 
         if(currentAntibiotic != null){
             currentAntibiotic.update(delta);
-            if(currentAntibiotic.toDestroy){
-                currentAntibiotic.getTexture().dispose();
-                currentAntibiotic = null;
-            }
         }
 
 
@@ -266,7 +262,7 @@ public class PlayScreen implements Screen {
 
         //dr.render(world, cam.combined);
 
-        if(currentAntibiotic != null) currentAntibiotic.render(game.batch);
+        if(currentAntibiotic != null && currentAntibiotic.isActive()) currentAntibiotic.render(game.batch);
 
         grid.render(game.batch);
 

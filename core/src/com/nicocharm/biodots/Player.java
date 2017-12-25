@@ -33,8 +33,7 @@ public class Player implements InputProcessor{
     }
 
     public void applyAntibiotic(float x, float y){
-        Antibiotic antibiotic = new Antibiotic(screen, x, y, Antibiotic.ANTIBIOTIC_RED);
-        screen.setAntibiotic(antibiotic);
+        screen.getAntibiotic().init(x, y);
 
         //usar antibiotico cuesta puntos!
         screen.getInfobar().updatePoints(-30);
@@ -95,9 +94,9 @@ public class Player implements InputProcessor{
         double delta = ((double)(secondTouch - firstTouch))/1000000000.0;
 
         //dependiendo de cuanto tiempo presioné
-        if(delta >= 0.3 && screen.getAntibiotic() == null){
+        if(delta >= 0.3 && screen.getAntibiotic() != null && !screen.getAntibiotic().isActive()){
             applyAntibiotic(x, y); //aplicá antibiotico
-        } else if(screen.getGrid().getActiveBlocks()<3){
+        } else if(delta < 0.3 && screen.getGrid().getActiveBlocks()<3){
             screen.getGrid().activateBlock(x, y); //activá un bloque
         }
 
