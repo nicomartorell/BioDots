@@ -26,6 +26,9 @@ public class Antibiotic extends Actor{
     private String path;
     private Set<Integer> checkedBacterias;
 
+    private float pOfKilling;
+    private float duration;
+
     public boolean isActive() {
         return active;
     }
@@ -57,15 +60,23 @@ public class Antibiotic extends Actor{
         switch (type){
             case ANTIBIOTIC_RED:
                 path = "antibiotic-red.png";
+                pOfKilling = 0.7f;
+                duration = 3.5f;
                 break;
             case Antibiotic.ANTIBIOTIC_BLUE:
                 path = "antibiotic-blue.png";
+                pOfKilling = 0.95f;
+                duration = 2f;
                 break;
             case Antibiotic.ANTIBIOTIC_GREEN:
                 path = "antibiotic-green.png";
+                pOfKilling = 0.83f;
+                duration = 2.75f;
                 break;
             case Antibiotic.ANTIBIOTIC_PINK:
                 path = "antibiotic-pink.png";
+                pOfKilling = 0.9f;
+                duration = 6f;
                 break;
         }
     }
@@ -97,7 +108,7 @@ public class Antibiotic extends Actor{
     public void update(float delta) {
         if(!active) return;
 
-        if(timer > 4){
+        if(timer > duration){
            reset();
         } else {
             timer += delta;
@@ -124,7 +135,7 @@ public class Antibiotic extends Actor{
         float i = region.getRegionY() / region.getRegionHeight();
 
         if(distance < (20 + i*7.5)*scale){
-            b.die();
+            b.die(pOfKilling);
             checkedBacterias.add(b.ID);
             Gdx.app.log("log", "ADDED!");
         }

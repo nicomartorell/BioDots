@@ -313,9 +313,9 @@ public class Bacteria extends Actor {
 
 
 
-    public void die() { //me muero, quizás, segun pOfDying
+    public void die(float pOfKilling) { //me muero, quizás, segun pOfDying
         Random r = new Random();
-        if(r.nextFloat() < pOfDying){
+        if(r.nextFloat() < pOfDying*pOfKilling){
             isDead = true;
         }
     }
