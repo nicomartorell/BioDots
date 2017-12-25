@@ -73,8 +73,7 @@ public class PlayScreen implements Screen {
 
     //instancio mi powerbar y defino cuánto se separa de y=0
     private PowerBar bar;
-    private float barLift = 165; //altura del centro de la barra
-    private float totalLift; //altura del tope de la barra
+    private float totalLift = 300; //altura del tope de la barra
 
     public Bounds getArena() {
         return arena;
@@ -130,11 +129,7 @@ public class PlayScreen implements Screen {
         // 50% de morir en un principio
         initial_pOfDying = 0.5f;
 
-        bar = new PowerBar(this, game.WIDTH / 2, barLift); //centrada en x
-
-        //el tope de la barra es su separación de y=0 más su altura
-        //la altura /2 es porque el barLift es hasta el centro de bar
-        totalLift = barLift + (bar.getActorHeight()*bar.getMyScale())/2;
+        bar = new PowerBar(this, game.WIDTH / 2, totalLift); //centrada en x
 
         // calculo los puntos que necesito de la función seno para rep
         bacteriaScale = new Array<Float>();
@@ -149,8 +144,8 @@ public class PlayScreen implements Screen {
         //creo mi grid
         grid = new Grid(this, 0, totalLift, game.WIDTH, 4, 5);
 
-        //la arena tiene w y h de grid
-        arena = new Bounds(0, totalLift, grid.getWidth(), grid.getHeight());
+        //la arena tiene w y h de grid, ademas de su altura
+        arena = new Bounds(0, grid.getY(), grid.getWidth(), grid.getHeight());
 
         infobar = new InfoBar(this, 0, totalLift + arena.getHeight(), 182);
 
@@ -237,7 +232,6 @@ public class PlayScreen implements Screen {
             }
         }
 
-        bar.update(delta);
         infobar.update(delta);
 
         //para cada bloque de grid
@@ -318,5 +312,9 @@ public class PlayScreen implements Screen {
         bar.dispose();
         grid.dispose();
         infobar.dispose();
+    }
+
+    public float getTotalLift() {
+        return totalLift;
     }
 }

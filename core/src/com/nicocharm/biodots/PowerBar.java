@@ -13,60 +13,45 @@ import com.nicocharm.biodots.screens.PlayScreen;
 
 import java.util.Locale;
 
-public class PowerBar extends Actor {
+public class PowerBar{
 
+    private PlayScreen screen;
 
-    public float offset;
-
+    private float offset;
     private Texture background;
 
     private Array<AntibioticButton> buttons;
+    private int nButtons;
 
-    public PowerBar(PlayScreen screen, float x, float y) {
-        super(screen, x, y, false);
+    public PowerBar(PlayScreen screen, float x, float maxy) {
+        this.screen = screen;
+
         setVisuals();
-        width = getTexture().getWidth();
-        height = getTexture().getHeight();
-        scale = getScaleX();
-        offset = y;
+        offset = maxy;
 
         buttons = new Array<AntibioticButton>();
-        int n = 5;
-        float width = 200;
-        float xoffset = (screen.game.WIDTH - n * width)/2f;
+        nButtons = 5;
+        float width = AntibioticButton.WIDTH;
+        float xoffset = (screen.game.WIDTH - nButtons * width)/2f;
 
         short type = Antibiotic.ANTIBIOTIC_RED;
-        for(int i = 0; i < 5; i++){
+        for(int i = 0; i < nButtons; i++){
             if(i>0) type = Antibiotic.ANTIBIOTIC_GRAY;
-            buttons.add(new AntibioticButton(screen, xoffset + i*width, offset, type));
+            buttons.add(new AntibioticButton(screen, xoffset + i*width, offset/2, type));
         }
 
     }
 
 
     public void setVisuals(){
-        Texture t = new Texture("bar-alone.png");
-        setTexture(t);
-        setScale(1f);
-
         background = new Texture("power-bar-bg.png");
-    }
-
-    @Override
-    public void update(float delta) {
-
     }
 
 
     public void render(SpriteBatch batch){
-
-        float y = offset + getTexture().getHeight()/2 - background.getHeight();
+        float y = offset - background.getHeight();
 
         batch.draw(background, 0, y);
-        /*batch.draw(getTexture(), getX() - (width/2)*scale,
-                getY() - (height/2)*scale,
-                width*scale,
-                height*scale);*/
 
         for(AntibioticButton button: buttons){
             button.render(batch);
@@ -74,7 +59,6 @@ public class PowerBar extends Actor {
     }
 
     public void dispose(){
-        getTexture().dispose();
         background.dispose();
         for(AntibioticButton button: buttons){
             button.dispose();

@@ -10,6 +10,8 @@ public class AntibioticButton extends Actor {
     private String path;
     private Bounds bounds;
 
+    public static final float WIDTH = 200;
+
     public AntibioticButton(PlayScreen screen, float x, float y, short type) {
         super(screen, x, y, false);
 

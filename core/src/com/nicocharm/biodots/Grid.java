@@ -19,6 +19,11 @@ public class Grid {
     private Array<Block> blocks;
     private PlayScreen screen;
     private float x;
+
+    public float getY() {
+        return y;
+    }
+
     private float y;
 
     public float getWidth() {
