@@ -73,6 +73,7 @@ public class Player implements InputProcessor{
             PlayScreen newScreen = new PlayScreen(screen.game);
             screen.game.setScreen(newScreen);
             screen.dispose();
+            this.screen = newScreen;
             return true;
         }
 

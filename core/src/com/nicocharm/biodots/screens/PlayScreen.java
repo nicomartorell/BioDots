@@ -174,7 +174,6 @@ public class PlayScreen implements Screen {
 
     private void update(float delta){
         if(bacterias.size >= 60 || infobar.getTime() < 1 || (bar.getAverageP() > 0.0 && bar.getAverageP() < 0.05 && bacterias.size > 15)){
-            Gdx.app.log("tag", "Average p: " + bar.getAverageP());
             lose();
             ended = true;
         } else if (bacterias.size < 1){
