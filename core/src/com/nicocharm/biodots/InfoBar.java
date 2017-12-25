@@ -24,6 +24,16 @@ public class InfoBar extends Actor {
 
     private Label pointsLabel;
     private Label timeLabel;
+    private Label averageLabel;
+
+    public float getAverageP() {
+        return averageP;
+    }
+
+    private float averageP;
+    private float pSum;
+
+    private boolean updateBar;
 
     public InfoBar(PlayScreen screen, float x, float y, float initialTime) {
         super(screen, x, y, false);
@@ -35,17 +45,23 @@ public class InfoBar extends Actor {
         points = 0;
         time = initialTime;
         setStage();
+
+        pSum = 0;
+
+        updateBar = true;
     }
 
     @Override
     protected void setVisuals() {
         Texture t = new Texture("info-bar-blue.png");
         setTexture(t);
-        setScale(1f);
+        setScale(1.1f);
     }
 
     private void setStage() {
         stage = new Stage(screen.viewport, screen.game.batch);
+
+        averageP = screen.initial_pOfDying;
 
         Label.LabelStyle style = new Label.LabelStyle();
         BitmapFont font = new BitmapFont();
@@ -61,20 +77,62 @@ public class InfoBar extends Actor {
         timeLabel.setFontScale(4);
         pointsLabel = new Label("Points: " + points, style);
         pointsLabel.setFontScale(4);
+        averageLabel = new Label("",
+                style);
+        averageLabel.setFontScale(3);
 
         table.add(timeLabel).expandX().padTop(30);
         table.add(pointsLabel).expandX().padTop(30);
+        table.row();
+        table.add(averageLabel).colspan(2).expandX().padTop(15);
 
         stage.addActor(table);
     }
 
     @Override
     public void update(float delta) {
-        if(time > 0 && !screen.finished()){
-            time-=delta;
+        if(!updateBar){
+            return;
         }
+        if(time <= 0){
+            updateBar = false;
+        }
+
+        time-=delta;
         pointsLabel.setText("Points: " + points);
         timeLabel.setText("Time: " + (int)time);
+
+        calculateAverageP();
+
+        if(!screen.finished()){
+            averageLabel.setText(String.format("%.1f", averageP*100) + "% de las bacterias mueren al ser atacadas.");
+        } else {
+            updateBar = false;
+
+            if(screen.hasWon()){
+                averageLabel.getStyle().fontColor = new Color(0, 1, 0, 1);
+                averageLabel.setText("Ganaste! Felicitaciones");
+            } else {
+                averageLabel.setText("Las bacterias te ganaron :(");
+            }
+
+            Label endLabel = new Label("Tocá para empezar de nuevo.", averageLabel.getStyle());
+            endLabel.setFontScale(3);
+
+            Table table = (Table) stage.getActors().get(0);
+            table.row();
+            table.add(endLabel).colspan(2).expandX().padTop(5);
+        }
+
+    }
+
+    public void sumP(Bacteria bacteria){
+        pSum += bacteria.getpOfDying();
+    }
+
+    private void calculateAverageP() {
+        averageP = pSum / (float)screen.getBacterias().size;
+        pSum = 0;
     }
 
     public void render(SpriteBatch batch){

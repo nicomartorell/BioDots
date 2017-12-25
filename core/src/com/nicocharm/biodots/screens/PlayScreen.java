@@ -173,7 +173,7 @@ public class PlayScreen implements Screen {
     }
 
     private void update(float delta){
-        if(bacterias.size >= 60 || infobar.getTime() < 1 || (bar.getAverageP() > 0.0 && bar.getAverageP() < 0.05 && bacterias.size > 15)){
+        if(bacterias.size >= 60 || infobar.getTime() < 1 || (infobar.getAverageP() > 0.0 && infobar.getAverageP() < 0.05 && bacterias.size > 15)){
             lose();
             ended = true;
         } else if (bacterias.size < 1){
@@ -223,7 +223,7 @@ public class PlayScreen implements Screen {
                     break; // no sigo con el loop chequeando bacterias que no existen
             }
 
-            bar.sumP(b); //sumo la probabilidad de que esta bacteria muera a la total
+            infobar.sumP(b); //sumo la probabilidad de que esta bacteria muera a la total
         }
 
         //para cada antibiótico
@@ -275,7 +275,6 @@ public class PlayScreen implements Screen {
         infobar.render(game.batch);
 
         game.batch.end();
-        bar.stage.draw(); // fuera de mi rango de batch porque lo inicializa de nuevo
         infobar.stage.draw();
     }
 
