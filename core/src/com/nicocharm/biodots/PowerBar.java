@@ -34,10 +34,15 @@ public class PowerBar{
         float width = AntibioticButton.WIDTH;
         float xoffset = (screen.game.WIDTH - nButtons * width)/2f;
 
-        short type = Antibiotic.ANTIBIOTIC_RED;
+        short[] types = new short[5];
+        types[0] = Antibiotic.ANTIBIOTIC_RED;
+        types[1] = Antibiotic.ANTIBIOTIC_BLUE;
+        types[2] = Antibiotic.ANTIBIOTIC_GREEN;
+        types[3] = Antibiotic.ANTIBIOTIC_PINK;
+        types[4] = Antibiotic.ANTIBIOTIC_GRAY;
+
         for(int i = 0; i < nButtons; i++){
-            if(i>0) type = Antibiotic.ANTIBIOTIC_GRAY;
-            buttons.add(new AntibioticButton(screen, xoffset + i*width, offset/2, type));
+            buttons.add(new AntibioticButton(screen, xoffset + i*width, offset/2, types[i]));
         }
 
     }

@@ -48,6 +48,17 @@ public class AntibioticButton extends Actor {
                 break;
             case Antibiotic.ANTIBIOTIC_GRAY:
                 path = "antibiotic-box-gray.png";
+                break;
+            case Antibiotic.ANTIBIOTIC_BLUE:
+                path = "antibiotic-box-blue.png";
+                break;
+            case Antibiotic.ANTIBIOTIC_GREEN:
+                path = "antibiotic-box-green.png";
+                break;
+            case Antibiotic.ANTIBIOTIC_PINK:
+                path = "antibiotic-box-pink.png";
+                break;
+
         }
     }
 
@@ -73,6 +84,10 @@ public class AntibioticButton extends Actor {
 
     public void selectAntibiotic() {
         if(type == Antibiotic.ANTIBIOTIC_GRAY) return;
-        screen.setAntibiotic(antibiotic);
+        if(screen.getAntibiotic() == null){
+            screen.setAntibiotic(antibiotic);
+        } else {
+            screen.setNextAntibiotic(antibiotic);
+        }
     }
 }

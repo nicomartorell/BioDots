@@ -61,8 +61,9 @@ public class PlayScreen implements Screen {
         return currentAntibiotic;
     }
 
-    //guardo mi antibiótico actual
+    //guardo mi antibiótico actual y el proximo
     private Antibiotic currentAntibiotic;
+    private Antibiotic nextAntibiotic;
 
 
 
@@ -182,16 +183,11 @@ public class PlayScreen implements Screen {
             ended = true;
             won = true;
         }
-
-        //cada 3 segundos nueva bacteria
-        /*if(bacteriaTimer>6 && bacterias.size<1){
-            Random r = new Random();
-            short type = (short)(r.nextInt(5) + 1); //el tipo de bacteria es aleatorio
-            bacterias.add(new Bacteria(this, getNewBacteriaX(r.nextFloat(), arena), getNewBacteriaY(r.nextFloat(), arena), type, initial_pOfDying));
-            bacteriaTimer=0;
-        } else {
-            //avanzo el timer de hace cuanto nació última bacteria
-            bacteriaTimer+=delta;}*/
+        
+        // cambio de antibiotico si tengo que hacerlo
+        if(nextAntibiotic != null && currentAntibiotic != null && !currentAntibiotic.isActive()){
+            currentAntibiotic = nextAntibiotic;
+        }
 
 
         // paso por todas las bacterias!
@@ -318,5 +314,9 @@ public class PlayScreen implements Screen {
 
     public void setAntibiotic(Antibiotic antibiotic) {
         this.currentAntibiotic = antibiotic;
+    }
+
+    public void setNextAntibiotic(Antibiotic nextAntibiotic) {
+        this.nextAntibiotic = nextAntibiotic;
     }
 }

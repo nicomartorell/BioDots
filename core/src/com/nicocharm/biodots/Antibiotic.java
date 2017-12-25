@@ -58,6 +58,15 @@ public class Antibiotic extends Actor{
             case ANTIBIOTIC_RED:
                 path = "antibiotic-red.png";
                 break;
+            case Antibiotic.ANTIBIOTIC_BLUE:
+                path = "antibiotic-blue.png";
+                break;
+            case Antibiotic.ANTIBIOTIC_GREEN:
+                path = "antibiotic-green.png";
+                break;
+            case Antibiotic.ANTIBIOTIC_PINK:
+                path = "antibiotic-pink.png";
+                break;
         }
     }
 
