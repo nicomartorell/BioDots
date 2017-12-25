@@ -64,4 +64,8 @@ public class PowerBar{
             button.dispose();
         }
     }
+
+    public Array<AntibioticButton> getButtons() {
+        return buttons;
+    }
 }

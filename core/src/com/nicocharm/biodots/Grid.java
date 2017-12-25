@@ -81,12 +81,7 @@ public class Grid {
         }
     }
 
-    public void activateBlock(int screenX, int screenY) {
-        Vector3 v = new Vector3(screenX, screenY, 0);
-        Vector3 v2 = screen.cam.unproject(v);
-        x = v2.x;
-        y = v2.y;
-
+    public void activateBlock(float x, float y) {
         for(Block block: blocks){
             if(!block.isActive() && block.isTouched(x, y)){
                 activeBlocks++;

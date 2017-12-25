@@ -57,11 +57,14 @@ public class PlayScreen implements Screen {
     }
     private Array<Float> bacteriaScale;
 
-    //guardo todos mis antibióticos activos
-    public Array<Antibiotic> getAntibiotics() {
-        return antibiotics;
+    public Antibiotic getAntibiotic() {
+        return currentAntibiotic;
     }
-    private Array<Antibiotic> antibiotics;
+
+    //guardo mi antibiótico actual
+    private Antibiotic currentAntibiotic;
+
+
 
     //instancio mis objetos de box2D, no uso en principio el dr
     private World world;
@@ -72,7 +75,8 @@ public class PlayScreen implements Screen {
     private Box2DDebugRenderer dr;
 
     //instancio mi powerbar y defino cuánto se separa de y=0
-    private PowerBar bar;
+    public PowerBar getPowerBar() {return powerBar;}
+    private PowerBar powerBar;
     private float totalLift = 300; //altura del tope de la barra
 
     public Bounds getArena() {
@@ -122,14 +126,14 @@ public class PlayScreen implements Screen {
         bacterias = new Array<Bacteria>();
         //bacteriaTimer = 0;
 
-        antibiotics = new Array<Antibiotic>();
+
         world = new World(new Vector2(0, 0), true); // sin gravedad
         dr = new Box2DDebugRenderer();
 
         // 50% de morir en un principio
         initial_pOfDying = 0.5f;
 
-        bar = new PowerBar(this, game.WIDTH / 2, totalLift); //centrada en x
+        powerBar = new PowerBar(this, game.WIDTH / 2, totalLift); //centrada en x
 
         // calculo los puntos que necesito de la función seno para rep
         bacteriaScale = new Array<Float>();
@@ -140,6 +144,8 @@ public class PlayScreen implements Screen {
             bacteriaScale.add(f);
             x+=0.05;
         }
+
+        currentAntibiotic = null;
 
         //creo mi grid
         grid = new Grid(this, 0, totalLift, game.WIDTH, 4, 5);
@@ -192,6 +198,7 @@ public class PlayScreen implements Screen {
         for(int i = 0; i < bacterias.size; i++){
             Bacteria b = bacterias.get(i);
             b.update(delta);
+            infobar.sumP(b);
 
             //si se está dividiendo la elimino
             if(b.isDividing()){
@@ -205,32 +212,33 @@ public class PlayScreen implements Screen {
             }
 
             //para cada bacteria, chequeo todos los antibioticos
-            for(Antibiotic antibiotic: antibiotics)
-                antibiotic.checkBacteria(b); //está cerca?
-                if(b.isDead()){ // si la maté, la elimino
+            if(currentAntibiotic != null){
+                currentAntibiotic.checkBacteria(b); //está cerca?
+
+                if(b.isDead()) { // si la maté, la elimino
                     b.getTexture().dispose();
                     bacterias.removeIndex(i);
                     world.destroyBody(b.getBody());
                     infobar.updatePoints(100); // sumo puntos!
+
                     if(bacterias.size != 0){ //lo mismo que antes
                         i--;
+                    } else {
+                        break;
                     }
-                    break; // no sigo con el loop chequeando bacterias que no existen
-            }
-
-            infobar.sumP(b); //sumo la probabilidad de que esta bacteria muera a la total
-        }
-
-        //para cada antibiótico
-        for(int i = 0; i < antibiotics.size; i++){
-            Antibiotic a = antibiotics.get(i);
-            a.update(delta);
-            if(a.toDestroy){    //si ya se terminó
-                a.getTexture().dispose();
-                antibiotics.removeIndex(i);
-                i--;
+                }
+                //sumo la probabilidad de que esta bacteria muera a la total
             }
         }
+
+        if(currentAntibiotic != null){
+            currentAntibiotic.update(delta);
+            if(currentAntibiotic.toDestroy){
+                currentAntibiotic.getTexture().dispose();
+                currentAntibiotic = null;
+            }
+        }
+
 
         infobar.update(delta);
 
@@ -258,13 +266,11 @@ public class PlayScreen implements Screen {
 
         //dr.render(world, cam.combined);
 
-        for(Antibiotic antibiotic: antibiotics){ //dibujo antibioticos
-            antibiotic.render(game.batch);
-        }
+        if(currentAntibiotic != null) currentAntibiotic.render(game.batch);
 
         grid.render(game.batch);
 
-        bar.render(game.batch);
+        powerBar.render(game.batch);
 
         infobar.render(game.batch);
 
@@ -309,12 +315,12 @@ public class PlayScreen implements Screen {
     @Override
     public void dispose() { //todos los disposables aca
         world.dispose();
-        bar.dispose();
+        powerBar.dispose();
         grid.dispose();
         infobar.dispose();
     }
 
-    public float getTotalLift() {
-        return totalLift;
+    public void setAntibiotic(Antibiotic antibiotic) {
+        this.currentAntibiotic = antibiotic;
     }
 }

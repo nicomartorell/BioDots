@@ -51,7 +51,7 @@ public class AntibioticButton extends Actor {
                 height*scale);
     }
 
-    private boolean pressed(float x, float y){
+    public boolean pressed(float x, float y){
         if(bounds.intersects(x, y)){
             return true;
         }
@@ -60,5 +60,8 @@ public class AntibioticButton extends Actor {
 
     public void dispose(){
         getTexture().dispose();
+    }
+
+    public void selectAntibiotic() {
     }
 }

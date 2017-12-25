@@ -32,13 +32,9 @@ public class Player implements InputProcessor{
         secondTouch = 0;
     }
 
-    public void applyAntibiotic(int screenX, int screenY){
-        Vector3 v = new Vector3(screenX, screenY, 0);
-        Vector3 v2 = screen.cam.unproject(v);
-        x = v2.x;
-        y = v2.y;
+    public void applyAntibiotic(float x, float y){
         Antibiotic antibiotic = new Antibiotic(screen, x, y, Antibiotic.ANTIBIOTIC_RED);
-        screen.getAntibiotics().add(antibiotic);
+        screen.setAntibiotic(antibiotic);
 
         //usar antibiotico cuesta puntos!
         screen.getInfobar().updatePoints(-30);
@@ -77,16 +73,32 @@ public class Player implements InputProcessor{
             return true;
         }
 
-        secondTouch = System.nanoTime();
+        //proyectá la coordenada de pantalla a las virtuales
+        Vector3 v = new Vector3(screenX, screenY, 0);
+        Vector3 v2 = screen.cam.unproject(v);
+        x = v2.x;
+        y = v2.y;
 
+        //seleccioná un antibiotico si estoy tocando un botón
+        for(AntibioticButton b: screen.getPowerBar().getButtons()){
+            if(b.pressed(x, y)){
+                b.selectAntibiotic();
+            }
+        }
+
+        //si no estoy en la arena no hagas nada
+        if(!screen.getArena().intersects(x, y)){
+            return true;
+        }
+
+        secondTouch = System.nanoTime();
         double delta = ((double)(secondTouch - firstTouch))/1000000000.0;
 
-        if(delta >= 0.3){
-            if(screen.getAntibiotics().size<1){
-                applyAntibiotic(screenX, screenY);
-            }
+        //dependiendo de cuanto tiempo presioné
+        if(delta >= 0.3 && screen.getAntibiotic() == null){
+            applyAntibiotic(x, y); //aplicá antibiotico
         } else if(screen.getGrid().getActiveBlocks()<3){
-            screen.getGrid().activateBlock(screenX, screenY);
+            screen.getGrid().activateBlock(x, y); //activá un bloque
         }
 
         return true;
