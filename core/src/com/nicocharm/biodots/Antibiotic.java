@@ -98,11 +98,16 @@ public class Antibiotic extends Actor{
         if(!active) return;
 
         if(timer > 4){
-           active = false;
-           timer = 0;
+           reset();
         } else {
             timer += delta;
         }
+    }
+
+    public void reset(){
+        active = false;
+        timer = 0;
+        checkedBacterias.clear();
     }
 
     public void checkBacteria(Bacteria b){

@@ -194,6 +194,8 @@ public class PlayScreen implements Screen {
         for(int i = 0; i < bacterias.size; i++){
             Bacteria b = bacterias.get(i);
             b.update(delta);
+
+            //sumo la probabilidad de que esta bacteria muera a la total
             infobar.sumP(b);
 
             //si se está dividiendo la elimino
@@ -217,13 +219,13 @@ public class PlayScreen implements Screen {
                     world.destroyBody(b.getBody());
                     infobar.updatePoints(100); // sumo puntos!
 
-                    if(bacterias.size != 0){ //lo mismo que antes
+                    if(bacterias.size > 0){ //lo mismo que antes
                         i--;
                     } else {
                         break;
                     }
                 }
-                //sumo la probabilidad de que esta bacteria muera a la total
+
             }
         }
 
