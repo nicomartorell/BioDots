@@ -16,6 +16,11 @@ import java.util.Set;
 public class Antibiotic extends Actor{
 
     public static final short ANTIBIOTIC_RED = 1;
+    public static final short ANTIBIOTIC_GRAY = 2;
+    public static final short ANTIBIOTIC_BLUE = 4;
+    public static final short ANTIBIOTIC_GREEN = 8;
+    public static final short ANTIBIOTIC_PINK = 16;
+
     private String path;
     public boolean toDestroy;
     private Set<Integer> checkedBacterias;

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
 import com.nicocharm.biodots.screens.PlayScreen;
 
 import java.util.Locale;
@@ -25,7 +26,9 @@ public class PowerBar extends Actor {
     private float pSum;
     public float offset;
 
-    Texture background;
+    private Texture background;
+
+    private Array<AntibioticButton> buttons;
 
     public PowerBar(PlayScreen screen, float x, float y) {
         super(screen, x, y, false);
@@ -37,6 +40,17 @@ public class PowerBar extends Actor {
         setStage();
 
         pSum = 0;
+
+        buttons = new Array<AntibioticButton>();
+        int n = 5;
+        float width = 200;
+        float xoffset = (screen.game.WIDTH - n * width)/2f;
+
+        short type = Antibiotic.ANTIBIOTIC_RED;
+        for(int i = 0; i < 5; i++){
+            if(i>0) type = Antibiotic.ANTIBIOTIC_GRAY;
+            buttons.add(new AntibioticButton(screen, xoffset + i*width, offset, type));
+        }
 
     }
 
@@ -96,15 +110,22 @@ public class PowerBar extends Actor {
         float y = offset + getTexture().getHeight()/2 - background.getHeight();
 
         batch.draw(background, 0, y);
-        batch.draw(getTexture(), getX() - (width/2)*scale,
+        /*batch.draw(getTexture(), getX() - (width/2)*scale,
                 getY() - (height/2)*scale,
                 width*scale,
-                height*scale);
+                height*scale);*/
+
+        for(AntibioticButton button: buttons){
+            button.render(batch);
+        }
     }
 
     public void dispose(){
         stage.dispose();
         getTexture().dispose();
         background.dispose();
+        for(AntibioticButton button: buttons){
+            button.dispose();
+        }
     }
 }

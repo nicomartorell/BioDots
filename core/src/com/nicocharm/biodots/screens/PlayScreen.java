@@ -316,7 +316,7 @@ public class PlayScreen implements Screen {
     @Override
     public void dispose() { //todos los disposables aca
         world.dispose();
-        bar.getTexture().dispose();
+        bar.dispose();
         grid.dispose();
         infobar.dispose();
     }
