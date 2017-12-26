@@ -124,18 +124,19 @@ public class PlayScreen implements Screen {
 
     public PlayScreen(BioDots game, ScreenCreator creator){
         settings = creator;
-
-        backgroundColor = new Color(0, 70f/255f, 70f/255f, 1);
         random = new Random();
-
-        paused = false;
-
+        paused = true;
         this.game = game;
         cam = new OrthographicCamera();
         // creo un viewport con mi cámara y la llevo al centro
         viewport = new FitViewport(game.WIDTH, game.HEIGHT, cam);
         cam.translate(game.WIDTH / 2, game.HEIGHT / 2);
+    }
 
+    public void initialize() {
+        paused = false;
+
+        backgroundColor = new Color(0, 70f/255f, 70f/255f, 1);
         bacterias = new Array<Bacteria>();
         //bacteriaTimer = 0;
 
@@ -167,14 +168,14 @@ public class PlayScreen implements Screen {
 
         powerBar.getButtons().get(0).selectAntibiotic();
 
+        for(int i = 0; i < settings.getBacteriaTypes().length; i++){
+            bacterias.add(new Bacteria(this, getNewBacteriaX(random.nextFloat(), arena), getNewBacteriaY(random.nextFloat(), arena), settings.getBacteriaTypes()[i], initial_pOfDying));
+        }
+
         infobar = new InfoBar(this, 0, totalLift + arena.getHeight(), settings.getInitialTime());
 
         ended = false;
         won = false;
-
-        for(int i = 0; i < settings.getBacteriaTypes().length; i++){
-            bacterias.add(new Bacteria(this, getNewBacteriaX(random.nextFloat(), arena), getNewBacteriaY(random.nextFloat(), arena), settings.getBacteriaTypes()[i], initial_pOfDying));
-        }
     }
 
     //retorno valores X e Y para una nueva bacteria, según un random pasado
@@ -334,4 +335,6 @@ public class PlayScreen implements Screen {
     public void setNextAntibiotic(Antibiotic nextAntibiotic) {
         this.nextAntibiotic = nextAntibiotic;
     }
+
+
 }

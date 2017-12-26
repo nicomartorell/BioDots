@@ -68,11 +68,10 @@ public class Player implements InputProcessor{
 
         //empezá un nuevo juego si ya terminaste!
         if(screen.finished()){
-            ScreenCreator sc = new ScreenCreator();
-            PlayScreen newScreen = new PlayScreen(screen.game, sc);
-            screen.game.setScreen(newScreen);
+            BioDots game = screen.game;
             screen.dispose();
-            this.screen = newScreen;
+            game.advance();
+            screen = game.getLevel();
             return true;
         }
 

@@ -50,6 +50,8 @@ public class AntibioticButton extends Actor {
         //la y está centrada pero la x no
         // esto me hace la vida más fácil nomás
         bounds = new Bounds(getX(), getY() - (height*scale)/2, width*scale, height*scale);
+
+        inactivate();
     }
 
     @Override
