@@ -264,6 +264,10 @@ public class Bacteria extends Actor {
     }
 
     private void handleReproduce(){
+        if(!reproducing && screen.getBacterias().size >= 60){
+            return;
+        }
+
         Random r = new Random();
         if(r.nextDouble() < 0.0014 && !reproducing) { //muy baja probabilidad
             reproducing = true;
@@ -280,6 +284,9 @@ public class Bacteria extends Actor {
     }
 
     private void divide() {
+        if(screen.getBacterias().size>60){
+            return;
+        }
         //creo dos nuevas bacterias y muero yo
         screen.getBacterias().add(new Bacteria(screen, getX(), getY(), getType(), pOfDying, body.getLinearVelocity(), target));
         screen.getBacterias().add(new Bacteria(screen, getX(), getY(), getType(), pOfDying, body.getLinearVelocity(), target));

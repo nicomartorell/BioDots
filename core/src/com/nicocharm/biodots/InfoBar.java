@@ -112,7 +112,7 @@ public class InfoBar extends Actor {
         if(!screen.finished()){
             AntibioticButton button = screen.getPowerBar().getActiveButton();
             String tag = button.getColorTag();
-            averageLabel.setText(tag + String.format("%.1f", averageP*button.getPOfKilling()*100) + "% [LIGHT_GRAY] de las bacterias mueren al ser atacadas.");
+            averageLabel.setText(tag + String.format("%.1f", averageP*button.getPOfKilling()*100) + "% [LIGHT_GRAY]  de las bacterias mueren al ser atacadas.");
         } else {
             updateBar = false;
 
