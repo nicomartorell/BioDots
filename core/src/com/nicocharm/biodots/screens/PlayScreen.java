@@ -28,6 +28,8 @@ public class PlayScreen implements Screen {
 
     private Color backgroundColor;
 
+    public Random random;
+
     // constantes que definen el filtro para distintos elementos del juego
     // definen con qué puede chocar un cuerpo de box2d
     public final short BACTERIA_BIT = 1;
@@ -115,8 +117,14 @@ public class PlayScreen implements Screen {
     }
     private boolean won;
 
+
+    private boolean paused;
+
     public PlayScreen(BioDots game){
         backgroundColor = new Color(0, 70f/255f, 70f/255f, 1);
+        random = new Random();
+
+        paused = false;
 
         this.game = game;
         cam = new OrthographicCamera();
@@ -126,6 +134,7 @@ public class PlayScreen implements Screen {
 
         bacterias = new Array<Bacteria>();
         //bacteriaTimer = 0;
+
 
 
         world = new World(new Vector2(0, 0), true); // sin gravedad
@@ -175,10 +184,10 @@ public class PlayScreen implements Screen {
     }
 
     private void update(float delta){
-        if(bacterias.size >= 60 || infobar.getTime() < 1 || (infobar.getAverageP() > 0.0 && infobar.getAverageP() < 0.05 && bacterias.size > 15)){
+        if(!ended && (bacterias.size >= 60 || infobar.getTime() < 1)){
             lose();
             ended = true;
-        } else if (bacterias.size < 1){
+        } else if (!ended && bacterias.size < 1){ //esto es generalizable
             win();
             ended = true;
             won = true;
@@ -191,7 +200,7 @@ public class PlayScreen implements Screen {
 
 
         // paso por todas las bacterias!
-        for(int i = 0; i < bacterias.size; i++){
+        for(int i = 0; i < bacterias.size; i++){ // n = 60
             Bacteria b = bacterias.get(i);
             b.update(delta);
 
@@ -247,6 +256,8 @@ public class PlayScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        if(paused) return;
+
         Gdx.gl.glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -257,7 +268,7 @@ public class PlayScreen implements Screen {
         game.batch.begin();
 
         for(Bacteria bacteria: bacterias){ // dibujo todas las bacterias
-            bacteria.render(game.batch);
+            bacteria.render(game.batch); // 60
         }
 
         //dr.render(world, cam.combined);
@@ -265,11 +276,8 @@ public class PlayScreen implements Screen {
         if(currentAntibiotic != null && currentAntibiotic.isActive()) currentAntibiotic.render(game.batch);
 
         grid.render(game.batch);
-
         powerBar.render(game.batch);
-
         infobar.render(game.batch);
-
         game.batch.end();
         infobar.stage.draw();
     }
@@ -295,12 +303,12 @@ public class PlayScreen implements Screen {
 
     @Override
     public void pause() {
-
+        paused = true;
     }
 
     @Override
     public void resume() {
-
+        paused = false;
     }
 
     @Override
@@ -314,6 +322,7 @@ public class PlayScreen implements Screen {
         powerBar.dispose();
         grid.dispose();
         infobar.dispose();
+        dr.dispose();
     }
 
     public void setAntibiotic(Antibiotic antibiotic) {

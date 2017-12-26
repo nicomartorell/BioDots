@@ -71,7 +71,7 @@ public class PowerBar{
     }
 
     public void update(float delta){
-        for(AntibioticButton button: buttons){
+        for(AntibioticButton button: buttons){ //5
             button.update(delta);
         }
     }

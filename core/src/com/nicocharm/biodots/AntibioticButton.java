@@ -129,8 +129,12 @@ public class AntibioticButton extends Actor {
     }
 
     public void dispose(){
-        getTexture().dispose();
+        texture.dispose();
         if(antibiotic != null) antibiotic.dispose();
+        if(type == Antibiotic.ANTIBIOTIC_GRAY) return;
+        activeTexture.dispose();
+        if(type == Antibiotic.ANTIBIOTIC_WHITE) return;
+        inactiveTexture.dispose();
     }
 
     public void selectAntibiotic() {

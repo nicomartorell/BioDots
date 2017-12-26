@@ -69,7 +69,7 @@ public class Grid {
     }
 
     public void update(float delta){
-        for(Block block: blocks){
+        for(Block block: blocks){ //20
             block.update(delta);
         }
     }

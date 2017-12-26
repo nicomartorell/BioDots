@@ -178,9 +178,8 @@ public class Bacteria extends Actor {
         * desasocialo y que mis bounds vuelvan a ser los de la arena
         * */
         if(!locked){
-            for(Block block: grid.getBlocks()){
+            for(Block block: grid.getBlocks()){ // 60 * 20
                 if(block.isActive() && block.isTouched(getX(), getY())){
-                    Gdx.app.log("tag", "I have no block");
                     this.block = block;
                     locked = true;
 
@@ -210,7 +209,6 @@ public class Bacteria extends Actor {
             float drawingAngle;
 
             if(locked){
-                Gdx.app.log("tag", "Block exists! Saved angle: " + savedAngle);
                 drawingAngle = savedAngle;
             } else {
                 drawingAngle = angle;
@@ -257,19 +255,14 @@ public class Bacteria extends Actor {
         //esta es la magia que hace que parezcan vivas
         Vector2 desired = targetSaved.sub(getX(), getY()).nor().scl(100);
         body.applyForce((desired.sub(body.getLinearVelocity())).limit(50), body.getWorldCenter(), true);
-
-        if(locked){
-            body.applyForce(body.getLinearVelocity().scl(-0.8f), body.getWorldCenter(), true);
-        }
     }
 
     private void handleReproduce(){
-        if(!reproducing && screen.getBacterias().size >= 60){
+        if(!reproducing && screen.finished()){
             return;
         }
 
-        Random r = new Random();
-        if(r.nextDouble() < 0.0014 && !reproducing) { //muy baja probabilidad
+        if(screen.random.nextDouble() < 0.0014 && !reproducing) { //muy baja probabilidad
             reproducing = true;
             scaleCount = 0; //me reproduzco y empiezo a contar la funcion seno
         } else if (reproducing){
@@ -284,7 +277,7 @@ public class Bacteria extends Actor {
     }
 
     private void divide() {
-        if(screen.getBacterias().size>60){
+        if(screen.finished()){
             return;
         }
         //creo dos nuevas bacterias y muero yo

@@ -99,9 +99,6 @@ public class InfoBar extends Actor {
         if(!updateBar){
             return;
         }
-        if(time <= 0){
-            updateBar = false;
-        }
 
         time-=delta;
         pointsLabel.setText("Points: " + points);
