@@ -26,6 +26,8 @@ import java.util.Random;
 
 public class PlayScreen implements Screen {
 
+    private ScreenCreator settings;
+
     private Color backgroundColor;
 
     public Random random;
@@ -120,7 +122,9 @@ public class PlayScreen implements Screen {
 
     private boolean paused;
 
-    public PlayScreen(BioDots game){
+    public PlayScreen(BioDots game, ScreenCreator creator){
+        settings = creator;
+
         backgroundColor = new Color(0, 70f/255f, 70f/255f, 1);
         random = new Random();
 
@@ -141,9 +145,9 @@ public class PlayScreen implements Screen {
         dr = new Box2DDebugRenderer();
 
         // 50% de morir en un principio
-        initial_pOfDying = 1f;
+        initial_pOfDying = settings.getInitial_pOfDying();
 
-        powerBar = new PowerBar(this, game.WIDTH / 2, totalLift); //centrada en x
+        powerBar = new PowerBar(this, game.WIDTH / 2, totalLift, settings.getButtonTypes()); //centrada en x
 
         // calculo los puntos que necesito de la función seno para rep
         bacteriaScale = new Array<Float>();
@@ -163,15 +167,13 @@ public class PlayScreen implements Screen {
 
         powerBar.getButtons().get(0).selectAntibiotic();
 
-        infobar = new InfoBar(this, 0, totalLift + arena.getHeight(), 150);
+        infobar = new InfoBar(this, 0, totalLift + arena.getHeight(), settings.getInitialTime());
 
         ended = false;
         won = false;
 
-        for(int i = 0; i < 15; i++){
-            Random r = new Random();
-            short type = (short)(r.nextInt(5) + 1); //el tipo de bacteria es aleatorio
-            bacterias.add(new Bacteria(this, getNewBacteriaX(r.nextFloat(), arena), getNewBacteriaY(r.nextFloat(), arena), type, initial_pOfDying));
+        for(int i = 0; i < settings.getBacteriaTypes().length; i++){
+            bacterias.add(new Bacteria(this, getNewBacteriaX(random.nextFloat(), arena), getNewBacteriaY(random.nextFloat(), arena), settings.getBacteriaTypes()[i], initial_pOfDying));
         }
     }
 

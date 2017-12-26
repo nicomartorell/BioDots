@@ -5,6 +5,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.nicocharm.biodots.screens.PlayScreen;
+import com.nicocharm.biodots.screens.ScreenCreator;
 
 public class BioDots extends Game {
 	public SpriteBatch batch;
@@ -19,12 +20,15 @@ public class BioDots extends Game {
 		// sería una buena idea separar la construcción de playscreen
 		// de su init, para que no se inicialice toodo 2 segundos antes
 		// de que empiece el juego.
-		PlayScreen screen = new PlayScreen(this);
+		ScreenCreator level1 = new ScreenCreator();
+		PlayScreen screen = new PlayScreen(this, level1);
 		player = new Player(screen);
 		Gdx.input.setInputProcessor(player);
 		setScreen(screen);
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 	}
+
+
 
 	@Override
 	public void render () {
@@ -34,6 +38,7 @@ public class BioDots extends Game {
 	@Override
 	public void dispose () {
 		batch.dispose();
+		super.dispose();
 	}
 
 }

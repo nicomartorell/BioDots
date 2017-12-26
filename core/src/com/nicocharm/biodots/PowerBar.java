@@ -25,35 +25,24 @@ public class PowerBar{
     private int nButtons;
 
     private int activeButton;
-    private int prevActiveButton;
-    private boolean activeButtonChanged;
 
-    public PowerBar(PlayScreen screen, float x, float maxy) {
+    public PowerBar(PlayScreen screen, float x, float maxy, short[] types) {
         this.screen = screen;
 
         setVisuals();
         offset = maxy;
 
         buttons = new Array<AntibioticButton>();
-        nButtons = 5;
+        nButtons = types.length;
 
         float width = AntibioticButton.WIDTH;
         float xoffset = (screen.game.WIDTH - nButtons * width)/2f;
-
-        short[] types = new short[5];
-        types[0] = Antibiotic.ANTIBIOTIC_WHITE;
-        types[1] = Antibiotic.ANTIBIOTIC_BLUE;
-        types[2] = Antibiotic.ANTIBIOTIC_GREEN;
-        types[3] = Antibiotic.ANTIBIOTIC_PINK;
-        types[4] = Antibiotic.ANTIBIOTIC_RED;
 
         for(int i = 0; i < nButtons; i++){
             buttons.add(new AntibioticButton(screen, xoffset + i*width, offset/2, types[i]));
         }
 
         activeButton = 0;
-        prevActiveButton = 0;
-        activeButtonChanged = false;
     }
 
     public void setVisuals(){

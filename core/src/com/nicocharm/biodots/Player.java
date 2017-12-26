@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.nicocharm.biodots.screens.PlayScreen;
+import com.nicocharm.biodots.screens.ScreenCreator;
 
 
 public class Player implements InputProcessor{
@@ -67,7 +68,8 @@ public class Player implements InputProcessor{
 
         //empezá un nuevo juego si ya terminaste!
         if(screen.finished()){
-            PlayScreen newScreen = new PlayScreen(screen.game);
+            ScreenCreator sc = new ScreenCreator();
+            PlayScreen newScreen = new PlayScreen(screen.game, sc);
             screen.game.setScreen(newScreen);
             screen.dispose();
             this.screen = newScreen;
