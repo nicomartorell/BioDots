@@ -132,7 +132,7 @@ public class PlayScreen implements Screen {
         dr = new Box2DDebugRenderer();
 
         // 50% de morir en un principio
-        initial_pOfDying = 0.85f;
+        initial_pOfDying = 0.7f;
 
         powerBar = new PowerBar(this, game.WIDTH / 2, totalLift); //centrada en x
 

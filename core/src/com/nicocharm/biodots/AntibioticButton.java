@@ -20,8 +20,6 @@ public class AntibioticButton extends Actor {
 
     private int state;
 
-    private float inactiveTime;
-
     public static final int STATE_ACTIVE = 1;
     public static final int STATE_INACTIVE = 2;
     public static final int STATE_DEFAULT = 4;
@@ -69,8 +67,6 @@ public class AntibioticButton extends Actor {
                 path = "antibiotic-box-red.png";
                 activePath = "antibiotic-box-red-active.png";
                 inactivePath = "antibiotic-box-red-inactive.png";
-
-                inactiveTime = 3;
                 break;
             case Antibiotic.ANTIBIOTIC_GRAY:
                 path = "antibiotic-box-gray.png";
@@ -79,22 +75,16 @@ public class AntibioticButton extends Actor {
                 path = "antibiotic-box-blue.png";
                 activePath = "antibiotic-box-blue-active.png";
                 inactivePath = "antibiotic-box-blue-inactive.png";
-
-                inactiveTime = 8;
                 break;
             case Antibiotic.ANTIBIOTIC_GREEN:
                 path = "antibiotic-box-green.png";
                 activePath = "antibiotic-box-green-active.png";
                 inactivePath = "antibiotic-box-green-inactive.png";
-
-                inactiveTime = 6;
                 break;
             case Antibiotic.ANTIBIOTIC_PINK:
                 path = "antibiotic-box-pink.png";
                 activePath = "antibiotic-box-pink-active.png";
                 inactivePath = "antibiotic-box-pink-inactive.png";
-
-                inactiveTime = 3;
                 break;
             case Antibiotic.ANTIBIOTIC_WHITE:
                 path = "antibiotic-box-white.png";
@@ -107,7 +97,7 @@ public class AntibioticButton extends Actor {
     @Override
     public void update(float delta) {
         if(state == STATE_INACTIVE){
-            if(timer > inactiveTime){
+            if(timer > antibiotic.getInactiveTime()){
                 setTexture(texture);
                 state = STATE_DEFAULT;
                 timer = 0;
@@ -152,7 +142,6 @@ public class AntibioticButton extends Actor {
 
     public void inactivate(){
         if(type==Antibiotic.ANTIBIOTIC_WHITE){
-            setAvailable();
             return;
         }
 
@@ -163,6 +152,11 @@ public class AntibioticButton extends Actor {
     public void setAvailable(){
         state = STATE_DEFAULT;
         setTexture(texture);
+    }
+
+    public void setActive(){
+        state = STATE_ACTIVE;
+        setTexture(activeTexture);
     }
 
     public int getState() {

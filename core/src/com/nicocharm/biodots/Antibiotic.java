@@ -31,6 +31,7 @@ public class Antibiotic extends Actor{
 
     private float pOfKilling;
     private float duration;
+    private float inactiveTime;
 
     public boolean isActive() {
         return active;
@@ -65,28 +66,33 @@ public class Antibiotic extends Actor{
         switch (type){
             case ANTIBIOTIC_RED:
                 path = "antibiotic-red.png";
-                pOfKilling = 0.7f;
-                duration = 3.5f;
+                pOfKilling = 0.95f;
+                duration = 4f;
+                inactiveTime = 25;
                 break;
             case ANTIBIOTIC_BLUE:
                 path = "antibiotic-blue.png";
-                pOfKilling = 0.95f;
-                duration = 2f;
+                pOfKilling = 0.7f;
+                duration = 3.5f;
+                inactiveTime = 10;
                 break;
             case ANTIBIOTIC_GREEN:
                 path = "antibiotic-green.png";
-                pOfKilling = 0.83f;
-                duration = 2.75f;
+                pOfKilling = 0.7f;
+                duration = 1.75f;
+                inactiveTime = 5;
                 break;
             case ANTIBIOTIC_PINK:
                 path = "antibiotic-pink.png";
-                pOfKilling = 0.9f;
-                duration = 6f;
+                pOfKilling = 0.8f;
+                duration = 8f;
+                inactiveTime = 8;
                 break;
             case ANTIBIOTIC_WHITE:
                 path = "antibiotic-white.png";
-                pOfKilling = 0.5f;
-                duration = 3f;
+                pOfKilling = 0.4f;
+                duration = 3.5f;
+                inactiveTime = 0;
                 break;
 
         }
@@ -155,5 +161,9 @@ public class Antibiotic extends Actor{
 
     public void dispose() {
         getTexture().dispose();
+    }
+
+    public float getInactiveTime() {
+        return inactiveTime;
     }
 }
