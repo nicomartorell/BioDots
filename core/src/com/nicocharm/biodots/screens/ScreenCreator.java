@@ -56,9 +56,10 @@ public class ScreenCreator {
 
         initialTime = 150f;
 
-        types = new short[15];
+        int nBacterias = 20;
+        types = new short[nBacterias];
         Random random = new Random();
-        for(int i = 0; i < 15; i++){
+        for(int i = 0; i < nBacterias; i++){
             types[i] = (short)(random.nextInt(5) + 1);
         }
     }
