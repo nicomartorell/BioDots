@@ -239,6 +239,8 @@ public class PlayScreen implements Screen {
         //para cada bloque de grid
         grid.update(delta);
 
+        powerBar.update(delta);
+
         world.step(delta,6,2); //avanza box2d
 
     }

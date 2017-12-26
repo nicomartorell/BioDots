@@ -20,7 +20,10 @@ public class Antibiotic extends Actor{
     public static final short ANTIBIOTIC_BLUE = 4;
     public static final short ANTIBIOTIC_GREEN = 8;
     public static final short ANTIBIOTIC_PINK = 16;
+    public static final short ANTIBIOTIC_WHITE = 32;
 
+
+    private AntibioticButton button;
 
     private short type;
     private String path;
@@ -35,13 +38,15 @@ public class Antibiotic extends Actor{
 
     private boolean active;
 
-    public Antibiotic(PlayScreen screen, short type) {
+    public Antibiotic(PlayScreen screen, AntibioticButton button, short type) {
         super(screen, 0, 0, false);
         scale = 2.5f;
         width = 400;
         height = 400;
         setPath(type);
         this.type = type;
+
+        this.button = button;
 
         setVisuals();
         checkedBacterias = new HashSet<Integer>();
@@ -63,21 +68,27 @@ public class Antibiotic extends Actor{
                 pOfKilling = 0.7f;
                 duration = 3.5f;
                 break;
-            case Antibiotic.ANTIBIOTIC_BLUE:
+            case ANTIBIOTIC_BLUE:
                 path = "antibiotic-blue.png";
                 pOfKilling = 0.95f;
                 duration = 2f;
                 break;
-            case Antibiotic.ANTIBIOTIC_GREEN:
+            case ANTIBIOTIC_GREEN:
                 path = "antibiotic-green.png";
                 pOfKilling = 0.83f;
                 duration = 2.75f;
                 break;
-            case Antibiotic.ANTIBIOTIC_PINK:
+            case ANTIBIOTIC_PINK:
                 path = "antibiotic-pink.png";
                 pOfKilling = 0.9f;
                 duration = 6f;
                 break;
+            case ANTIBIOTIC_WHITE:
+                path = "antibiotic-white.png";
+                pOfKilling = 0.5f;
+                duration = 3f;
+                break;
+
         }
     }
 
@@ -119,6 +130,7 @@ public class Antibiotic extends Actor{
         active = false;
         timer = 0;
         checkedBacterias.clear();
+        button.inactivate();
     }
 
     public void checkBacteria(Bacteria b){

@@ -33,6 +33,8 @@ public class Player implements InputProcessor{
     }
 
     public void applyAntibiotic(float x, float y){
+        if(screen.getPowerBar().getActiveButton().isInactive()) return;
+
         screen.getAntibiotic().init(x, y);
 
         //usar antibiotico cuesta puntos!
@@ -80,8 +82,8 @@ public class Player implements InputProcessor{
 
         //seleccioná un antibiotico si estoy tocando un botón
         for(AntibioticButton b: screen.getPowerBar().getButtons()){
-            if(b.pressed(x, y)){
-                b.selectAntibiotic();
+            if(b.pressed(x, y) && b.isAvailable() && b.isUsable()){
+                screen.getPowerBar().notifyActivation(b);
             }
         }
 

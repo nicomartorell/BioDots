@@ -21,7 +21,12 @@ public class PowerBar{
     private Texture background;
 
     private Array<AntibioticButton> buttons;
+
     private int nButtons;
+
+    private int activeButton;
+    private int prevActiveButton;
+    private boolean activeButtonChanged;
 
     public PowerBar(PlayScreen screen, float x, float maxy) {
         this.screen = screen;
@@ -31,6 +36,7 @@ public class PowerBar{
 
         buttons = new Array<AntibioticButton>();
         nButtons = 5;
+
         float width = AntibioticButton.WIDTH;
         float xoffset = (screen.game.WIDTH - nButtons * width)/2f;
 
@@ -45,13 +51,14 @@ public class PowerBar{
             buttons.add(new AntibioticButton(screen, xoffset + i*width, offset/2, types[i]));
         }
 
+        activeButton = 0;
+        prevActiveButton = 0;
+        activeButtonChanged = false;
     }
-
 
     public void setVisuals(){
         background = new Texture("power-bar-bg.png");
     }
-
 
     public void render(SpriteBatch batch){
         float y = offset - background.getHeight();
@@ -60,6 +67,12 @@ public class PowerBar{
 
         for(AntibioticButton button: buttons){
             button.render(batch);
+        }
+    }
+
+    public void update(float delta){
+        for(AntibioticButton button: buttons){
+            button.update(delta);
         }
     }
 
@@ -72,5 +85,16 @@ public class PowerBar{
 
     public Array<AntibioticButton> getButtons() {
         return buttons;
+    }
+
+    public void notifyActivation(AntibioticButton antibioticButton) {
+        AntibioticButton current = buttons.get(activeButton);
+        if(!current.isInactive()) current.setAvailable();
+        activeButton = buttons.indexOf(antibioticButton, true);
+        buttons.get(activeButton).selectAntibiotic();
+    }
+
+    public AntibioticButton getActiveButton() {
+        return buttons.get(activeButton);
     }
 }
