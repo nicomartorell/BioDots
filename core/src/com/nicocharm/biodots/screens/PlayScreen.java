@@ -326,6 +326,10 @@ public class PlayScreen implements Screen {
         grid.dispose();
         infobar.dispose();
         dr.dispose();
+
+        for(Bacteria b: bacterias){
+            b.getTexture().dispose();
+        }
     }
 
     public void setAntibiotic(Antibiotic antibiotic) {
