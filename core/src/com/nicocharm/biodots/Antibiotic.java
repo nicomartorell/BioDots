@@ -166,4 +166,8 @@ public class Antibiotic extends Actor{
     public float getInactiveTime() {
         return inactiveTime;
     }
+
+    public float getPOfKilling() {
+        return pOfKilling;
+    }
 }

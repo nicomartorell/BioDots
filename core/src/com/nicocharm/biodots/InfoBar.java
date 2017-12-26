@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Align;
 import com.nicocharm.biodots.screens.PlayScreen;
 
 
@@ -67,7 +68,8 @@ public class InfoBar extends Actor {
         BitmapFont font = new BitmapFont();
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         style.font = font;
-        style.fontColor = Color.RED;
+        style.fontColor = Color.LIGHT_GRAY;
+        style.font.getData().markupEnabled = true;
 
         Table table = new Table();
         table.top();
@@ -77,9 +79,12 @@ public class InfoBar extends Actor {
         timeLabel.setFontScale(4);
         pointsLabel = new Label("Points: " + points, style);
         pointsLabel.setFontScale(4);
+
+        Label.LabelStyle style2 = new Label.LabelStyle(font, null);
         averageLabel = new Label("",
-                style);
+                style2);
         averageLabel.setFontScale(3);
+
 
         table.add(timeLabel).expandX().padTop(30);
         table.add(pointsLabel).expandX().padTop(30);
@@ -105,7 +110,9 @@ public class InfoBar extends Actor {
         calculateAverageP();
 
         if(!screen.finished()){
-            averageLabel.setText(String.format("%.1f", averageP*100) + "% de las bacterias mueren al ser atacadas.");
+            AntibioticButton button = screen.getPowerBar().getActiveButton();
+            String tag = button.getColorTag();
+            averageLabel.setText(tag + String.format("%.1f", averageP*button.getPOfKilling()*100) + "% [LIGHT_GRAY] de las bacterias mueren al ser atacadas.");
         } else {
             updateBar = false;
 
@@ -113,6 +120,7 @@ public class InfoBar extends Actor {
                 averageLabel.getStyle().fontColor = new Color(0, 1, 0, 1);
                 averageLabel.setText("Ganaste! Felicitaciones");
             } else {
+                averageLabel.getStyle().fontColor = new Color(1, 0, 0, 1);
                 averageLabel.setText("Las bacterias te ganaron :(");
             }
 

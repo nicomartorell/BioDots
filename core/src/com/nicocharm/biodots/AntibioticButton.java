@@ -17,6 +17,7 @@ public class AntibioticButton extends Actor {
     private String path;
     private String activePath;
     private String inactivePath;
+    private String colorTag;
 
     private int state;
 
@@ -67,6 +68,7 @@ public class AntibioticButton extends Actor {
                 path = "antibiotic-box-red.png";
                 activePath = "antibiotic-box-red-active.png";
                 inactivePath = "antibiotic-box-red-inactive.png";
+                colorTag = "[RED]";
                 break;
             case Antibiotic.ANTIBIOTIC_GRAY:
                 path = "antibiotic-box-gray.png";
@@ -75,20 +77,24 @@ public class AntibioticButton extends Actor {
                 path = "antibiotic-box-blue.png";
                 activePath = "antibiotic-box-blue-active.png";
                 inactivePath = "antibiotic-box-blue-inactive.png";
+                colorTag = "[CYAN]";
                 break;
             case Antibiotic.ANTIBIOTIC_GREEN:
                 path = "antibiotic-box-green.png";
                 activePath = "antibiotic-box-green-active.png";
                 inactivePath = "antibiotic-box-green-inactive.png";
+                colorTag = "[GREEN]";
                 break;
             case Antibiotic.ANTIBIOTIC_PINK:
                 path = "antibiotic-box-pink.png";
                 activePath = "antibiotic-box-pink-active.png";
                 inactivePath = "antibiotic-box-pink-inactive.png";
+                colorTag = "[PINK]";
                 break;
             case Antibiotic.ANTIBIOTIC_WHITE:
                 path = "antibiotic-box-white.png";
                 activePath = "antibiotic-box-white-active.png";
+                colorTag = "[WHITE]";
                 break;
 
         }
@@ -173,5 +179,13 @@ public class AntibioticButton extends Actor {
 
     public boolean isUsable(){
         return type != Antibiotic.ANTIBIOTIC_GRAY;
+    }
+
+    public String getColorTag() {
+        return colorTag;
+    }
+
+    public float getPOfKilling() {
+        return antibiotic.getPOfKilling();
     }
 }

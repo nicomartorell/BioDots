@@ -132,7 +132,7 @@ public class PlayScreen implements Screen {
         dr = new Box2DDebugRenderer();
 
         // 50% de morir en un principio
-        initial_pOfDying = 0.7f;
+        initial_pOfDying = 1f;
 
         powerBar = new PowerBar(this, game.WIDTH / 2, totalLift); //centrada en x
 
@@ -152,12 +152,12 @@ public class PlayScreen implements Screen {
         //la arena tiene w y h de grid, ademas de su altura
         arena = new Bounds(0, grid.getY(), grid.getWidth(), grid.getHeight());
 
+        powerBar.getButtons().get(0).selectAntibiotic();
+
         infobar = new InfoBar(this, 0, totalLift + arena.getHeight(), 150);
 
         ended = false;
         won = false;
-
-        powerBar.getButtons().get(0).selectAntibiotic();
 
         for(int i = 0; i < 15; i++){
             Random r = new Random();
