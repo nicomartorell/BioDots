@@ -205,14 +205,22 @@ public class PlayScreen implements Screen {
             return;
         }
 
-        if(!ended && (bacterias.size >= 60 || infobar.getTime() < 1)){
-            lose();
-            ended = true;
-        } else if (!ended && bacterias.size < 1){ //esto es generalizable
-            win();
-            ended = true;
-            won = true;
+        if(!ended){
+            if(bacterias.size >= 60 || goal.failed()){
+                lose();
+            } else if(infobar.getTime() < 1){
+                if(goal.met()){
+                    win();
+                } else lose();
+            }else if (bacterias.size < 1){
+                if(goal.met()){
+                    win();
+                } else lose();
+            } else if(goal.met()){
+                win();
+            }
         }
+
         
         // cambio de antibiotico si tengo que hacerlo
         if(nextAntibiotic != null && currentAntibiotic != null && !currentAntibiotic.isActive()){
@@ -308,10 +316,14 @@ public class PlayScreen implements Screen {
 
 
     private void lose(){
+        ended = true;
+        won = false;
         backgroundColor = new Color(119f/255f, 10f/255f, 10f/255f, 1);
     }
 
     private void win(){
+        ended = true;
+        won = true;
         backgroundColor = new Color(20f/255f, 98f/255f, 9f/255f, 1);
     }
 

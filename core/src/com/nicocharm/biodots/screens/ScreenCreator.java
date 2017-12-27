@@ -37,6 +37,7 @@ public class ScreenCreator {
     }
 
     public void setBacteriaTypes(short[] types) {
+
         this.types = types;
     }
 

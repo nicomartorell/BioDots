@@ -58,22 +58,64 @@ public class BioDots extends Game {
 		return levels.get(currentLevel);
 	}
 
-	private void createLevels(){
+	private void createLevels(){ // acá está la lógica que define cada nivel
+
+		// PASOS PARA DEFINIR UN NIVEL:
+		//	CREO UN SCREEN CREATOR.
+		//	LE SETEO LAS COSAS QUE QUIERO:
+		//		DEFAULTS: pOfDying 1, 150s, 20 bacterias aleatorias,
+		//					todos los botones
+		//	CREO UNA SCREEN, PASANDO ESTA CLASE, EL SC Y UN GOAL
+		//		INNER CLASS DE GOAL: NECESITA DESCRIPCIÓN DE GOAL
+		//		NECESITA IMPLEMENTAR MÉTODOS met() Y failed().
+		// 	AGREGO MI SCREEN A LEVELS.
+		// 	LISTO!
+
+		///////////////////////////////////////////////////////////
+
+		// NIVEL 1
+
 		ScreenCreator level1 = new ScreenCreator();
 		level1.setInitial_pOfDying(0.8f);
-		PlayScreen screen1 = new PlayScreen(this, level1, new Goal("Matá a todas las bacterias\nantes de que se acabe el tiempo!"){
 
-			//trying out the abstract class goal
+		short[] types = new short[10];
+		for(int i = 0; i < types.length; i++){
+			short type;
+			if(i<types.length*0.8f){
+				type = Bacteria.BACTERIA_BLUE;
+			} else {
+				type = Bacteria.BACTERIA_GREEN;
+			}
+			types[i] = type;
+		}
+		level1.setBacteriaTypes(types);
+
+		PlayScreen screen1 = new PlayScreen(this, level1,
+				new Goal("Dejá vivas solo a las\n" +
+						"bacterias verdes!"){
 
 			@Override
-			public boolean met(Array<Bacteria> bacteria) {
-				for(Bacteria b: bacteria){
+			public boolean met() {
+				for(Bacteria b: getScreen().getBacterias()){
 					if(b.getType() != Bacteria.BACTERIA_GREEN) return false;
+				}
+				return true;
+			}
+
+			@Override
+			public boolean failed() {
+				for(Bacteria b: getScreen().getBacterias()){
+					if(b.getType() == Bacteria.BACTERIA_GREEN) return false;
 				}
 				return true;
 			}
 		});
 		levels.add(screen1);
+
+		///////////////////////////////////////////////////////
+
+
+
 	}
 
 	@Override
