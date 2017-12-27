@@ -30,6 +30,9 @@ public class PlayScreen implements Screen {
 
     private Color backgroundColor;
 
+    private float timer;
+    private final float firstTime = 15;
+
     public Random random;
 
     // constantes que definen el filtro para distintos elementos del juego
@@ -122,8 +125,13 @@ public class PlayScreen implements Screen {
 
     private boolean paused;
 
-    public PlayScreen(BioDots game, ScreenCreator creator){
+    private Goal goal;
+
+    public PlayScreen(BioDots game, ScreenCreator creator, Goal goal){
         settings = creator;
+        this.goal = goal;
+
+
         random = new Random();
         paused = true;
         this.game = game;
@@ -134,13 +142,12 @@ public class PlayScreen implements Screen {
     }
 
     public void initialize() {
-        paused = false;
-
+        timer = 0;
         backgroundColor = new Color(0, 70f/255f, 70f/255f, 1);
         bacterias = new Array<Bacteria>();
         //bacteriaTimer = 0;
 
-
+        paused = false;
 
         world = new World(new Vector2(0, 0), true); // sin gravedad
         dr = new Box2DDebugRenderer();
@@ -176,6 +183,8 @@ public class PlayScreen implements Screen {
 
         ended = false;
         won = false;
+
+        goal.setStage(this);
     }
 
     //retorno valores X e Y para una nueva bacteria, según un random pasado
@@ -187,6 +196,15 @@ public class PlayScreen implements Screen {
     }
 
     private void update(float delta){
+        if(paused) return;
+
+        timer+=delta;
+
+        if(timer <= firstTime){
+            goal.update(delta);
+            return;
+        }
+
         if(!ended && (bacterias.size >= 60 || infobar.getTime() < 1)){
             lose();
             ended = true;
@@ -259,7 +277,6 @@ public class PlayScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        if(paused) return;
 
         Gdx.gl.glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -283,6 +300,10 @@ public class PlayScreen implements Screen {
         infobar.render(game.batch);
         game.batch.end();
         infobar.stage.draw();
+
+        if(timer <= firstTime){
+            goal.render(game.batch);
+        }
     }
 
 
@@ -319,13 +340,20 @@ public class PlayScreen implements Screen {
 
     }
 
+    public boolean showingGoal(){
+        return timer <= firstTime;
+    }
+
     @Override
     public void dispose() { //todos los disposables aca
+        paused = true;
+
         world.dispose();
         powerBar.dispose();
         grid.dispose();
         infobar.dispose();
         dr.dispose();
+        goal.dispose();
 
         for(Bacteria b: bacterias){
             b.getTexture().dispose();

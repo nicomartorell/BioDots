@@ -5,6 +5,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
+import com.nicocharm.biodots.screens.Goal;
 import com.nicocharm.biodots.screens.PlayScreen;
 import com.nicocharm.biodots.screens.ScreenCreator;
 
@@ -20,28 +21,32 @@ public class BioDots extends Game {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-
-		ScreenCreator level1 = new ScreenCreator();
-		level1.setInitial_pOfDying(0.8f);
-		PlayScreen screen = new PlayScreen(this, level1);
-
-		player = new Player(screen);
-		Gdx.input.setInputProcessor(player);
-		setScreen(screen);
-		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 		levels = new Array<PlayScreen>();
-		levels.add(screen);
 		currentLevel = 0;
-		screen.initialize();
+
+		createLevels();
+
+		player = new Player(getLevel());
+		Gdx.input.setInputProcessor(player);
+
+		setScreen(getLevel());
+		Gdx.app.setLogLevel(Application.LOG_DEBUG);
+
+
+
+		getLevel().initialize();
 	}
 
 	public void advance(){
+		getLevel().dispose();
+
 		currentLevel++;
 		if(currentLevel>=levels.size){
 			currentLevel = 0;
 		}
-		setScreen(levels.get(currentLevel));
-		levels.get(currentLevel).initialize();
+
+		setScreen(getLevel());
+		getLevel().initialize();
 	}
 
 	public void setLevel(int level){
@@ -51,6 +56,24 @@ public class BioDots extends Game {
 
 	public PlayScreen getLevel(){
 		return levels.get(currentLevel);
+	}
+
+	private void createLevels(){
+		ScreenCreator level1 = new ScreenCreator();
+		level1.setInitial_pOfDying(0.8f);
+		PlayScreen screen1 = new PlayScreen(this, level1, new Goal("Matá a todas las bacterias\nantes de que se acabe el tiempo!"){
+
+			//trying out the abstract class goal
+
+			@Override
+			public boolean met(Array<Bacteria> bacteria) {
+				for(Bacteria b: bacteria){
+					if(b.getType() != Bacteria.BACTERIA_GREEN) return false;
+				}
+				return true;
+			}
+		});
+		levels.add(screen1);
 	}
 
 	@Override

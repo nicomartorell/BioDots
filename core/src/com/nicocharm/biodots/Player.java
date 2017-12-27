@@ -66,10 +66,11 @@ public class Player implements InputProcessor{
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 
+        if(screen.showingGoal()) return true;
+
         //empezá un nuevo juego si ya terminaste!
         if(screen.finished()){
             BioDots game = screen.game;
-            screen.dispose();
             game.advance();
             screen = game.getLevel();
             return true;
