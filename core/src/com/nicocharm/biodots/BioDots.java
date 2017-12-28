@@ -3,11 +3,15 @@ package com.nicocharm.biodots;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.nicocharm.biodots.screens.Goal;
+import com.nicocharm.biodots.screens.MainMenu;
 import com.nicocharm.biodots.screens.PlayScreen;
 import com.nicocharm.biodots.screens.ScreenCreator;
+
+import java.awt.Menu;
 
 public class BioDots extends Game {
 	public SpriteBatch batch;
@@ -17,7 +21,9 @@ public class BioDots extends Game {
 
     private Array<PlayScreen> levels;
     private int currentLevel;
-	
+
+    private MainMenu menu;
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
@@ -26,16 +32,25 @@ public class BioDots extends Game {
 
 		createLevels();
 
-		player = new Player(getLevel());
-		Gdx.input.setInputProcessor(player);
-
-		setScreen(getLevel());
+		player = new Player();
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 
+		goToMenu();
 
-
-		getLevel().initialize();
 	}
+
+	public void goToMenu(){
+		setScreen(menu);
+		Gdx.input.setInputProcessor(menu);
+	}
+
+	public void goToFirstLevel(){
+        player.setScreen(getLevel());
+        Gdx.input.setInputProcessor(player);
+
+        setScreen(getLevel());
+        getLevel().initialize();
+    }
 
 	public void advance(){
 		getLevel().dispose();
@@ -46,12 +61,14 @@ public class BioDots extends Game {
 		}
 
 		setScreen(getLevel());
+		player.setScreen(getLevel());
 		getLevel().initialize();
 	}
 
 	public void setLevel(int level){
 		currentLevel = level;
-		setScreen(levels.get(currentLevel));
+		setScreen(getLevel());
+		player.setScreen(getLevel());
 	}
 
 	public PlayScreen getLevel(){
@@ -72,6 +89,13 @@ public class BioDots extends Game {
 		// 	LISTO!
 
 		///////////////////////////////////////////////////////////
+
+		// MENU
+
+		menu = new MainMenu(this);
+
+
+
 
 		// NIVEL 1
 
@@ -126,7 +150,10 @@ public class BioDots extends Game {
 	@Override
 	public void dispose () {
 		batch.dispose();
-		super.dispose();
+
+		for(Screen level: levels){
+			level.dispose();
+		}
 	}
 
 }

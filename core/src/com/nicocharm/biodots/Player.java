@@ -24,14 +24,15 @@ public class Player implements InputProcessor{
     private long firstTouch;
     private long secondTouch;
 
-    public Player(com.nicocharm.biodots.screens.PlayScreen screen){
-        this.screen = screen;
+    public Player(){
         x = 0;
         y = 0;
 
         firstTouch = 0;
         secondTouch = 0;
     }
+
+
 
     public void applyAntibiotic(float x, float y){
         if(screen.getPowerBar().getActiveButton().isInactive()) return;
@@ -63,6 +64,10 @@ public class Player implements InputProcessor{
         return true;
     }
 
+    public void setScreen(PlayScreen screen){
+        this.screen = screen;
+    }
+
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 
@@ -72,7 +77,6 @@ public class Player implements InputProcessor{
         if(screen.finished()){
             BioDots game = screen.game;
             game.advance();
-            screen = game.getLevel();
             return true;
         }
 
