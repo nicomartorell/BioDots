@@ -77,7 +77,7 @@ public abstract class Goal {
     }
 
     public void dispose(){
-        stage.dispose();
+        if(stage!=null)stage.dispose();
         alpha = 1f;
         textAlpha = 0;
         timer = 0;

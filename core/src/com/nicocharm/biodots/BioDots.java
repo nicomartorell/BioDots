@@ -19,10 +19,14 @@ public class BioDots extends Game {
     public final float HEIGHT = 1920;
     public Player player;
 
+    private PlayScreen freeGame;
+
     private Array<PlayScreen> levels;
     private int currentLevel;
 
     private MainMenu menu;
+
+    public boolean setToEnd = false;
 
 	@Override
 	public void create () {
@@ -50,6 +54,14 @@ public class BioDots extends Game {
 
         setScreen(getLevel());
         getLevel().initialize();
+    }
+
+    public void goToFreeGame(){
+        player.setScreen(freeGame);
+        Gdx.input.setInputProcessor(player);
+
+        setScreen(freeGame);
+        freeGame.initialize();
     }
 
 	public void advance(){
@@ -94,10 +106,27 @@ public class BioDots extends Game {
 
 		menu = new MainMenu(this);
 
+        // FREE GAME
 
+        ScreenCreator freeGame = new ScreenCreator();
+        freeGame.setInitial_pOfDying(0.7f);
+        this.freeGame = new PlayScreen(this, freeGame, new Goal("Matá a todas las bacterias\n" +
+                "antes de que se acabe el tiempo!"){
 
+            @Override
+            public boolean met() {
+                return getScreen().getBacterias().size < 1;
+            }
 
-		// NIVEL 1
+            @Override
+            public boolean failed() {
+                return false;
+            }
+        });
+
+        ///////////////////////////////////////////////////////////
+
+        // NIVEL 1
 
 		ScreenCreator level1 = new ScreenCreator();
 		level1.setInitial_pOfDying(0.8f);
@@ -136,7 +165,7 @@ public class BioDots extends Game {
 		});
 		levels.add(screen1);
 
-		///////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////
 
 
 
@@ -151,9 +180,14 @@ public class BioDots extends Game {
 	public void dispose () {
 		batch.dispose();
 
+		menu.dispose();
+		freeGame.dispose();
 		for(Screen level: levels){
 			level.dispose();
 		}
 	}
 
+    public void end() {
+	    Gdx.app.exit();
+    }
 }

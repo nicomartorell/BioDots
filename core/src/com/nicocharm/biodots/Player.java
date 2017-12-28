@@ -76,7 +76,7 @@ public class Player implements InputProcessor{
         //empezá un nuevo juego si ya terminaste!
         if(screen.finished()){
             BioDots game = screen.game;
-            game.advance();
+            game.goToMenu();
             return true;
         }
 

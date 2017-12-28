@@ -23,6 +23,11 @@ import com.nicocharm.biodots.MenuButton;
 
 public class MainMenu implements Screen, InputProcessor {
 
+    public static final String JUGAR = "JUEGO RÁPIDO";
+    public static final String DESAFIO = "DESAFIO";
+    public static final String ACERCA_DE = "ACERCA DE";
+    public static final String SALIR = "SALIR";
+
     private Color backgroundColor;
     private Stage stage;
 
@@ -35,7 +40,7 @@ public class MainMenu implements Screen, InputProcessor {
     public Viewport viewport;
 
     private Array<MenuButton> buttons;
-    private String[] texts = {"SALIR", "ACERCA DE", "DESAFÍO", "JUEGO RÁPIDO"};
+    private String[] texts = {MainMenu.SALIR, MainMenu.ACERCA_DE, MainMenu.DESAFIO, MainMenu.JUGAR};
 
     public MainMenu(BioDots game){
         this.game = game;
@@ -135,8 +140,21 @@ public class MainMenu implements Screen, InputProcessor {
 
         for(MenuButton mbutton: buttons){
             if(mbutton.pressed(x, y)){
-                game.goToFirstLevel();
+                String buttonText = mbutton.getLabel().getText().toString();
+                if(buttonText.equals(MainMenu.JUGAR)){
+                    game.goToFreeGame();
+                } else if(buttonText.equals(MainMenu.DESAFIO)){
+                    game.goToFirstLevel();
+                } else if(buttonText.equals(MainMenu.SALIR)){
+                    game.setToEnd = true;
+                }
+
+
             }
+        }
+
+        if(game.setToEnd){
+            game.end();
         }
         return true;
     }

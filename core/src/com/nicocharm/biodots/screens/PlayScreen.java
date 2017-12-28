@@ -360,15 +360,16 @@ public class PlayScreen implements Screen {
     public void dispose() { //todos los disposables aca
         paused = true;
 
-        world.dispose();
-        powerBar.dispose();
-        grid.dispose();
-        infobar.dispose();
-        dr.dispose();
-        goal.dispose();
+        if(world != null)world.dispose();
+        if(powerBar != null)powerBar.dispose();
+        if(grid != null)grid.dispose();
+        if(infobar != null)infobar.dispose();
+        if(dr != null)dr.dispose();
+        if(goal != null)goal.dispose();
 
+        if(bacterias==null) return;
         for(Bacteria b: bacterias){
-            b.getTexture().dispose();
+            if(b!=null) b.getTexture().dispose();
         }
     }
 
