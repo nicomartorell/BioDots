@@ -8,9 +8,11 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
@@ -53,11 +55,26 @@ public class MainMenu implements Screen, InputProcessor {
 
         stage = new Stage(viewport, game.batch);
 
+        BitmapFont font = BioDots.fontManager.get("GloriaHallelujah.ttf", 240);
+        Label.LabelStyle style = new Label.LabelStyle();
+        font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        style.font = font;
+        style.fontColor = new Color(197/255f, 215/255f, 254/255f, 1);
+
+        String text = "Bio Dots";
+        Label title = new Label(text, style);
+        title.setAlignment(Align.center);
+        GlyphLayout gl = new GlyphLayout(style.font, text);
+        title.setPosition(game.WIDTH/2 - gl.width/2, game.HEIGHT - 20 - font.getLineHeight());
+
+        stage.addActor(title);
+
+
         buttons = new Array<MenuButton>();
 
         float yoffset = 250f;
         float initialHeight = game.HEIGHT*0.8f;
-        float buttonSpace = (initialHeight-yoffset)/texts.length;
+        float buttonSpace = (initialHeight-yoffset)/texts.length + 30;
 
 
         for(int i = 0; i < texts.length; i++){
@@ -140,12 +157,12 @@ public class MainMenu implements Screen, InputProcessor {
 
         for(MenuButton mbutton: buttons){
             if(mbutton.pressed(x, y)){
-                String buttonText = mbutton.getLabel().getText().toString();
-                if(buttonText.equals(MainMenu.JUGAR)){
+                //String buttonText = mbutton.getLabel().getText().toString();
+                if(mbutton.id == 3){
                     game.goToFreeGame();
-                } else if(buttonText.equals(MainMenu.DESAFIO)){
+                } else if(mbutton.id == 2){
                     game.goToFirstLevel();
-                } else if(buttonText.equals(MainMenu.SALIR)){
+                } else if(mbutton.id == 0){
                     game.setToEnd = true;
                 }
 

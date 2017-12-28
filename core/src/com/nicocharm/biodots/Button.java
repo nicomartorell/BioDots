@@ -1,11 +1,13 @@
 package com.nicocharm.biodots;
 
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.nicocharm.biodots.screens.PlayScreen;
@@ -38,17 +40,17 @@ public abstract class Button extends Actor{
         this.scale = getScaleX();
         bounds = new Bounds(getX(), getY() - (height*this.scale)/2, width*this.scale, height*this.scale);
 
+        BitmapFont font = BioDots.fontManager.get("Roboto-Bold.ttf", (int)(100*scale));; //
+
         Label.LabelStyle style = new Label.LabelStyle();
-        BitmapFont font = new BitmapFont();
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         style.font = font;
         style.fontColor = new Color(197/255f, 215/255f, 254/255f, 1);
 
         label = new Label(text, style);
-        label.setFontScale(7*this.scale);
         label.setAlignment(Align.center);
         GlyphLayout gl = new GlyphLayout(style.font, text);
-        label.setPosition(getX() - gl.width/2, getY());
+        label.setPosition(getX() - gl.width/2, getY() - font.getLineHeight()/2);
     }
 
     @Override

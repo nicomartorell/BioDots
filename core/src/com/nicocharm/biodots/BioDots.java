@@ -14,6 +14,8 @@ import com.nicocharm.biodots.screens.ScreenCreator;
 import java.awt.Menu;
 
 public class BioDots extends Game {
+    public static FontManager fontManager;
+
 	public SpriteBatch batch;
     public final float WIDTH = 1080;
     public final float HEIGHT = 1920;
@@ -32,6 +34,8 @@ public class BioDots extends Game {
 	public void create () {
 		batch = new SpriteBatch();
 		levels = new Array<PlayScreen>();
+		BioDots.fontManager = new FontManager();
+
 		currentLevel = 0;
 
 		createLevels();
