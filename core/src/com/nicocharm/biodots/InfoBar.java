@@ -65,7 +65,7 @@ public class InfoBar extends Actor {
         averageP = screen.initial_pOfDying;
 
         Label.LabelStyle style = new Label.LabelStyle();
-        BitmapFont font = new BitmapFont();
+        BitmapFont font = BioDots.fontManager.get("Roboto-Regular.ttf", 80);
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         style.font = font;
         style.fontColor = Color.LIGHT_GRAY;
@@ -76,14 +76,14 @@ public class InfoBar extends Actor {
         table.setFillParent(true);
 
         timeLabel = new Label("Time: " + time, style);
-        timeLabel.setFontScale(4);
+        timeLabel.setFontScale(0.8f);
         pointsLabel = new Label("Points: " + points, style);
-        pointsLabel.setFontScale(4);
+        pointsLabel.setFontScale(0.8f);
 
         Label.LabelStyle style2 = new Label.LabelStyle(font, null);
         averageLabel = new Label("",
                 style2);
-        averageLabel.setFontScale(3);
+        averageLabel.setFontScale(0.6f);
 
 
         table.add(timeLabel).expandX().padTop(30);
@@ -109,7 +109,7 @@ public class InfoBar extends Actor {
         if(!screen.finished()){
             AntibioticButton button = screen.getPowerBar().getActiveButton();
             String tag = button.getColorTag();
-            averageLabel.setText(tag + String.format("%.1f", averageP*button.getPOfKilling()*100) + "% [LIGHT_GRAY]  de las bacterias mueren al ser atacadas.");
+            averageLabel.setText(tag + String.format("%.1f", averageP*button.getPOfKilling()*100) + "% [LIGHT_GRAY]de las bacterias mueren al ser atacadas.");
         } else {
             updateBar = false;
 
@@ -122,7 +122,7 @@ public class InfoBar extends Actor {
             }
 
             Label endLabel = new Label("Tocá para empezar de nuevo.", averageLabel.getStyle());
-            endLabel.setFontScale(3);
+            endLabel.setFontScale(0.6f);
 
             Table table = (Table) stage.getActors().get(0);
             table.row();

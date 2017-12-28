@@ -40,7 +40,7 @@ public abstract class Button extends Actor{
         this.scale = getScaleX();
         bounds = new Bounds(getX(), getY() - (height*this.scale)/2, width*this.scale, height*this.scale);
 
-        BitmapFont font = BioDots.fontManager.get("Roboto-Bold.ttf", (int)(100*scale));; //
+        BitmapFont font = BioDots.fontManager.get("Roboto-Bold.ttf", (int)(100*scale));
 
         Label.LabelStyle style = new Label.LabelStyle();
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);

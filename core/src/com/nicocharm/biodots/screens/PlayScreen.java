@@ -80,7 +80,6 @@ public class PlayScreen implements Screen {
         return world;
     }
 
-    private Box2DDebugRenderer dr;
 
     //instancio mi powerbar y defino cuánto se separa de y=0
     public PowerBar getPowerBar() {return powerBar;}
@@ -150,7 +149,6 @@ public class PlayScreen implements Screen {
         paused = false;
 
         world = new World(new Vector2(0, 0), true); // sin gravedad
-        dr = new Box2DDebugRenderer();
 
         // 50% de morir en un principio
         initial_pOfDying = settings.getInitial_pOfDying();
@@ -358,13 +356,12 @@ public class PlayScreen implements Screen {
 
     @Override
     public void dispose() { //todos los disposables aca
-        paused = true;
+        paused = false;
 
         if(world != null)world.dispose();
         if(powerBar != null)powerBar.dispose();
         if(grid != null)grid.dispose();
         if(infobar != null)infobar.dispose();
-        if(dr != null)dr.dispose();
         if(goal != null)goal.dispose();
 
         if(bacterias==null) return;

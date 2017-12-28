@@ -74,9 +74,7 @@ public class MainMenu implements Screen, InputProcessor {
 
         float yoffset = 250f;
         float initialHeight = game.HEIGHT*0.8f;
-        float buttonSpace = (initialHeight-yoffset)/texts.length + 30;
-
-
+        float buttonSpace = (initialHeight-yoffset)/texts.length + 18;
         for(int i = 0; i < texts.length; i++){
             MenuButton button = new MenuButton(null, game.WIDTH/2, yoffset + buttonSpace*i, texts[i], 0.85f);
             buttons.add(button);
@@ -155,14 +153,20 @@ public class MainMenu implements Screen, InputProcessor {
         float x = v2.x;
         float y = v2.y;
 
+        Gdx.app.log("tag", "INPUT!");
+
         for(MenuButton mbutton: buttons){
             if(mbutton.pressed(x, y)){
+                Gdx.app.log("tag", "ID: " + mbutton.id);
                 //String buttonText = mbutton.getLabel().getText().toString();
                 if(mbutton.id == 3){
+                    Gdx.app.log("tag", "free game");
                     game.goToFreeGame();
                 } else if(mbutton.id == 2){
+                    Gdx.app.log("tag", "level");
                     game.goToFirstLevel();
                 } else if(mbutton.id == 0){
+                    Gdx.app.log("tag", "end");
                     game.setToEnd = true;
                 }
 

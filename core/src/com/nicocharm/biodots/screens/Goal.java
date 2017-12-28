@@ -36,7 +36,7 @@ public abstract class Goal {
         alpha = 1f;
         textAlpha = 0;
         timer = 0;
-        fontScale = 3;
+        fontScale = 0.5f;
     }
 
     public void setStage(PlayScreen screen){
@@ -46,8 +46,9 @@ public abstract class Goal {
 
         stage = new Stage(screen.viewport, screen.game.batch);
 
+        BitmapFont font = BioDots.fontManager.get("Roboto-Regular.ttf", 60);
         Label.LabelStyle style = new Label.LabelStyle();
-        BitmapFont font = new BitmapFont();
+
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         style.font = font;
         style.fontColor = new Color(1, 0, 0, textAlpha);
@@ -77,18 +78,19 @@ public abstract class Goal {
     }
 
     public void dispose(){
+        Gdx.app.log("tag", "DISPOSED GOAL");
         if(stage!=null)stage.dispose();
         alpha = 1f;
         textAlpha = 0;
         timer = 0;
-        fontScale = 3;
+        fontScale = 0.5f;
     }
 
     public void update(float delta) {
         timer+=delta;
         if(timer < 4) return;
 
-        if(fontScale < 5) fontScale += delta * 1/3f;
+        if(fontScale < 1) fontScale += delta * 1/10f;
         if(textAlpha < 0.9f) textAlpha += delta*0.3f;
         if(alpha > 0.7f) alpha -= delta*0.1f;
         label.setFontScale(fontScale);

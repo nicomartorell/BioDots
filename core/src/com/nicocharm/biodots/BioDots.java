@@ -29,6 +29,8 @@ public class BioDots extends Game {
     private MainMenu menu;
 
     public boolean setToEnd = false;
+    private boolean played = false;
+
 
 	@Override
 	public void create () {
@@ -48,11 +50,16 @@ public class BioDots extends Game {
 	}
 
 	public void goToMenu(){
+	    if(played){
+	        freeGame.dispose();
+	        getLevel().dispose();
+        }
 		setScreen(menu);
 		Gdx.input.setInputProcessor(menu);
 	}
 
 	public void goToFirstLevel(){
+	    played = true;
         player.setScreen(getLevel());
         Gdx.input.setInputProcessor(player);
 
@@ -61,6 +68,7 @@ public class BioDots extends Game {
     }
 
     public void goToFreeGame(){
+        played = true;
         player.setScreen(freeGame);
         Gdx.input.setInputProcessor(player);
 
@@ -82,6 +90,8 @@ public class BioDots extends Game {
 	}
 
 	public void setLevel(int level){
+        played = true;
+        getLevel().dispose();
 		currentLevel = level;
 		setScreen(getLevel());
 		player.setScreen(getLevel());
