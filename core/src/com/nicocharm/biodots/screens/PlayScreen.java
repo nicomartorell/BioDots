@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.nicocharm.biodots.Antibiotic;
+import com.nicocharm.biodots.AntibioticButton;
 import com.nicocharm.biodots.Bacteria;
 import com.nicocharm.biodots.BioDots;
 import com.nicocharm.biodots.Block;
@@ -236,6 +237,7 @@ public class PlayScreen implements Screen {
 
             //si se está dividiendo la elimino
             if(b.isDividing()){
+                Gdx.app.log("tag", "I divided!!");
                 b.getTexture().dispose(); // MUY IMPORTANTE
                 bacterias.removeIndex(i);
                 world.destroyBody(b.getBody());
@@ -250,6 +252,7 @@ public class PlayScreen implements Screen {
                 currentAntibiotic.checkBacteria(b); //está cerca?
 
                 if(b.isDead()) { // si la maté, la elimino
+                    Gdx.app.log("tag", "Killed by antibiotic");
                     b.getTexture().dispose();
                     bacterias.removeIndex(i);
                     world.destroyBody(b.getBody());
@@ -317,12 +320,14 @@ public class PlayScreen implements Screen {
         ended = true;
         won = false;
         backgroundColor = new Color(119f/255f, 10f/255f, 10f/255f, 1);
+        currentAntibiotic = null;
     }
 
     private void win(){
         ended = true;
         won = true;
         backgroundColor = new Color(20f/255f, 98f/255f, 9f/255f, 1);
+        currentAntibiotic = null;
     }
 
     @Override

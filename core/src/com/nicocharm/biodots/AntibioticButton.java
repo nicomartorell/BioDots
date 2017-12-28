@@ -9,6 +9,11 @@ public class AntibioticButton extends Actor {
 
     private short type;
     private Bounds bounds;
+
+    public Antibiotic getAntibiotic() {
+        return antibiotic;
+    }
+
     private Antibiotic antibiotic;
 
     private Texture texture;

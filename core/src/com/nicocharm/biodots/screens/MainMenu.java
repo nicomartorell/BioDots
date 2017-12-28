@@ -167,16 +167,17 @@ public class MainMenu implements Screen, InputProcessor {
                     game.goToFirstLevel();
                 } else if(mbutton.id == 0){
                     Gdx.app.log("tag", "end");
-                    game.setToEnd = true;
+                    Gdx.app.exit();
+                    //game.setToEnd = true;
                 }
 
 
             }
         }
 
-        if(game.setToEnd){
+        /*if(game.setToEnd){
             game.end();
-        }
+        }*/
         return true;
     }
 
