@@ -66,7 +66,7 @@ public class InfoBar extends Actor {
         averageP = screen.initial_pOfDying;
 
         Label.LabelStyle style = new Label.LabelStyle();
-        BitmapFont font = BioDots.fontManager.get("Roboto-Regular.ttf", 80);
+        BitmapFont font = (BitmapFont) screen.game.manager.get("Roboto-Regular.ttf", BitmapFont.class);
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         style.font = font;
         style.fontColor = Color.LIGHT_GRAY;

@@ -55,7 +55,7 @@ public class MainMenu implements Screen, InputProcessor {
 
         stage = new Stage(viewport, game.batch);
 
-        BitmapFont font = BioDots.fontManager.get("GloriaHallelujah.ttf", 240);
+        BitmapFont font = (BitmapFont) game.manager.get("GloriaHallelujah.ttf", BitmapFont.class);
         Label.LabelStyle style = new Label.LabelStyle();
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         style.font = font;

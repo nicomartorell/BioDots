@@ -48,7 +48,7 @@ public abstract class Goal {
 
         stage = new Stage(screen.viewport, screen.game.batch);
 
-        BitmapFont font = BioDots.fontManager.get("Roboto-Regular.ttf", 60);
+        BitmapFont font = (BitmapFont) screen.game.manager.get("Roboto-Regular.ttf", BitmapFont.class);
         Label.LabelStyle style = new Label.LabelStyle();
 
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
@@ -56,7 +56,7 @@ public abstract class Goal {
         style.fontColor = new Color(1, 0, 0, textAlpha);
 
         label = new Label(statement, style);
-        label.setFontScale(fontScale);
+        label.setFontScale(fontScale*0.75f);
         label.setAlignment(Align.center);
         GlyphLayout gl = new GlyphLayout(font, statement);
         label.setPosition(screen.game.WIDTH/2 - gl.width/2, screen.game.HEIGHT/2 - gl.height/2);
@@ -96,7 +96,7 @@ public abstract class Goal {
         if(fontScale < 1) fontScale += delta * 1/10f;
         if(textAlpha < 0.9f) textAlpha += delta*0.3f;
         if(alpha > 0.7f) alpha -= delta*0.1f;
-        label.setFontScale(fontScale);
+        label.setFontScale(fontScale*0.75f);
         label.getStyle().fontColor = new Color(1, 0, 0, textAlpha);
     }
 }

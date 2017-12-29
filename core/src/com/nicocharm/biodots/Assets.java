@@ -2,7 +2,13 @@ package com.nicocharm.biodots;
 
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.FileHandleResolver;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
+import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 
 public class Assets {
     private AssetManager manager;
@@ -42,9 +48,38 @@ public class Assets {
         manager.load("antibiotic-box-white.png", Texture.class);
         manager.load("antibiotic-box-white-active.png", Texture.class);
         manager.load("antibiotic-box-gray.png", Texture.class);
+
+        FileHandleResolver resolver = new InternalFileHandleResolver();
+        manager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
+        manager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
+
+        FreetypeFontLoader.FreeTypeFontLoaderParameter font1 = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+        font1.fontFileName = "Roboto-Regular.ttf";
+        font1.fontParameters.size = 80;
+        manager.load("Roboto-Regular.ttf", BitmapFont.class, font1);
+
+        FreetypeFontLoader.FreeTypeFontLoaderParameter font2 = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+        font2.fontFileName = "GloriaHallelujah.ttf";
+        font2.fontParameters.size = 240;
+        manager.load("GloriaHallelujah.ttf", BitmapFont.class, font2);
+
+        FreetypeFontLoader.FreeTypeFontLoaderParameter font3 = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+        font3.fontFileName = "Roboto-Bold.ttf";
+        font3.fontParameters.size = 100;
+        manager.load("Roboto-Bold.ttf", BitmapFont.class, font3);
+
+        /*FreetypeFontLoader.FreeTypeFontLoaderParameter font4 = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+        font4.fontFileName = "Roboto-Regular.ttf";
+        font4.fontParameters.size = 80;
+        manager.load("Roboto-Regular.ttf", BitmapFont.class, font4);*/
+
+
     }
     public void finishLoading(){
         manager.finishLoading();
+    }
+    public boolean update(){
+        return manager.update();
     }
 
     public Object get(String string, Class<?> c){

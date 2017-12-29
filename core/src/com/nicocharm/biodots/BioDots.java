@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Array;
 import com.nicocharm.biodots.screens.Goal;
+import com.nicocharm.biodots.screens.LoadingScreen;
 import com.nicocharm.biodots.screens.MainMenu;
 import com.nicocharm.biodots.screens.PlayScreen;
 import com.nicocharm.biodots.screens.ScreenCreator;
@@ -34,29 +35,48 @@ public class BioDots extends Game {
     public boolean toMenu = false;
     private boolean played = false;
     private boolean playedLevel = false;
+    private boolean loading = false;
 
 
 	public Assets manager;
 
+	private LoadingScreen loadingScreen;
+
 	@Override
 	public void create () {
+        batch = new SpriteBatch();
+        BioDots.fontManager = new FontManager();
+        Gdx.app.setLogLevel(Application.LOG_DEBUG);
 
-		manager = new Assets();
-		manager.load();
-		manager.finishLoading();
+		loading = true;
+		loadingScreen = new LoadingScreen(this);
+		setScreen(loadingScreen);
 
-		batch = new SpriteBatch();
-		levels = new Array<PlayScreen>();
-		BioDots.fontManager = new FontManager();
+        manager = new Assets();
+        manager.load(); //tengo que chequear si terminó
 
-		currentLevel = 0;
+        levels = new Array<PlayScreen>();
+        currentLevel = 0;
 
-		createLevels();
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
 
-		player = new Player();
-		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 
-		goToMenu();
+                /*if(manager.update()){
+                    Gdx.app.log("tag", "update is true");
+                    createLevels();
+                    toMenu = true;
+
+                }*/
+            }
+        });
+        t.start();
+
+        player = new Player();
+
+
+
 
 	}
 
@@ -69,6 +89,10 @@ public class BioDots extends Game {
         if(played){
 	    	freeGame.dispose();
 	    	played = false;
+		}
+		if(loading){
+			loadingScreen.dispose();
+			loading = false;
 		}
 		setScreen(menu);
 		Gdx.input.setInputProcessor(menu);
@@ -204,6 +228,14 @@ public class BioDots extends Game {
 
 	@Override
 	public void render () {
+        if(loading && manager.update()){
+            Gdx.app.log("tag", "running my thread");
+            createLevels();
+            loading = false;
+            toMenu = true;
+            Gdx.app.log("tag", "Finishing thread. To menu: " + toMenu);
+        }
+
         if(toMenu){
         	goToMenu();
         	return;
