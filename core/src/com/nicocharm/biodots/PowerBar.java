@@ -19,6 +19,7 @@ public class PowerBar{
 
     private float offset;
     private Texture background;
+    private String path = "power-bar-bg.png";
 
     private Array<AntibioticButton> buttons;
 
@@ -46,7 +47,7 @@ public class PowerBar{
     }
 
     public void setVisuals(){
-        background = new Texture("power-bar-bg.png");
+        background = (Texture)screen.game.manager.get("power-bar-bg.png", Texture.class);
     }
 
     public void render(SpriteBatch batch){
@@ -65,12 +66,6 @@ public class PowerBar{
         }
     }
 
-    public void dispose(){
-        background.dispose();
-        for(AntibioticButton button: buttons){
-            button.dispose();
-        }
-    }
 
     public Array<AntibioticButton> getButtons() {
         return buttons;

@@ -39,6 +39,9 @@ public class Grid {
     private int columns;
     private int rows;
 
+    public String activePath = "box-active.png";
+    public String path = "box.png";
+
     public int getActiveBlocks() {
         return activeBlocks;
     }
@@ -94,10 +97,6 @@ public class Grid {
         activeBlocks--;
     }
 
-    public void dispose(){
-        for(Block block: blocks){
-            block.dispose();
-        }
-    }
+
 
 }

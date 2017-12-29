@@ -76,8 +76,8 @@ public class Player implements InputProcessor{
         //empezá un nuevo juego si ya terminaste!
         if(screen.finished()){
             BioDots game = screen.game;
-            game.goToMenu();
-            return true;
+            game.setToMenu(true);
+            return false;
         }
 
         //proyectá la coordenada de pantalla a las virtuales

@@ -138,7 +138,7 @@ public class Bacteria extends Actor {
     // simplemente busco la textura, seteo la animación y la inicializo
     @Override
     protected void setVisuals() {
-        setTexture(new Texture(path));
+        setTexture((Texture)screen.game.manager.get(path, Texture.class));
         frames = new Array<TextureRegion>();
         for(int i = 0; i < 9; i++){
             frames.add(new TextureRegion(getTexture(), 0, i*(int)height, (int)width, (int)height));
@@ -319,5 +319,9 @@ public class Bacteria extends Actor {
             Gdx.app.log("tag", "I am dying!!");
             isDead = true;
         }
+    }
+
+    public String getPath() {
+        return path;
     }
 }

@@ -238,7 +238,6 @@ public class PlayScreen implements Screen {
             //si se está dividiendo la elimino
             if(b.isDividing()){
                 Gdx.app.log("tag", "I divided!!");
-                b.getTexture().dispose(); // MUY IMPORTANTE
                 bacterias.removeIndex(i);
                 world.destroyBody(b.getBody());
                 if(bacterias.size > 0){ //si es 0 ya no hay bacterias y da error
@@ -253,7 +252,6 @@ public class PlayScreen implements Screen {
 
                 if(b.isDead()) { // si la maté, la elimino
                     Gdx.app.log("tag", "Killed by antibiotic");
-                    b.getTexture().dispose();
                     bacterias.removeIndex(i);
                     world.destroyBody(b.getBody());
                     infobar.updatePoints(100); // sumo puntos!
@@ -362,17 +360,11 @@ public class PlayScreen implements Screen {
     @Override
     public void dispose() { //todos los disposables aca
         paused = false;
-
         if(world != null)world.dispose();
-        if(powerBar != null)powerBar.dispose();
-        if(grid != null)grid.dispose();
         if(infobar != null)infobar.dispose();
         if(goal != null)goal.dispose();
-
-        if(bacterias==null) return;
-        for(Bacteria b: bacterias){
-            if(b!=null) b.getTexture().dispose();
-        }
+        currentAntibiotic = null;
+        nextAntibiotic = null;
     }
 
     public void setAntibiotic(Antibiotic antibiotic) {

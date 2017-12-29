@@ -61,12 +61,12 @@ public class AntibioticButton extends Actor {
 
     @Override
     protected void setVisuals() {
-        texture = new Texture(path);
+        texture = (Texture)screen.game.manager.get(path, Texture.class);
         setTexture(texture);
         if(type == Antibiotic.ANTIBIOTIC_GRAY) return;
-        activeTexture = new Texture(activePath);
+        activeTexture = (Texture)screen.game.manager.get(activePath, Texture.class);
         if(type == Antibiotic.ANTIBIOTIC_WHITE) return;
-        inactiveTexture = new Texture(inactivePath);
+        inactiveTexture = (Texture)screen.game.manager.get(inactivePath, Texture.class);
     }
 
     private void setType(short type) {
@@ -133,15 +133,6 @@ public class AntibioticButton extends Actor {
             return true;
         }
         return false;
-    }
-
-    public void dispose(){
-        texture.dispose();
-        if(antibiotic != null) antibiotic.dispose();
-        if(type == Antibiotic.ANTIBIOTIC_GRAY) return;
-        activeTexture.dispose();
-        if(type == Antibiotic.ANTIBIOTIC_WHITE) return;
-        inactiveTexture.dispose();
     }
 
     public void selectAntibiotic() {

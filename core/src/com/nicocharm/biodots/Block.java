@@ -20,6 +20,8 @@ public class Block extends Actor{
     private Texture inactiveTexture;
     private float activationTime;
 
+
+
     public Block(PlayScreen screen, Grid grid, float x, float y, float width) {
         super(screen, x, y, false);
         this.grid = grid;
@@ -34,8 +36,8 @@ public class Block extends Actor{
 
     @Override
     protected void setVisuals() {
-        activeTexture = new Texture("box-active.png");
-        inactiveTexture = new Texture("box.png");
+        activeTexture = (Texture)screen.game.manager.get(grid.activePath, Texture.class);
+        inactiveTexture = (Texture)screen.game.manager.get(grid.path, Texture.class);
         setTexture(inactiveTexture);
     }
 
@@ -72,8 +74,4 @@ public class Block extends Actor{
         batch.draw(getTexture(), getX(), getY(), width * scale, height * scale);
     }
 
-    public void dispose(){
-        activeTexture.dispose();
-        inactiveTexture.dispose();
-    }
 }

@@ -30,14 +30,16 @@ public abstract class Button extends Actor{
 
     private Label label;
     private Label.LabelStyle style;
+    private String path;
 
-    public Button(PlayScreen screen, float x, float y, Texture texture, String text, float scale) {
-        super(screen, x, y, false);
-        setTexture(texture);
+    public Button(BioDots game, float x, float y, String path, String text, float scale) {
+        super(null, x, y, false);
+        this.path = path;
+        setTexture((Texture)game.manager.get(path, Texture.class));
         width = getTexture().getWidth();
         height = getTexture().getHeight();
         setScale(scale);
-        this.scale = getScaleX();
+        this.scale = scale;
         bounds = new Bounds(getX(), getY() - (height*this.scale)/2, width*this.scale, height*this.scale);
 
         BitmapFont font = BioDots.fontManager.get("Roboto-Bold.ttf", (int)(100*scale));
@@ -68,7 +70,4 @@ public abstract class Button extends Actor{
         return false;
     }
 
-    public void dispose(){
-        getTexture().dispose();
-    }
 }

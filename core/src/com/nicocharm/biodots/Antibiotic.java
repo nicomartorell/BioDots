@@ -102,7 +102,7 @@ public class Antibiotic extends Actor{
     protected void setVisuals() {
         if(type == ANTIBIOTIC_GRAY) return;
 
-        setTexture(new Texture(path));
+        setTexture((Texture)screen.game.manager.get(path, Texture.class));
         frames = new Array<TextureRegion>();
         for(int i = 0; i < 11; i++){
             frames.add(new TextureRegion(getTexture(), 0, i*400, 400, 400));
@@ -159,9 +159,6 @@ public class Antibiotic extends Actor{
         }
     }
 
-    public void dispose() {
-        getTexture().dispose();
-    }
 
     public float getInactiveTime() {
         return inactiveTime;

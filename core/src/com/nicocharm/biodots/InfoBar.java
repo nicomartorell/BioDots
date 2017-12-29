@@ -36,6 +36,8 @@ public class InfoBar extends Actor {
 
     private boolean updateBar;
 
+    private String path = "info-bar-blue.png";
+
     public InfoBar(PlayScreen screen, float x, float y, float initialTime) {
         super(screen, x, y, false);
 
@@ -54,8 +56,7 @@ public class InfoBar extends Actor {
 
     @Override
     protected void setVisuals() {
-        Texture t = new Texture("info-bar-blue.png");
-        setTexture(t);
+        setTexture((Texture)screen.game.manager.get(path, Texture.class));
         setScale(1.1f);
     }
 
@@ -148,7 +149,6 @@ public class InfoBar extends Actor {
     }
 
     public void dispose() {
-        getTexture().dispose();
         stage.dispose();
     }
 

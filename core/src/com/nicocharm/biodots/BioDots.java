@@ -4,7 +4,10 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Array;
 import com.nicocharm.biodots.screens.Goal;
 import com.nicocharm.biodots.screens.MainMenu;
@@ -28,12 +31,20 @@ public class BioDots extends Game {
 
     private MainMenu menu;
 
-    public boolean setToEnd = false;
+    public boolean toMenu = false;
     private boolean played = false;
+    private boolean playedLevel = false;
 
+
+	public Assets manager;
 
 	@Override
 	public void create () {
+
+		manager = new Assets();
+		manager.load();
+		manager.finishLoading();
+
 		batch = new SpriteBatch();
 		levels = new Array<PlayScreen>();
 		BioDots.fontManager = new FontManager();
@@ -50,16 +61,21 @@ public class BioDots extends Game {
 	}
 
 	public void goToMenu(){
-	    if(played){
-	        freeGame.dispose();
+		toMenu = false;
+	    if(playedLevel){
 	        getLevel().dispose();
+	        playedLevel = false;
         }
+        if(played){
+	    	freeGame.dispose();
+	    	played = false;
+		}
 		setScreen(menu);
 		Gdx.input.setInputProcessor(menu);
 	}
 
 	public void goToFirstLevel(){
-	    played = true;
+	    playedLevel = true;
         player.setScreen(getLevel());
         Gdx.input.setInputProcessor(player);
 
@@ -77,6 +93,7 @@ public class BioDots extends Game {
     }
 
 	public void advance(){
+		playedLevel = true;
 		getLevel().dispose();
 
 		currentLevel++;
@@ -90,7 +107,7 @@ public class BioDots extends Game {
 	}
 
 	public void setLevel(int level){
-        played = true;
+        playedLevel = true;
         getLevel().dispose();
 		currentLevel = level;
 		setScreen(getLevel());
@@ -187,21 +204,33 @@ public class BioDots extends Game {
 
 	@Override
 	public void render () {
-        super.render();
+        if(toMenu){
+        	goToMenu();
+        	return;
+		}
+		super.render();
 	}
 	
 	@Override
 	public void dispose () {
 		batch.dispose();
-
 		menu.dispose();
-		freeGame.dispose();
-		for(Screen level: levels){
-			level.dispose();
+		if(playedLevel){
+			getLevel().dispose();
 		}
+		if(played){
+			freeGame.dispose();
+		}
+
+		manager.unload();
+		manager.dispose();
 	}
 
     public void end() {
 	    Gdx.app.exit();
     }
+
+	public void setToMenu(boolean toMenu) {
+		this.toMenu = toMenu;
+	}
 }

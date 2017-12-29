@@ -31,6 +31,8 @@ public abstract class Goal {
 
     private PlayScreen screen;
 
+    private String path = "background-goal.png";
+
     public Goal(String string){
         statement = string;
         alpha = 1f;
@@ -42,7 +44,7 @@ public abstract class Goal {
     public void setStage(PlayScreen screen){
         this.screen = screen;
 
-        background = new Texture("background-goal.png");
+        background = (Texture)screen.game.manager.get(path, Texture.class);
 
         stage = new Stage(screen.viewport, screen.game.batch);
 
@@ -80,6 +82,7 @@ public abstract class Goal {
     public void dispose(){
         Gdx.app.log("tag", "DISPOSED GOAL");
         if(stage!=null)stage.dispose();
+        stage = null;
         alpha = 1f;
         textAlpha = 0;
         timer = 0;

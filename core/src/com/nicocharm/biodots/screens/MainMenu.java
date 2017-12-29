@@ -76,7 +76,8 @@ public class MainMenu implements Screen, InputProcessor {
         float initialHeight = game.HEIGHT*0.8f;
         float buttonSpace = (initialHeight-yoffset)/texts.length + 18;
         for(int i = 0; i < texts.length; i++){
-            MenuButton button = new MenuButton(null, game.WIDTH/2, yoffset + buttonSpace*i, texts[i], 0.85f);
+
+            MenuButton button = new MenuButton(game, game.WIDTH/2, yoffset + buttonSpace*i, texts[i], 0.85f);
             buttons.add(button);
             stage.addActor(button.getLabel());
         }
@@ -123,7 +124,7 @@ public class MainMenu implements Screen, InputProcessor {
     @Override
     public void dispose() {
         stage.dispose();
-        for(MenuButton button: buttons) button.dispose();
+        MenuButton.resetID();
     }
 
     @Override
