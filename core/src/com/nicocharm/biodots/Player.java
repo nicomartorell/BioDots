@@ -1,5 +1,6 @@
 package com.nicocharm.biodots;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
@@ -93,10 +94,16 @@ public class Player implements InputProcessor{
         x = v2.x;
         y = v2.y;
 
+        if(screen.getInfobar().getPauseButton().pressed(x, y)){
+            screen.game.setToMenu(true);
+            return true;
+        }
+
         //seleccioná un antibiotico si estoy tocando un botón
         for(AntibioticButton b: screen.getPowerBar().getButtons()){
             if(b.pressed(x, y) && b.isAvailable() && b.isUsable()){
                 screen.getPowerBar().notifyActivation(b);
+                return true;
             }
         }
 

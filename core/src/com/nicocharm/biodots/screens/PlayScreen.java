@@ -364,6 +364,7 @@ public class PlayScreen implements Screen {
         currentAntibiotic = null;
         nextAntibiotic = null;
         Bacteria.ID_COUNT = 0;
+        showingGoal = true;
     }
 
     public void setAntibiotic(Antibiotic antibiotic) {

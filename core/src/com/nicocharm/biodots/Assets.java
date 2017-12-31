@@ -48,6 +48,7 @@ public class Assets {
         manager.load("antibiotic-box-green-inactive.png", Texture.class);
         manager.load("antibiotic-box-white.png", Texture.class);
         manager.load("antibiotic-box-white-active.png", Texture.class);
+        manager.load("pause-button.png", Texture.class);
 
         FileHandleResolver resolver = new InternalFileHandleResolver();
         manager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));

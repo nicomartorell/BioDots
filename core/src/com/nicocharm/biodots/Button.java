@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.nicocharm.biodots.screens.PlayScreen;
 
-public abstract class Button extends Actor{
+public class Button extends Actor{
 
     private Bounds bounds;
 
@@ -40,7 +40,9 @@ public abstract class Button extends Actor{
         height = getTexture().getHeight();
         setScale(scale);
         this.scale = scale;
-        bounds = new Bounds(getX(), getY() - (height*this.scale)/2, width*this.scale, height*this.scale);
+        bounds = new Bounds(getX() - (width*this.scale)/2, getY() - (height*this.scale)/2, width*this.scale, height*this.scale);
+
+        if(text == null) return;
 
         BitmapFont font = (BitmapFont) game.manager.get("Roboto-Bold.ttf", BitmapFont.class);
 
@@ -69,6 +71,10 @@ public abstract class Button extends Actor{
             return true;
         }
         return false;
+    }
+
+    public float getScaledWidth(){
+        return width * scale;
     }
 
 }

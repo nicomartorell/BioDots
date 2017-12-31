@@ -77,15 +77,19 @@ public class BioDots extends Game {
 	public void goToMenu(){
 		lastLevel = false;
 		toMenu = false;
+
 	    if(playedLevel){
+			Gdx.app.log("tag", "Played Level disposed!");
 	        getLevel().dispose();
 	        playedLevel = false;
         }
         if(played){
+			Gdx.app.log("tag", "Free Game disposed!");
 	    	freeGame.dispose();
 	    	played = false;
 		}
 		if(loading){
+			Gdx.app.log("tag", "Loading screen disposed!");
 			loadingScreen.dispose();
 			loading = false;
 		}
@@ -149,6 +153,8 @@ public class BioDots extends Game {
 
 	private void createLevels(){ // acá está la lógica que define cada nivel
 
+		Random random = new Random();
+
 		// PASOS PARA DEFINIR UN NIVEL:
 		//	CREO UN SCREEN CREATOR.
 		//	LE SETEO LAS COSAS QUE QUIERO:
@@ -188,28 +194,27 @@ public class BioDots extends Game {
 
 		// NIVEL 0
 
-		ScreenCreator level0 = new ScreenCreator();
-		level0.setInitial_pOfDying(1f);
+		ScreenCreator level = new ScreenCreator();
+		level.setInitial_pOfDying(1f);
 
-		short[] buttonTypes0 = new short[5];
-		buttonTypes0[0] = Antibiotic.ANTIBIOTIC_WHITE;
-		buttonTypes0[1] = Antibiotic.ANTIBIOTIC_GRAY;
-		buttonTypes0[2] = Antibiotic.ANTIBIOTIC_GRAY;
-		buttonTypes0[3] = Antibiotic.ANTIBIOTIC_GRAY;
-		buttonTypes0[4] = Antibiotic.ANTIBIOTIC_GRAY;
-		level0.setButtonTypes(buttonTypes0);
+		short[] buttonTypes = new short[5];
+		buttonTypes[0] = Antibiotic.ANTIBIOTIC_WHITE;
+		buttonTypes[1] = Antibiotic.ANTIBIOTIC_GRAY;
+		buttonTypes[2] = Antibiotic.ANTIBIOTIC_GRAY;
+		buttonTypes[3] = Antibiotic.ANTIBIOTIC_GRAY;
+		buttonTypes[4] = Antibiotic.ANTIBIOTIC_GRAY;
+		level.setButtonTypes(buttonTypes);
 
-		int nBacterias0 = 3;
-		short[] types0 = new short[nBacterias0];
-		Random random = new Random();
-		for(int i = 0; i < nBacterias0; i++){
-			types0[i] = (short)(random.nextInt(5) + 1);
+		int nBacterias = 3;
+		short[] types = new short[nBacterias];
+		for(int i = 0; i < nBacterias; i++){
+			types[i] = (short)(random.nextInt(5) + 1);
 		}
-		level0.setBacteriaTypes(types0);
+		level.setBacteriaTypes(types);
 
-		level0.setInitialTime(50f);
+		level.setInitialTime(50f);
 
-		PlayScreen screen0 = new PlayScreen(this, level0, new Goal("Matá a la bacteria usando\nel antibiótico blanco.\n\n" +
+		PlayScreen screen = new PlayScreen(this, level, new Goal("Matá a la bacteria usando\nel antibiótico blanco.\n\n" +
 				"Un toque corto en un\ncuadrante pausa a las bacterias\nque están sobre él.\n\n" +
 				"Un toque largo aplica el antibiótico."){
 
@@ -224,33 +229,33 @@ public class BioDots extends Game {
 			}
 		});
 
-		levels.add(screen0);
+		levels.add(screen);
 
         ///////////////////////////////////////////////////////////
 
 		// NIVEL 1
 
-		ScreenCreator level1 = new ScreenCreator();
-		level1.setInitial_pOfDying(1f);
+		level = new ScreenCreator();
+		level.setInitial_pOfDying(1f);
 
-		short[] buttonTypes1 = new short[5];
-		buttonTypes1[0] = Antibiotic.ANTIBIOTIC_WHITE;
-		buttonTypes1[1] = Antibiotic.ANTIBIOTIC_GRAY;
-		buttonTypes1[2] = Antibiotic.ANTIBIOTIC_GRAY;
-		buttonTypes1[3] = Antibiotic.ANTIBIOTIC_GRAY;
-		buttonTypes1[4] = Antibiotic.ANTIBIOTIC_GRAY;
-		level1.setButtonTypes(buttonTypes1);
+		buttonTypes = new short[5];
+		buttonTypes[0] = Antibiotic.ANTIBIOTIC_WHITE;
+		buttonTypes[1] = Antibiotic.ANTIBIOTIC_GRAY;
+		buttonTypes[2] = Antibiotic.ANTIBIOTIC_GRAY;
+		buttonTypes[3] = Antibiotic.ANTIBIOTIC_GRAY;
+		buttonTypes[4] = Antibiotic.ANTIBIOTIC_GRAY;
+		level.setButtonTypes(buttonTypes);
 
-		int nBacterias1 = 6;
-		short[] types1 = new short[nBacterias1];
-		for(int i = 0; i < nBacterias1; i++){
-			types1[i] = (short)(random.nextInt(5) + 1);
+		nBacterias = 6;
+		types = new short[nBacterias];
+		for(int i = 0; i < nBacterias; i++){
+			types[i] = (short)(random.nextInt(5) + 1);
 		}
-		level1.setBacteriaTypes(types1);
+		level.setBacteriaTypes(types);
 
-		level1.setInitialTime(50f);
+		level.setInitialTime(50f);
 
-		PlayScreen screen1 = new PlayScreen(this, level1, new Goal("Matá a las bacterias!\nSi no te apurás se dividen!"){
+		screen = new PlayScreen(this, level, new Goal("Matá a las bacterias!\nSi no te apurás se dividen!"){
 
 			@Override
 			public boolean met() {
@@ -263,30 +268,79 @@ public class BioDots extends Game {
 			}
 		});
 
-		levels.add(screen1);
+		levels.add(screen);
+
+		///////////////////////////////////////////////////////////
+
+		// NIVEL 2
+
+		level = new ScreenCreator();
+		level.setInitial_pOfDying(1f);
+
+		buttonTypes = new short[5];
+		buttonTypes[0] = Antibiotic.ANTIBIOTIC_WHITE;
+		buttonTypes[1] = Antibiotic.ANTIBIOTIC_BLUE;
+		buttonTypes[2] = Antibiotic.ANTIBIOTIC_GRAY;
+		buttonTypes[3] = Antibiotic.ANTIBIOTIC_GRAY;
+		buttonTypes[4] = Antibiotic.ANTIBIOTIC_GRAY;
+		level.setButtonTypes(buttonTypes);
+
+		nBacterias = 9;
+		types = new short[nBacterias];
+		for(int i = 0; i < nBacterias; i++){
+			types[i] = (short)(random.nextInt(5) + 1);
+		}
+		level.setBacteriaTypes(types);
+
+		level.setInitialTime(60f);
+
+		screen = new PlayScreen(this, level, new Goal("El antibiotico azul es más\n" +
+				"potente, pero tarda más en\n" +
+				"activarse..."){
+
+			@Override
+			public boolean met() {
+				return getScreen().getBacterias().size < 1;
+			}
+
+			@Override
+			public boolean failed() {
+				return false;
+			}
+		});
+
+		levels.add(screen);
 
 		///////////////////////////////////////////////////////////
 
         // NIVEL 10
 
-		ScreenCreator level10 = new ScreenCreator();
-		level10.setInitial_pOfDying(0.8f);
+		level = new ScreenCreator();
+		level.setInitial_pOfDying(0.8f);
 
-		short[] types10 = new short[10];
-		for(int i = 0; i < types10.length; i++){
+		buttonTypes = new short[5];
+		buttonTypes[0] = Antibiotic.ANTIBIOTIC_WHITE;
+		buttonTypes[1] = Antibiotic.ANTIBIOTIC_BLUE;
+		buttonTypes[2] = Antibiotic.ANTIBIOTIC_GRAY;
+		buttonTypes[3] = Antibiotic.ANTIBIOTIC_GRAY;
+		buttonTypes[4] = Antibiotic.ANTIBIOTIC_GRAY;
+		level.setButtonTypes(buttonTypes);
+
+		types = new short[6];
+		for(int i = 0; i < types.length; i++){
 			short type;
-			if(i<types10.length*0.8f){
+			if(i<types.length*(4/6f)){
 				type = Bacteria.BACTERIA_BLUE;
 			} else {
 				type = Bacteria.BACTERIA_GREEN;
 			}
-			types10[i] = type;
+			types[i] = type;
 		}
-		level10.setBacteriaTypes(types10);
+		level.setBacteriaTypes(types);
 
-		PlayScreen screen10 = new PlayScreen(this, level10,
+		screen = new PlayScreen(this, level,
 				new Goal("Dejá vivas solo a las\n" +
-						"bacterias verdes!"){
+						"bacterias que sean verdes."){
 
 			@Override
 			public boolean met() {
@@ -304,7 +358,7 @@ public class BioDots extends Game {
 				return true;
 			}
 		});
-		levels.add(screen10);
+		levels.add(screen);
 
         ///////////////////////////////////////////////////////////
 
