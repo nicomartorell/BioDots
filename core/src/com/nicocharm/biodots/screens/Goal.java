@@ -91,7 +91,7 @@ public abstract class Goal {
 
     public void update(float delta) {
         timer+=delta;
-        if(timer < 4) return;
+        if(timer < 1.3f) return;
 
         if(fontScale < 1) fontScale += delta * 1/10f;
         if(textAlpha < 0.9f) textAlpha += delta*0.3f;

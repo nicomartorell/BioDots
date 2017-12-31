@@ -300,7 +300,7 @@ public class PlayScreen implements Screen {
 
         //dr.render(world, cam.combined);
 
-        if(currentAntibiotic != null && currentAntibiotic.isActive()) currentAntibiotic.render(game.batch);
+        if(currentAntibiotic != null) currentAntibiotic.render(game.batch);
 
         grid.render(game.batch);
         powerBar.render(game.batch);
@@ -318,14 +318,12 @@ public class PlayScreen implements Screen {
         ended = true;
         won = false;
         backgroundColor = new Color(119f/255f, 10f/255f, 10f/255f, 1);
-        currentAntibiotic = null;
     }
 
     private void win(){
         ended = true;
         won = true;
         backgroundColor = new Color(20f/255f, 98f/255f, 9f/255f, 1);
-        currentAntibiotic = null;
     }
 
     @Override

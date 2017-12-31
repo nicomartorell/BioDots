@@ -48,7 +48,7 @@ public class LoadingScreen implements Screen {
         Label title = new Label(text, style);
         title.setAlignment(Align.center);
         GlyphLayout gl = new GlyphLayout(style.font, text);
-        title.setPosition(game.WIDTH/2 - gl.width/2, game.HEIGHT/2 - font.getLineHeight()/2);
+        title.setPosition(game.WIDTH/2 - gl.width/2, game.HEIGHT/2);
 
         stage.addActor(title);
     }

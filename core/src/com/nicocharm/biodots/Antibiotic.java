@@ -37,6 +37,10 @@ public class Antibiotic extends Actor{
         return active;
     }
 
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     private boolean active;
 
     public Antibiotic(PlayScreen screen, AntibioticButton button, short type) {
@@ -55,6 +59,9 @@ public class Antibiotic extends Actor{
 
     @Override
     public void render(SpriteBatch batch) {
+        if(!active){
+            return;
+        }
         TextureRegion region = animation.getKeyFrame(timer, true);
         batch.draw(region, getX() - (region.getRegionWidth()/2)*scale,
                 getY() - (region.getRegionHeight()/2)*scale,
@@ -140,6 +147,8 @@ public class Antibiotic extends Actor{
     }
 
     public void checkBacteria(Bacteria b){
+        if(!active) return;
+
         if(checkedBacterias.contains(b.ID)) {
             return;
         }

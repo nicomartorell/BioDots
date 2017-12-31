@@ -33,6 +33,7 @@ public class Assets {
         manager.load("antibiotic-green.png", Texture.class);
         manager.load("antibiotic-blue.png", Texture.class);
         manager.load("antibiotic-pink.png", Texture.class);
+        manager.load("antibiotic-box-gray.png", Texture.class);
         manager.load("antibiotic-box-blue.png", Texture.class);
         manager.load("antibiotic-box-blue-active.png", Texture.class);
         manager.load("antibiotic-box-blue-inactive.png", Texture.class);
@@ -47,7 +48,6 @@ public class Assets {
         manager.load("antibiotic-box-green-inactive.png", Texture.class);
         manager.load("antibiotic-box-white.png", Texture.class);
         manager.load("antibiotic-box-white-active.png", Texture.class);
-        manager.load("antibiotic-box-gray.png", Texture.class);
 
         FileHandleResolver resolver = new InternalFileHandleResolver();
         manager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
@@ -122,6 +122,10 @@ public class Assets {
         manager.unload("antibiotic-box-white.png");
         manager.unload("antibiotic-box-white-active.png");
         manager.unload("antibiotic-box-gray.png");
+
+        manager.unload("GloriaHallelujah.ttf");
+        manager.unload("Roboto-Bold.ttf");
+        manager.unload("Roboto-Regular.ttf");
     }
 
 }

@@ -1,5 +1,6 @@
 package com.nicocharm.biodots;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
@@ -62,6 +63,7 @@ public class AntibioticButton extends Actor {
     @Override
     protected void setVisuals() {
         texture = (Texture)screen.game.manager.get(path, Texture.class);
+        Gdx.app.log("tag", "Path: " + path);
         setTexture(texture);
         if(type == Antibiotic.ANTIBIOTIC_GRAY) return;
         activeTexture = (Texture)screen.game.manager.get(activePath, Texture.class);
@@ -109,6 +111,8 @@ public class AntibioticButton extends Actor {
 
     @Override
     public void update(float delta) {
+        if(type == Antibiotic.ANTIBIOTIC_GRAY) return;
+
         if(state == STATE_INACTIVE){
             if(timer > antibiotic.getInactiveTime()){
                 setTexture(texture);
@@ -122,6 +126,8 @@ public class AntibioticButton extends Actor {
 
     @Override
     public void render(SpriteBatch batch) {
+        Gdx.app.log("tag", "Type: " + type);
+        if(type == Antibiotic.ANTIBIOTIC_GRAY && getTexture()==null) setTexture((Texture) screen.game.manager.get(path, Texture.class));
         batch.draw(getTexture(), getX(),
                 getY() - (width*scale)/2,
                 width*scale,
@@ -129,6 +135,7 @@ public class AntibioticButton extends Actor {
     }
 
     public boolean pressed(float x, float y){
+        if(type == Antibiotic.ANTIBIOTIC_GRAY) return false;
         if(bounds.intersects(x, y)){
             return true;
         }
@@ -149,6 +156,7 @@ public class AntibioticButton extends Actor {
     }
 
     public void inactivate(){
+        if(type == Antibiotic.ANTIBIOTIC_GRAY) return;
         if(type==Antibiotic.ANTIBIOTIC_WHITE){
             return;
         }
@@ -163,6 +171,7 @@ public class AntibioticButton extends Actor {
     }
 
     public void setActive(){
+        if(type == Antibiotic.ANTIBIOTIC_GRAY) return;
         state = STATE_ACTIVE;
         setTexture(activeTexture);
     }
@@ -188,6 +197,7 @@ public class AntibioticButton extends Actor {
     }
 
     public float getPOfKilling() {
+        if(type == Antibiotic.ANTIBIOTIC_GRAY) return 0;
         return antibiotic.getPOfKilling();
     }
 }

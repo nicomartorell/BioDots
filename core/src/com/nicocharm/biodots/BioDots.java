@@ -16,6 +16,7 @@ import com.nicocharm.biodots.screens.PlayScreen;
 import com.nicocharm.biodots.screens.ScreenCreator;
 
 import java.awt.Menu;
+import java.util.Random;
 
 public class BioDots extends Game {
     public static FontManager fontManager;
@@ -32,10 +33,17 @@ public class BioDots extends Game {
 
     private MainMenu menu;
 
+    public boolean lastLevel = false;
     public boolean toMenu = false;
     private boolean played = false;
     private boolean playedLevel = false;
     private boolean loading = false;
+
+	public boolean isInFreeGame() {
+		return inFreeGame;
+	}
+
+	private boolean inFreeGame = false;
 
 
 	public Assets manager;
@@ -58,20 +66,6 @@ public class BioDots extends Game {
         levels = new Array<PlayScreen>();
         currentLevel = 0;
 
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-
-                /*if(manager.update()){
-                    Gdx.app.log("tag", "update is true");
-                    createLevels();
-                    toMenu = true;
-
-                }*/
-            }
-        });
-        t.start();
 
         player = new Player();
 
@@ -99,6 +93,7 @@ public class BioDots extends Game {
 	}
 
 	public void goToFirstLevel(){
+		currentLevel = 0;
 	    playedLevel = true;
         player.setScreen(getLevel());
         Gdx.input.setInputProcessor(player);
@@ -109,6 +104,7 @@ public class BioDots extends Game {
 
     public void goToFreeGame(){
         played = true;
+        inFreeGame = true;
         player.setScreen(freeGame);
         Gdx.input.setInputProcessor(player);
 
@@ -121,8 +117,8 @@ public class BioDots extends Game {
 		getLevel().dispose();
 
 		currentLevel++;
-		if(currentLevel>=levels.size){
-			currentLevel = 0;
+		if(currentLevel==levels.size-1){
+			lastLevel = true;
 		}
 
 		setScreen(getLevel());
@@ -132,8 +128,14 @@ public class BioDots extends Game {
 
 	public void setLevel(int level){
         playedLevel = true;
+
         getLevel().dispose();
 		currentLevel = level;
+
+		if(currentLevel==levels.size-1){
+			lastLevel = true;
+		}
+
 		setScreen(getLevel());
 		player.setScreen(getLevel());
 	}
@@ -179,26 +181,107 @@ public class BioDots extends Game {
             }
         });
 
+		///////////////////////////////////////////////////////////
+
+		// NIVEL 0
+
+		ScreenCreator level0 = new ScreenCreator();
+		level0.setInitial_pOfDying(1f);
+
+		short[] buttonTypes0 = new short[5];
+		buttonTypes0[0] = Antibiotic.ANTIBIOTIC_WHITE;
+		buttonTypes0[1] = Antibiotic.ANTIBIOTIC_GRAY;
+		buttonTypes0[2] = Antibiotic.ANTIBIOTIC_GRAY;
+		buttonTypes0[3] = Antibiotic.ANTIBIOTIC_GRAY;
+		buttonTypes0[4] = Antibiotic.ANTIBIOTIC_GRAY;
+		level0.setButtonTypes(buttonTypes0);
+
+		int nBacterias0 = 3;
+		short[] types0 = new short[nBacterias0];
+		Random random = new Random();
+		for(int i = 0; i < nBacterias0; i++){
+			types0[i] = (short)(random.nextInt(5) + 1);
+		}
+		level0.setBacteriaTypes(types0);
+
+		level0.setInitialTime(50f);
+
+		PlayScreen screen0 = new PlayScreen(this, level0, new Goal("Matá a la bacteria usando\nel antibiótico blanco.\n\n" +
+				"Un toque corto en un cuadrante pausa\na las bacterias que están sobre él.\n\n" +
+				"Un toque largo aplica el antibiótico."){
+
+			@Override
+			public boolean met() {
+				return getScreen().getBacterias().size < 1;
+			}
+
+			@Override
+			public boolean failed() {
+				return false;
+			}
+		});
+
+		levels.add(screen0);
+
         ///////////////////////////////////////////////////////////
 
-        // NIVEL 1
+		// NIVEL 1
 
 		ScreenCreator level1 = new ScreenCreator();
-		level1.setInitial_pOfDying(0.8f);
+		level1.setInitial_pOfDying(1f);
 
-		short[] types = new short[10];
-		for(int i = 0; i < types.length; i++){
+		short[] buttonTypes1 = new short[5];
+		buttonTypes1[0] = Antibiotic.ANTIBIOTIC_WHITE;
+		buttonTypes1[1] = Antibiotic.ANTIBIOTIC_GRAY;
+		buttonTypes1[2] = Antibiotic.ANTIBIOTIC_GRAY;
+		buttonTypes1[3] = Antibiotic.ANTIBIOTIC_GRAY;
+		buttonTypes1[4] = Antibiotic.ANTIBIOTIC_GRAY;
+		level1.setButtonTypes(buttonTypes1);
+
+		int nBacterias1 = 6;
+		short[] types1 = new short[nBacterias1];
+		for(int i = 0; i < nBacterias1; i++){
+			types1[i] = (short)(random.nextInt(5) + 1);
+		}
+		level1.setBacteriaTypes(types1);
+
+		level1.setInitialTime(50f);
+
+		PlayScreen screen1 = new PlayScreen(this, level1, new Goal("Matá a las bacterias!\nSi no te apurás se dividen!"){
+
+			@Override
+			public boolean met() {
+				return getScreen().getBacterias().size < 1;
+			}
+
+			@Override
+			public boolean failed() {
+				return false;
+			}
+		});
+
+		levels.add(screen1);
+
+		///////////////////////////////////////////////////////////
+
+        // NIVEL 10
+
+		ScreenCreator level10 = new ScreenCreator();
+		level10.setInitial_pOfDying(0.8f);
+
+		short[] types10 = new short[10];
+		for(int i = 0; i < types10.length; i++){
 			short type;
-			if(i<types.length*0.8f){
+			if(i<types10.length*0.8f){
 				type = Bacteria.BACTERIA_BLUE;
 			} else {
 				type = Bacteria.BACTERIA_GREEN;
 			}
-			types[i] = type;
+			types10[i] = type;
 		}
-		level1.setBacteriaTypes(types);
+		level10.setBacteriaTypes(types10);
 
-		PlayScreen screen1 = new PlayScreen(this, level1,
+		PlayScreen screen10 = new PlayScreen(this, level10,
 				new Goal("Dejá vivas solo a las\n" +
 						"bacterias verdes!"){
 
@@ -218,7 +301,7 @@ public class BioDots extends Game {
 				return true;
 			}
 		});
-		levels.add(screen1);
+		levels.add(screen10);
 
         ///////////////////////////////////////////////////////////
 
