@@ -75,6 +75,7 @@ public class BioDots extends Game {
 	}
 
 	public void goToMenu(){
+		lastLevel = false;
 		toMenu = false;
 	    if(playedLevel){
 	        getLevel().dispose();
@@ -93,6 +94,7 @@ public class BioDots extends Game {
 	}
 
 	public void goToFirstLevel(){
+		lastLevel = false;
 		currentLevel = 0;
 	    playedLevel = true;
         player.setScreen(getLevel());
@@ -113,6 +115,7 @@ public class BioDots extends Game {
     }
 
 	public void advance(){
+    	lastLevel = false;
 		playedLevel = true;
 		getLevel().dispose();
 
@@ -207,7 +210,7 @@ public class BioDots extends Game {
 		level0.setInitialTime(50f);
 
 		PlayScreen screen0 = new PlayScreen(this, level0, new Goal("Matá a la bacteria usando\nel antibiótico blanco.\n\n" +
-				"Un toque corto en un cuadrante pausa\na las bacterias que están sobre él.\n\n" +
+				"Un toque corto en un\ncuadrante pausa a las bacterias\nque están sobre él.\n\n" +
 				"Un toque largo aplica el antibiótico."){
 
 			@Override
@@ -339,6 +342,7 @@ public class BioDots extends Game {
 
 		manager.unload();
 		manager.dispose();
+		fontManager = null;
 	}
 
     public void end() {

@@ -32,7 +32,11 @@ public class PlayScreen implements Screen {
     private Color backgroundColor;
 
     private float timer;
-    private final float firstTime = 15;
+
+    public boolean isShowingGoal() {return showingGoal;}
+    public void setShowingGoal(boolean showingGoal) {this.showingGoal = showingGoal;}
+    //private final float firstTime = 15;
+    private boolean showingGoal = true;
 
     public Random random;
 
@@ -199,7 +203,7 @@ public class PlayScreen implements Screen {
 
         timer+=delta;
 
-        if(timer <= firstTime){
+        if(showingGoal){
             goal.update(delta);
             return;
         }
@@ -308,7 +312,7 @@ public class PlayScreen implements Screen {
         game.batch.end();
         infobar.stage.draw();
 
-        if(timer <= firstTime){
+        if(showingGoal){
             goal.render(game.batch);
         }
     }
@@ -351,10 +355,6 @@ public class PlayScreen implements Screen {
 
     }
 
-    public boolean showingGoal(){
-        return timer <= firstTime;
-    }
-
     @Override
     public void dispose() { //todos los disposables aca
         paused = false;
@@ -363,6 +363,7 @@ public class PlayScreen implements Screen {
         if(goal != null)goal.dispose();
         currentAntibiotic = null;
         nextAntibiotic = null;
+        Bacteria.ID_COUNT = 0;
     }
 
     public void setAntibiotic(Antibiotic antibiotic) {

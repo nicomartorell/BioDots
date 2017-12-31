@@ -24,7 +24,7 @@ public class Bacteria extends Actor {
     public static final short BACTERIA_GREEN = 5;
 
     // ID para que puedan ser reconocidas por el antibotico
-    private static int ID_COUNT = 0;
+    public static int ID_COUNT = 0;
     public int ID;
 
     // un target, una cuenta desde el ultimo y el limite para cambiar

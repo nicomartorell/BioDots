@@ -126,7 +126,6 @@ public class AntibioticButton extends Actor {
 
     @Override
     public void render(SpriteBatch batch) {
-        Gdx.app.log("tag", "Type: " + type);
         if(type == Antibiotic.ANTIBIOTIC_GRAY && getTexture()==null) setTexture((Texture) screen.game.manager.get(path, Texture.class));
         batch.draw(getTexture(), getX(),
                 getY() - (width*scale)/2,

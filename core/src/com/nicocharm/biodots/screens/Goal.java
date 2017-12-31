@@ -59,10 +59,17 @@ public abstract class Goal {
         label.setFontScale(fontScale*0.75f);
         label.setAlignment(Align.center);
         GlyphLayout gl = new GlyphLayout(font, statement);
-        label.setPosition(screen.game.WIDTH/2 - gl.width/2, screen.game.HEIGHT/2 - gl.height/2);
+        label.setPosition(screen.game.WIDTH/2 - gl.width/2, screen.game.HEIGHT/2 - gl.height/2 + 50);
 
 
         stage.addActor(label);
+
+        Label label2 = new Label("Tocá para continuar", style);
+        label2.setFontScale(0.75f);
+        label2.setAlignment(Align.center);
+        GlyphLayout gl2 = new GlyphLayout(font, "Tocá para continuar");
+        label2.setPosition(screen.game.WIDTH/2 - gl2.width/2, 100);
+        stage.addActor(label2);
     }
 
     // puedo tener otros métodos con otros argumentos si hace falta
