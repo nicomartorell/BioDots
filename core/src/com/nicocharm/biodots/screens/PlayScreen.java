@@ -126,6 +126,13 @@ public class PlayScreen implements Screen {
     }
     private boolean won;
 
+    public boolean isClickable() {
+        if(ended){
+            return timer > endTime + 1f;
+        }
+        return true;
+    }
+    private float endTime;
 
     private boolean paused;
 
@@ -319,12 +326,14 @@ public class PlayScreen implements Screen {
 
 
     private void lose(){
+        endTime = timer;
         ended = true;
         won = false;
         backgroundColor = new Color(119f/255f, 10f/255f, 10f/255f, 1);
     }
 
     private void win(){
+        endTime = timer;
         ended = true;
         won = true;
         backgroundColor = new Color(20f/255f, 98f/255f, 9f/255f, 1);

@@ -77,6 +77,10 @@ public class Player implements InputProcessor{
             return true;
         }
 
+        if(!screen.isClickable()){
+            return true;
+        }
+
         //empezá un nuevo juego si ya terminaste!
         if(screen.finished()){
             BioDots game = screen.game;

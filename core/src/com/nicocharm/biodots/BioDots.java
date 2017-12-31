@@ -175,7 +175,7 @@ public class BioDots extends Game {
         // FREE GAME
 
         ScreenCreator freeGame = new ScreenCreator();
-        freeGame.setInitial_pOfDying(0.7f);
+        freeGame.setInitial_pOfDying(0.82f);
         freeGame.setInitialTime(250f);
         this.freeGame = new PlayScreen(this, freeGame, new Goal("Matá a todas las bacterias\n" +
                 "antes de que se acabe el tiempo!"){
