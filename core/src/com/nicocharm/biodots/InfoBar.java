@@ -31,6 +31,7 @@ public class InfoBar extends Actor {
     float upScale = 0.8f;
     float downScale = 0.6f;
     float padTop = 80;
+    float averageOffset = 45;
     BitmapFont font;
 
     public float getAverageP() {
@@ -92,9 +93,9 @@ public class InfoBar extends Actor {
         table.top();
         table.setFillParent(true);*/
 
-        timeLabel = new Label("Time: " + time, style);
+        timeLabel = new Label("Tiempo: " + time, style);
         timeLabel.setFontScale(upScale);
-        pointsLabel = new Label("Points: " + points, style);
+        pointsLabel = new Label("Puntos: " + points, style);
         pointsLabel.setFontScale(upScale);
 
         Label.LabelStyle style2 = new Label.LabelStyle(font, null);
@@ -102,14 +103,14 @@ public class InfoBar extends Actor {
                 style2);
         averageLabel.setFontScale(downScale);
 
-        GlyphLayout gl = new GlyphLayout(font, "Time: " + (int)time);
+        GlyphLayout gl = new GlyphLayout(font, "Tiempo: " + (int)time);
         timeLabel.setPosition((screen.game.WIDTH/2 - pauseButton.getScaledWidth()/2)/2 - gl.width*upScale/2, screen.game.HEIGHT - padTop - gl.height*upScale);
 
-        gl = new GlyphLayout(font, "Points: " + points);
+        gl = new GlyphLayout(font, "Puntos: " + points);
         pointsLabel.setPosition( screen.game.WIDTH - (screen.game.WIDTH/2 - pauseButton.getScaledWidth()/2)/2 - gl.width*upScale/2, screen.game.HEIGHT - padTop - gl.height*upScale);
 
         GlyphLayout gl2 = new GlyphLayout(font, "Preparate...");
-        averageLabel.setPosition(screen.game.WIDTH/2 - gl2.width*downScale/2, screen.game.HEIGHT - padTop - gl.height*upScale - 30 - gl2.height*downScale);
+        averageLabel.setPosition(screen.game.WIDTH/2 - gl2.width*downScale/2, screen.game.HEIGHT - padTop - gl.height*upScale - averageOffset - gl2.height*downScale);
 
         stage.addActor(timeLabel);
         stage.addActor(pointsLabel);
@@ -129,13 +130,13 @@ public class InfoBar extends Actor {
         }
 
         time-=delta;
-        pointsLabel.setText("Points: " + points);
-        timeLabel.setText("Time: " + (int)time);
+        pointsLabel.setText("Puntos: " + points);
+        timeLabel.setText("Tiempo: " + (int)time);
 
-        GlyphLayout gl = new GlyphLayout(font, "Time: " + (int)time);
+        GlyphLayout gl = new GlyphLayout(font, "Tiempo: " + (int)time);
         timeLabel.setPosition((screen.game.WIDTH/2 - pauseButton.getScaledWidth()/2)/2 - gl.width*upScale/2, screen.game.HEIGHT - padTop - gl.height*upScale);
 
-        gl = new GlyphLayout(font, "Points: " + points);
+        gl = new GlyphLayout(font, "Puntos: " + points);
         pointsLabel.setPosition( screen.game.WIDTH - (screen.game.WIDTH/2 - pauseButton.getScaledWidth()/2)/2 - gl.width*upScale/2, screen.game.HEIGHT - padTop - gl.height*upScale);
 
 
@@ -147,29 +148,22 @@ public class InfoBar extends Actor {
             String averageText = tag + String.format("%.1f", averageP*button.getPOfKilling()*100) + "% [LIGHT_GRAY]de las bacterias mueren al ser atacadas.";
             averageLabel.setText(averageText);
             GlyphLayout gl2 = new GlyphLayout(font, averageText);
-            averageLabel.setPosition(screen.game.WIDTH/2 - gl2.width*downScale/2, screen.game.HEIGHT - padTop - gl.height*upScale - 30 - gl2.height*downScale);
+            averageLabel.setPosition(screen.game.WIDTH/2 - gl2.width*downScale/2, screen.game.HEIGHT - padTop - gl.height*upScale - averageOffset - gl2.height*downScale);
         } else {
             updateBar = false;
 
             String averageText;
             if(screen.hasWon()){
                 averageLabel.getStyle().fontColor = new Color(0, 1, 0, 1);
-                averageText = "Ganaste! Felicitaciones";
+                averageText = "Ganaste! Tocá para continuar.";
             } else {
                 averageLabel.getStyle().fontColor = new Color(1, 0, 0, 1);
-                averageText = "Las bacterias te ganaron :(";
+                averageText = "Perdiste :( Tocá para continuar.";
             }
 
             averageLabel.setText(averageText);
             GlyphLayout gl2 = new GlyphLayout(font, averageText);
-            averageLabel.setPosition(screen.game.WIDTH/2 - gl2.width*downScale/2, screen.game.HEIGHT - padTop - gl.height*upScale - 30 - gl2.height*downScale);
-
-            /*Label endLabel = new Label("Tocá para empezar de nuevo.", averageLabel.getStyle());
-            endLabel.setFontScale(0.6f);*/
-
-            /*Table table = (Table) stage.getActors().get(0);
-            table.row();
-            table.add(endLabel).colspan(2).expandX().padTop(5);*/
+            averageLabel.setPosition(screen.game.WIDTH/2 - gl2.width*downScale/2, screen.game.HEIGHT - padTop - gl.height*upScale - averageOffset - gl2.height*downScale);
         }
 
     }

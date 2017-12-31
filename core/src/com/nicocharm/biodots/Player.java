@@ -94,6 +94,18 @@ public class Player implements InputProcessor{
         x = v2.x;
         y = v2.y;
 
+        //for debugging only
+
+        if(x < 110 && y > screen.game.HEIGHT - 110){
+            BioDots game = screen.game;
+            if(game.isInFreeGame()){
+                game.setToMenu(true);
+            } else if(!game.lastLevel){
+                game.advance();
+            } else game.setToMenu(true);
+            return false;
+        }
+
         if(screen.getInfobar().getPauseButton().pressed(x, y)){
             screen.game.setToMenu(true);
             return true;

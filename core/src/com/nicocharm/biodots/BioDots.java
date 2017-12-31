@@ -176,6 +176,7 @@ public class BioDots extends Game {
 
         ScreenCreator freeGame = new ScreenCreator();
         freeGame.setInitial_pOfDying(0.7f);
+        freeGame.setInitialTime(250f);
         this.freeGame = new PlayScreen(this, freeGame, new Goal("Matá a todas las bacterias\n" +
                 "antes de que se acabe el tiempo!"){
 
@@ -313,10 +314,11 @@ public class BioDots extends Game {
 
 		///////////////////////////////////////////////////////////
 
-        // NIVEL 10
+        // NIVEL 3
 
 		level = new ScreenCreator();
-		level.setInitial_pOfDying(0.8f);
+		level.setInitial_pOfDying(1f);
+		level.setInitialTime(60f);
 
 		buttonTypes = new short[5];
 		buttonTypes[0] = Antibiotic.ANTIBIOTIC_WHITE;
@@ -361,6 +363,99 @@ public class BioDots extends Game {
 		levels.add(screen);
 
         ///////////////////////////////////////////////////////////
+
+		// NIVEL 4
+
+		level = new ScreenCreator();
+		level.setInitial_pOfDying(1f);
+
+		buttonTypes = new short[5];
+		buttonTypes[0] = Antibiotic.ANTIBIOTIC_WHITE;
+		buttonTypes[1] = Antibiotic.ANTIBIOTIC_BLUE;
+		buttonTypes[2] = Antibiotic.ANTIBIOTIC_GREEN;
+		buttonTypes[3] = Antibiotic.ANTIBIOTIC_GRAY;
+		buttonTypes[4] = Antibiotic.ANTIBIOTIC_GRAY;
+		level.setButtonTypes(buttonTypes);
+
+		nBacterias = 10;
+		types = new short[nBacterias];
+		for(int i = 0; i < types.length; i++){
+			short type;
+			if(i<types.length*(9f/(float)nBacterias)){
+				type = Bacteria.BACTERIA_RED;
+			} else {
+				type = Bacteria.BACTERIA_ORANGE;
+			}
+			types[i] = type;
+		}
+		level.setBacteriaTypes(types);
+
+		level.setInitialTime(60f);
+
+		screen = new PlayScreen(this, level, new Goal("Dejá vivas a las\n" +
+				"bacterias naranjas.\n\n" +
+				"El antibiótico verde es tan\n" +
+				"bueno como el azul,\n" +
+				"pero dura menos..."){
+
+			@Override
+			public boolean met() {
+				for(Bacteria b: getScreen().getBacterias()){
+					if(b.getType() != Bacteria.BACTERIA_ORANGE) return false;
+				}
+				return true;
+			}
+
+			@Override
+			public boolean failed() {
+				for(Bacteria b: getScreen().getBacterias()){
+					if(b.getType() == Bacteria.BACTERIA_ORANGE) return false;
+				}
+				return true;
+			}
+		});
+
+		levels.add(screen);
+
+		///////////////////////////////////////////////////////////
+
+		// NIVEL 5
+
+		level = new ScreenCreator();
+		level.setInitial_pOfDying(1f);
+
+		buttonTypes = new short[5];
+		buttonTypes[0] = Antibiotic.ANTIBIOTIC_WHITE;
+		buttonTypes[1] = Antibiotic.ANTIBIOTIC_BLUE;
+		buttonTypes[2] = Antibiotic.ANTIBIOTIC_GREEN;
+		buttonTypes[3] = Antibiotic.ANTIBIOTIC_GRAY;
+		buttonTypes[4] = Antibiotic.ANTIBIOTIC_GRAY;
+		level.setButtonTypes(buttonTypes);
+
+		nBacterias = 14;
+		types = new short[nBacterias];
+		for(int i = 0; i < nBacterias; i++){
+			types[i] = (short)(random.nextInt(5) + 1);
+		}
+		level.setBacteriaTypes(types);
+
+		level.setInitialTime(70f);
+
+		screen = new PlayScreen(this, level, new Goal("Quizás empiezan a ser\n" +
+				"muchas bacterias..."){
+
+			@Override
+			public boolean met() {
+				return getScreen().getBacterias().size < 1;
+			}
+
+			@Override
+			public boolean failed() {
+				return false;
+			}
+		});
+
+		levels.add(screen);
 
 
 
