@@ -45,6 +45,27 @@ public class ScreenCreator {
     private float initialTime;
     private short[] types; //de acá saco n bacterias
 
+    public boolean isFreeGame() {
+        return isFreeGame;
+    }
+
+    public void setFreeGame(boolean freeGame) {
+        isFreeGame = freeGame;
+    }
+
+    private boolean isFreeGame;
+
+    public void setnBacterias(int nBacterias) {
+        this.nBacterias = nBacterias;
+        types = new short[nBacterias];
+        Random random = new Random();
+        for(int i = 0; i < nBacterias; i++){
+            types[i] = (short)(random.nextInt(5) + 1);
+        }
+    }
+
+    private int nBacterias;
+
     public ScreenCreator(){
         initial_pOfDying = 1.0f;
 
@@ -57,12 +78,14 @@ public class ScreenCreator {
 
         initialTime = 150f;
 
-        int nBacterias = 30;
+        nBacterias = 30;
         types = new short[nBacterias];
         Random random = new Random();
         for(int i = 0; i < nBacterias; i++){
             types[i] = (short)(random.nextInt(5) + 1);
         }
+
+        isFreeGame = false;
     }
 
 }

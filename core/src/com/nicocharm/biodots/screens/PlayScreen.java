@@ -28,6 +28,10 @@ import java.util.Random;
 
 public class PlayScreen implements Screen {
 
+    public ScreenCreator getSettings() {
+        return settings;
+    }
+
     private ScreenCreator settings;
 
     private Color backgroundColor;
@@ -141,6 +145,8 @@ public class PlayScreen implements Screen {
 
     private PauseMenu pauseMenu;
 
+    private float lastBacteria = 0;
+
     public PlayScreen(BioDots game, ScreenCreator creator, Goal goal){
         settings = creator;
         this.goal = goal;
@@ -223,7 +229,7 @@ public class PlayScreen implements Screen {
         if(!ended){
             if(bacterias.size >= 60 || goal.failed()){
                 lose();
-            } else if(infobar.getTime() < 1){
+            } else if(!settings.isFreeGame() && infobar.getTime() < 1){
                 if(goal.met()){
                     win();
                 } else lose();
@@ -234,6 +240,11 @@ public class PlayScreen implements Screen {
             } else if(goal.met()){
                 win();
             }
+        }
+
+        if(settings.isFreeGame() && !ended && timer - lastBacteria >= 4){
+            bacterias.add(new Bacteria(this, getNewBacteriaX(random.nextFloat(), arena), getNewBacteriaY(random.nextFloat(), arena), (short)(random.nextInt(5) + 1), initial_pOfDying));
+            lastBacteria = timer;
         }
 
         

@@ -92,8 +92,8 @@ public class InfoBar extends Actor {
         /*Table table = new Table();
         table.top();
         table.setFillParent(true);*/
-
-        timeLabel = new Label("Tiempo: " + time, style);
+        int printTime = screen.getSettings().isFreeGame() ? (int)(time*-1) : (int)time;
+        timeLabel = new Label("Tiempo: " + printTime, style);
         timeLabel.setFontScale(upScale);
         pointsLabel = new Label("Puntos: " + points, style);
         pointsLabel.setFontScale(upScale);
@@ -103,7 +103,8 @@ public class InfoBar extends Actor {
                 style2);
         averageLabel.setFontScale(downScale);
 
-        GlyphLayout gl = new GlyphLayout(font, "Tiempo: " + (int)time);
+
+        GlyphLayout gl = new GlyphLayout(font, "Tiempo: " + printTime);
         timeLabel.setPosition((screen.game.WIDTH/2 - pauseButton.getScaledWidth()/2)/2 - gl.width*upScale/2, screen.game.HEIGHT - padTop - gl.height*upScale);
 
         gl = new GlyphLayout(font, "Puntos: " + points);
@@ -130,10 +131,12 @@ public class InfoBar extends Actor {
         }
 
         time-=delta;
-        pointsLabel.setText("Puntos: " + points);
-        timeLabel.setText("Tiempo: " + (int)time);
 
-        GlyphLayout gl = new GlyphLayout(font, "Tiempo: " + (int)time);
+        int printTime = screen.getSettings().isFreeGame() ? (int)(time*-1) : (int)time;
+        pointsLabel.setText("Puntos: " + points);
+        timeLabel.setText("Tiempo: " + printTime);
+
+        GlyphLayout gl = new GlyphLayout(font, "Tiempo: " + printTime);
         timeLabel.setPosition((screen.game.WIDTH/2 - pauseButton.getScaledWidth()/2)/2 - gl.width*upScale/2, screen.game.HEIGHT - padTop - gl.height*upScale);
 
         gl = new GlyphLayout(font, "Puntos: " + points);

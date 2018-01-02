@@ -39,6 +39,12 @@ public class AboutScreen implements Screen, InputProcessor {
     private float padding;
     private Button button;
 
+    private long lastTime = -1;
+    private long thisTime = -1;
+    private float velocity = 0;
+    private double deltaT = 0;
+
+
     public AboutScreen(BioDots game){
         this.game = game;
 
@@ -215,12 +221,16 @@ public class AboutScreen implements Screen, InputProcessor {
     }
 
     private void update() {
+        lastTime = thisTime;
+        thisTime = System.nanoTime();
+        deltaT = ((double)(thisTime - lastTime))/1000000000.0;
+
         if(Gdx.input.isTouched()) {
             Vector3 v = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             Vector3 v2 = cam.unproject(v);
             float currentY = v2.y;
 
-            if(pastY == -1){
+            if(pastY == -1 || lastTime == -1){
                 pastY = currentY;
                 return;
             }
@@ -240,6 +250,26 @@ public class AboutScreen implements Screen, InputProcessor {
             cam.translate(0, deltaY);
             cam.update();
 
+
+            velocity = (float)(deltaY / deltaT); //virtual px per second
+
+        } else if (velocity != 0){
+            float deltaY = velocity*(float)deltaT;
+
+            cam.translate(0, deltaY);
+            cam.update();
+            velocity *= 0.94f;
+            //if(velocity < 0.04f && velocity > -0.04f) velocity = 0;
+
+            if(cam.position.y + deltaY > game.HEIGHT/2){
+                cam.position.set(cam.position.x, game.HEIGHT/2, cam.position.z);
+                velocity = 0;
+                cam.update();
+            } else if(cam.position.y + deltaY < 3*game.HEIGHT/2 - tableHeight - button.getScaledHeight() - 100){
+                cam.position.set(cam.position.x, 3*game.HEIGHT/2  - tableHeight - button.getScaledHeight() - 100, cam.position.z);
+                velocity = 0;
+                cam.update();
+            }
         }
     }
 
@@ -272,7 +302,7 @@ public class AboutScreen implements Screen, InputProcessor {
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         secondTouch = System.nanoTime();
-        double delta = ((double)(secondTouch - firstTouch))/1000000000.0;
+
 
         pastY = -1;
 
