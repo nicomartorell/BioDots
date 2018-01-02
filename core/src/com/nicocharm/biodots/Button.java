@@ -32,6 +32,12 @@ public class Button extends Actor{
     private Label.LabelStyle style;
     private String path;
 
+    public int getId() {
+        return id;
+    }
+
+    private int id;
+
     public Button(BioDots game, float x, float y, String path, String text, float scale) {
         super(null, x, y, false);
         this.path = path;
@@ -58,6 +64,11 @@ public class Button extends Actor{
         label.setPosition(getX() - gl.width/2, getY() - font.getLineHeight()/2);
     }
 
+    public Button(BioDots game, float x, float y, String path, String text, float scale, int id) {
+        this(game, x, y, path, text, scale);
+        this.id = id;
+    }
+
     @Override
     public void render(SpriteBatch batch) {
         batch.draw(getTexture(), getX() - (width*scale)/2,
@@ -77,4 +88,7 @@ public class Button extends Actor{
         return width * scale;
     }
 
+    public float getScaledHeight() {
+        return height*scale;
+    }
 }

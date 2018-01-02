@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Array;
+import com.nicocharm.biodots.screens.AboutScreen;
 import com.nicocharm.biodots.screens.Goal;
 import com.nicocharm.biodots.screens.LoadingScreen;
 import com.nicocharm.biodots.screens.MainMenu;
@@ -38,6 +39,8 @@ public class BioDots extends Game {
     private boolean played = false;
     private boolean playedLevel = false;
     private boolean loading = false;
+	private AboutScreen aboutScreen;
+	private boolean inAboutScreen;
 
 	public boolean isInFreeGame() {
 		return inFreeGame;
@@ -78,6 +81,7 @@ public class BioDots extends Game {
 		lastLevel = false;
 		toMenu = false;
 
+
 	    if(playedLevel){
 			Gdx.app.log("tag", "Played Level disposed!");
 	        getLevel().dispose();
@@ -93,11 +97,16 @@ public class BioDots extends Game {
 			loadingScreen.dispose();
 			loading = false;
 		}
+		if(inAboutScreen){
+			inAboutScreen = false;
+		}
+
 		setScreen(menu);
 		Gdx.input.setInputProcessor(menu);
 	}
 
 	public void goToFirstLevel(){
+		inFreeGame = false;
 		lastLevel = false;
 		currentLevel = 0;
 	    playedLevel = true;
@@ -117,10 +126,20 @@ public class BioDots extends Game {
         setScreen(freeGame);
         freeGame.initialize();
     }
+    
+    public void goToAboutScreen(){
+    	played = false;
+    	inFreeGame = false;
+    	inAboutScreen = true;
+    	playedLevel = false;
+		aboutScreen.setAsInput();
+		setScreen(aboutScreen);
+	}
 
 	public void advance(){
     	lastLevel = false;
 		playedLevel = true;
+		inFreeGame = false;
 		getLevel().dispose();
 
 		currentLevel++;
@@ -135,6 +154,7 @@ public class BioDots extends Game {
 
 	public void setLevel(int level){
         playedLevel = true;
+		inFreeGame = false;
 
         getLevel().dispose();
 		currentLevel = level;
@@ -171,6 +191,10 @@ public class BioDots extends Game {
 		// MENU
 
 		menu = new MainMenu(this);
+		
+		// ABOUT
+		
+		aboutScreen = new AboutScreen(this);
 
         // FREE GAME
 
@@ -657,7 +681,7 @@ public class BioDots extends Game {
 		if(played){
 			freeGame.dispose();
 		}
-
+		aboutScreen.dispose();
 		manager.unload();
 		manager.dispose();
 		fontManager = null;

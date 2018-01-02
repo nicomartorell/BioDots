@@ -20,6 +20,7 @@ import com.nicocharm.biodots.Block;
 import com.nicocharm.biodots.Bounds;
 import com.nicocharm.biodots.Grid;
 import com.nicocharm.biodots.InfoBar;
+import com.nicocharm.biodots.PauseMenu;
 import com.nicocharm.biodots.PowerBar;
 
 import java.util.Random;
@@ -138,6 +139,8 @@ public class PlayScreen implements Screen {
 
     private Goal goal;
 
+    private PauseMenu pauseMenu;
+
     public PlayScreen(BioDots game, ScreenCreator creator, Goal goal){
         settings = creator;
         this.goal = goal;
@@ -195,6 +198,8 @@ public class PlayScreen implements Screen {
         won = false;
 
         goal.setStage(this);
+
+        pauseMenu = new PauseMenu(this);
     }
 
     //retorno valores X e Y para una nueva bacteria, según un random pasado
@@ -317,10 +322,15 @@ public class PlayScreen implements Screen {
         powerBar.render(game.batch);
         infobar.render(game.batch);
         game.batch.end();
+
         infobar.stage.draw();
 
         if(showingGoal){
             goal.render(game.batch);
+        }
+
+        if(paused){
+            pauseMenu.render(game.batch);
         }
     }
 
@@ -385,4 +395,11 @@ public class PlayScreen implements Screen {
     }
 
 
+    public boolean isPaused() {
+        return paused;
+    }
+
+    public PauseMenu getPauseMenu() {
+        return pauseMenu;
+    }
 }

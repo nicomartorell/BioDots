@@ -98,20 +98,30 @@ public class Player implements InputProcessor{
         x = v2.x;
         y = v2.y;
 
+        if(screen.isPaused()){
+            screen.getPauseMenu().clicked(x, y);
+        }
+
         //for debugging only
 
         if(x < 110 && y > screen.game.HEIGHT - 110){
             BioDots game = screen.game;
             if(game.isInFreeGame()){
+                Gdx.app.log("tag", "In free game");
                 game.setToMenu(true);
             } else if(!game.lastLevel){
+                Gdx.app.log("tag", "In a level");
                 game.advance();
-            } else game.setToMenu(true);
+            } else{
+                Gdx.app.log("tag", "In last level");
+                game.setToMenu(true);
+            }
             return false;
         }
 
         if(screen.getInfobar().getPauseButton().pressed(x, y)){
-            screen.game.setToMenu(true);
+            //screen.game.setToMenu(true);
+            screen.pause();
             return true;
         }
 

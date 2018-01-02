@@ -1,6 +1,7 @@
 package com.nicocharm.biodots;
 
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
@@ -88,10 +89,12 @@ public class Assets {
     }
 
     public void dispose(){
+        Gdx.app.log("tag", "Disposing assets");
         manager.dispose();
     }
 
     public void unload(){
+        Gdx.app.log("tag", "Unloading assets");
         manager.unload("menu-button.png");
         manager.unload("power-bar-bg.png");
         manager.unload("info-bar-blue.png");
