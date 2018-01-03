@@ -415,4 +415,8 @@ public class PlayScreen implements Screen {
     public PauseMenu getPauseMenu() {
         return pauseMenu;
     }
+
+    public Goal getGoal() {
+        return goal;
+    }
 }

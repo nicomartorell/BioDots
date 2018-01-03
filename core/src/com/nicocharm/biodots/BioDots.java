@@ -214,14 +214,12 @@ public class BioDots extends Game {
         freeGame.setInitialTime(0);
         freeGame.setnBacterias(10);
         freeGame.setFreeGame(true);
-        this.freeGame = new PlayScreen(this, freeGame, new Goal("Las bacterias no dejan\n" +
-                "de aparecer!\n" +
-				"\n" +
-				"Matalas a todas en\n" +
-				"el menor tiempo posible.\n" +
-				"\n" +
-				"Cuando hay demasiadas\n" +
-				"bacterias perdés."){
+
+        String[] goals = {"Las bacterias no dejan\n" +
+				"de aparecer!", "Matalas a todas en\n" +
+				"el menor tiempo posible.", "Cuando hay demasiadas\n" +
+				"bacterias perdés."};
+        this.freeGame = new PlayScreen(this, freeGame, new Goal(goals){
 
             @Override
             public boolean met() {
@@ -258,12 +256,15 @@ public class BioDots extends Game {
 
 		level.setInitialTime(50f);
 
-		PlayScreen screen = new PlayScreen(this, level, new Goal("Matá a las bacterias usando\n" +
-				"el antibiótico blanco.\n\n" +
-				"Un toque corto en un\n" +
+		goals = new String[3];
+		goals[0] = "Matá a las bacterias usando\n" +
+				"el antibiótico blanco.";
+		goals[1] = "Un toque corto en un\n" +
 				"cuadrante pausa a las bacterias\n" +
-				"que están sobre él.\n\n" +
-				"Un toque largo aplica el antibiótico."){
+				"que están sobre él.";
+		goals[2] = "Un toque largo aplica el antibiótico.";
+
+		PlayScreen screen = new PlayScreen(this, level, new Goal(goals){
 
 			@Override
 			public boolean met() {
@@ -302,7 +303,10 @@ public class BioDots extends Game {
 
 		level.setInitialTime(50f);
 
-		screen = new PlayScreen(this, level, new Goal("Matá a las bacterias!\nSi no te apurás se dividen!"){
+		goals = new String[1];
+		goals[0] = "Matá a las bacterias!\nSi no te apurás se dividen!";
+
+		screen = new PlayScreen(this, level, new Goal(goals){
 
 			@Override
 			public boolean met() {
@@ -341,14 +345,17 @@ public class BioDots extends Game {
 
 		level.setInitialTime(60f);
 
-		screen = new PlayScreen(this, level, new Goal("El antibiotico azul es más\n" +
+		goals = new String[2];
+		goals[0] = "El antibiotico azul es más\n" +
 				"potente, pero tarda más en\n" +
-				"activarse...\n\n" +
-				"TIP:\n" +
+				"activarse...";
+		goals[1] = "TIP:\n" +
 				"El porcentaje de bacterias\n" +
 				"que mueren toma el color\n" +
 				"del antibiótico elegido, según\n" +
-				"cuán efectivo es."){
+				"cuán efectivo es.";
+
+		screen = new PlayScreen(this, level, new Goal(goals){
 
 			@Override
 			public boolean met() {
@@ -391,9 +398,12 @@ public class BioDots extends Game {
 		}
 		level.setBacteriaTypes(types);
 
+		goals = new String[1];
+		goals[0] = "Dejá vivas solo a las\n" +
+				"bacterias que sean verdes.";
+
 		screen = new PlayScreen(this, level,
-				new Goal("Dejá vivas solo a las\n" +
-						"bacterias que sean verdes."){
+				new Goal(goals){
 
 			@Override
 			public boolean met() {
@@ -443,11 +453,14 @@ public class BioDots extends Game {
 
 		level.setInitialTime(60f);
 
-		screen = new PlayScreen(this, level, new Goal("Dejá vivas a las\n" +
-				"bacterias naranjas.\n\n" +
-				"El antibiótico verde es tan\n" +
+		goals = new String[2];
+		goals[0] = "Dejá vivas a las\n" +
+				"bacterias naranjas.";
+		goals[1] = "El antibiótico verde es tan\n" +
 				"bueno como el azul,\n" +
-				"pero dura menos..."){
+				"pero dura menos...";
+
+		screen = new PlayScreen(this, level, new Goal(goals){
 
 			@Override
 			public boolean met() {
@@ -492,8 +505,11 @@ public class BioDots extends Game {
 
 		level.setInitialTime(70f);
 
-		screen = new PlayScreen(this, level, new Goal("Quizás empiezan a ser\n" +
-				"muchas bacterias..."){
+		goals = new String[1];
+		goals[0] = "Quizás empiezan a ser\n" +
+				"muchas bacterias...";
+
+		screen = new PlayScreen(this, level, new Goal(goals){
 
 			@Override
 			public boolean met() {
@@ -532,10 +548,13 @@ public class BioDots extends Game {
 
 		level.setInitialTime(70f);
 
-		screen = new PlayScreen(this, level, new Goal("El antibiótico rosa\n" +
+		goals = new String[1];
+		goals[0] = "El antibiótico rosa\n" +
 				"es el más efectivo hasta ahora,\n" +
 				"pero su duración puede ser...\n" +
-				"incómoda."){
+				"incómoda.";
+
+		screen = new PlayScreen(this, level, new Goal(goals){
 
 			@Override
 			public boolean met() {
@@ -582,8 +601,11 @@ public class BioDots extends Game {
 
 		level.setInitialTime(120f);
 
-		screen = new PlayScreen(this, level, new Goal("Solo pueden vivir\n" +
-				"las bacterias rojas."){
+		goals = new String[1];
+		goals[0] = "Solo pueden vivir\n" +
+				"las bacterias rojas.";
+
+		screen = new PlayScreen(this, level, new Goal(goals){
 
 			@Override
 			public boolean met() {
@@ -620,9 +642,12 @@ public class BioDots extends Game {
 
 		level.setInitialTime(120f);
 
-		screen = new PlayScreen(this, level, new Goal("El antibiótico rojo\n" +
+		goals = new String[1];
+		goals[0] = "El antibiótico rojo\n" +
 				"es el más efectivo de todos.\n" +
-				"Pero hay que esperarlo..."){
+				"Pero hay que esperarlo...";
+
+		screen = new PlayScreen(this, level, new Goal(goals){
 
 			@Override
 			public boolean met() {
@@ -653,10 +678,13 @@ public class BioDots extends Game {
 
 		level.setInitialTime(120f);
 
-		screen = new PlayScreen(this, level, new Goal("Acá termina el tutorial!\n" +
-				"Ahora las bacterias no\n" +
-				"se mueren tan fácil.\n" +
-				"Suerte!"){
+		goals = new String[3];
+		goals[0] = "¡Acá termina el tutorial!";
+		goals[1] = "Ahora las bacterias no\n" +
+				"se mueren tan fácil.\n";
+		goals[2] = "¡Suerte!";
+
+		screen = new PlayScreen(this, level, new Goal(goals){
 
 			@Override
 			public boolean met() {

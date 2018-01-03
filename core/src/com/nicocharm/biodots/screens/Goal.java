@@ -16,7 +16,7 @@ import com.nicocharm.biodots.BioDots;
 
 public abstract class Goal {
 
-    private String statement;
+    private String[] statements;
     private Label label;
     private Stage stage;
     private Texture background;
@@ -24,6 +24,8 @@ public abstract class Goal {
     private float timer;
     private float textAlpha;
     private float fontScale;
+
+    private int counter;
 
     public PlayScreen getScreen() {
         return screen;
@@ -33,8 +35,8 @@ public abstract class Goal {
 
     private String path = "background-goal.png";
 
-    public Goal(String string){
-        statement = string;
+    public Goal(String[] strings){
+        statements = strings;
         alpha = 1f;
         textAlpha = 0;
         timer = 0;
@@ -55,10 +57,10 @@ public abstract class Goal {
         style.font = font;
         style.fontColor = new Color(1, 0, 0, textAlpha);
 
-        label = new Label(statement, style);
+        label = new Label(statements[0], style);
         label.setFontScale(fontScale*0.75f);
         label.setAlignment(Align.center);
-        GlyphLayout gl = new GlyphLayout(font, statement);
+        GlyphLayout gl = new GlyphLayout(font, statements[0]);
         label.setPosition(screen.game.WIDTH/2 - gl.width/2, screen.game.HEIGHT/2 - gl.height/2 + 50);
 
 
@@ -98,12 +100,32 @@ public abstract class Goal {
 
     public void update(float delta) {
         timer+=delta;
-        if(timer < 1.3f) return;
+        if(timer < 0.8f || timer > 10f) return;
 
         if(fontScale < 1) fontScale += delta * 1/10f;
         if(textAlpha < 0.9f) textAlpha += delta*0.3f;
         if(alpha > 0.7f) alpha -= delta*0.1f;
         label.setFontScale(fontScale*0.75f);
         label.getStyle().fontColor = new Color(1, 0, 0, textAlpha);
+    }
+
+    public void pressed(){
+        if(counter == 0 && fontScale < 1){
+            timer = 10f;
+            fontScale = 1;
+            textAlpha = 0.9f;
+            alpha = 0.7f;
+            label.setFontScale(fontScale*0.75f);
+            label.getStyle().fontColor = new Color(1, 0, 0, textAlpha);
+            return;
+        }
+
+        if(counter + 1 < statements.length){
+            label.setText(statements[counter + 1]);
+        } else {
+            screen.setShowingGoal(false);
+        }
+
+        counter++;
     }
 }
