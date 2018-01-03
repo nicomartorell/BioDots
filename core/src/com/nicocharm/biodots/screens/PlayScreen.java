@@ -251,7 +251,9 @@ public class PlayScreen implements Screen {
         // cambio de antibiotico si tengo que hacerlo
         if(nextAntibiotic != null && currentAntibiotic != null && !currentAntibiotic.isActive()){
             currentAntibiotic = nextAntibiotic;
-        }
+        } /*else if(!currentAntibiotic.isActive()){
+            powerBar.getButtons().get(0).selectAntibiotic();
+        }*/
 
 
         // paso por todas las bacterias!

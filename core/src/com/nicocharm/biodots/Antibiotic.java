@@ -134,6 +134,9 @@ public class Antibiotic extends Actor{
 
         if(timer > duration){
            reset();
+           //screen.setAntibiotic(null);
+            if(!screen.getPowerBar().getActiveButton().isInactive()) return;
+           screen.getPowerBar().notifyActivation(screen.getPowerBar().getButtons().get(0));
         } else {
             timer += delta;
         }

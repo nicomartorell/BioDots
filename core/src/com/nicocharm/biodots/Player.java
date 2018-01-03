@@ -81,17 +81,6 @@ public class Player implements InputProcessor{
             return true;
         }
 
-        //empezá un nuevo juego si ya terminaste!
-        if(screen.finished()){
-            BioDots game = screen.game;
-            if(game.isInFreeGame()){
-                game.setToMenu(true);
-            } else if(!game.lastLevel){
-                game.advance();
-            } else game.setToMenu(true);
-            return false;
-        }
-
         //proyectá la coordenada de pantalla a las virtuales
         Vector3 v = new Vector3(screenX, screenY, 0);
         Vector3 v2 = screen.cam.unproject(v);
@@ -100,7 +89,31 @@ public class Player implements InputProcessor{
 
         if(screen.isPaused()){
             screen.getPauseMenu().clicked(x, y);
+            return true;
         }
+
+        if(screen.getInfobar().getPauseButton().pressed(x, y)){
+            //screen.game.setToMenu(true);
+            screen.pause();
+            return true;
+        }
+
+        //empezá un nuevo juego si ya terminaste!
+        if(screen.finished()){
+            BioDots game = screen.game;
+            if(game.isInFreeGame()){
+                game.setToMenu(true);
+            } else if(screen.hasWon()){
+                if(!game.lastLevel){
+                    game.advance();
+                } else game.setToMenu(true);
+            } else {
+                game.replay();
+            }
+            return false;
+        }
+
+
 
         //for debugging only
 
@@ -119,11 +132,7 @@ public class Player implements InputProcessor{
             return false;
         }
 
-        if(screen.getInfobar().getPauseButton().pressed(x, y)){
-            //screen.game.setToMenu(true);
-            screen.pause();
-            return true;
-        }
+
 
         //seleccioná un antibiotico si estoy tocando un botón
         for(AntibioticButton b: screen.getPowerBar().getButtons()){

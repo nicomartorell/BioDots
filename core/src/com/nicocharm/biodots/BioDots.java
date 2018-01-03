@@ -152,6 +152,17 @@ public class BioDots extends Game {
 		getLevel().initialize();
 	}
 
+	public void replay(){
+		lastLevel = false;
+		playedLevel = true;
+		inFreeGame = false;
+		getLevel().dispose();
+
+		setScreen(getLevel());
+		player.setScreen(getLevel());
+		getLevel().initialize();
+	}
+
 	public void setLevel(int level){
         playedLevel = true;
 		inFreeGame = false;
@@ -203,8 +214,14 @@ public class BioDots extends Game {
         freeGame.setInitialTime(0);
         freeGame.setnBacterias(10);
         freeGame.setFreeGame(true);
-        this.freeGame = new PlayScreen(this, freeGame, new Goal("Matá a todas las bacterias\n" +
-                "antes de que se acabe el tiempo!"){
+        this.freeGame = new PlayScreen(this, freeGame, new Goal("Las bacterias no dejan\n" +
+                "de aparecer!\n" +
+				"\n" +
+				"Matalas a todas en\n" +
+				"el menor tiempo posible.\n" +
+				"\n" +
+				"Cuando hay demasiadas\n" +
+				"bacterias perdés."){
 
             @Override
             public boolean met() {
