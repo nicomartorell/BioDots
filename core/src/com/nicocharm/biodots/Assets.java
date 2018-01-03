@@ -50,6 +50,10 @@ public class Assets {
         manager.load("antibiotic-box-white.png", Texture.class);
         manager.load("antibiotic-box-white-active.png", Texture.class);
         manager.load("pause-button.png", Texture.class);
+        manager.load("background-play.png", Texture.class);
+        manager.load("background-lose.png", Texture.class);
+        manager.load("background-win.png", Texture.class);
+
 
         FileHandleResolver resolver = new InternalFileHandleResolver();
         manager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
@@ -126,6 +130,9 @@ public class Assets {
         manager.unload("antibiotic-box-white.png");
         manager.unload("antibiotic-box-white-active.png");
         manager.unload("antibiotic-box-gray.png");
+        manager.unload("background-play.png");
+        manager.unload("background-lose.png");
+        manager.unload("background-win.png");
 
         manager.unload("GloriaHallelujah.ttf");
         manager.unload("Roboto-Bold.ttf");

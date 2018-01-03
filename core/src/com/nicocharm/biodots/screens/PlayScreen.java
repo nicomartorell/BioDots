@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
@@ -34,7 +35,12 @@ public class PlayScreen implements Screen {
 
     private ScreenCreator settings;
 
-    private Color backgroundColor;
+    //private Color backgroundColor;
+    private Texture backgroundPlay;
+    private Texture backgroundWin;
+    private Texture backgroundLose;
+
+    private Texture background;
 
     private float timer;
 
@@ -163,7 +169,12 @@ public class PlayScreen implements Screen {
 
     public void initialize() {
         timer = 0;
-        backgroundColor = new Color(0, 70f/255f, 70f/255f, 1);
+        backgroundPlay = (Texture) game.manager.get("background-play.png", Texture.class);
+        backgroundWin = (Texture) game.manager.get("background-win.png", Texture.class);
+        backgroundLose = (Texture) game.manager.get("background-lose.png", Texture.class);
+
+        background = backgroundPlay;
+
         bacterias = new Array<Bacteria>();
         //bacteriaTimer = 0;
 
@@ -314,7 +325,7 @@ public class PlayScreen implements Screen {
     @Override
     public void render(float delta) {
 
-        Gdx.gl.glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         game.batch.setProjectionMatrix(cam.combined); //dibujo según la cam
@@ -322,6 +333,8 @@ public class PlayScreen implements Screen {
         update(delta); // sin esto no pasa nada
 
         game.batch.begin();
+
+        game.batch.draw(background, 0, 0);
 
         for(Bacteria bacteria: bacterias){ // dibujo todas las bacterias
             bacteria.render(game.batch); // 60
@@ -352,14 +365,14 @@ public class PlayScreen implements Screen {
         endTime = timer;
         ended = true;
         won = false;
-        backgroundColor = new Color(119f/255f, 10f/255f, 10f/255f, 1);
+        background = backgroundLose;
     }
 
     private void win(){
         endTime = timer;
         ended = true;
         won = true;
-        backgroundColor = new Color(20f/255f, 98f/255f, 9f/255f, 1);
+        background = backgroundWin;
     }
 
     @Override

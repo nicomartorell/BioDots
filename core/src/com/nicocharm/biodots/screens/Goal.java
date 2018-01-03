@@ -41,6 +41,7 @@ public abstract class Goal {
         textAlpha = 0;
         timer = 0;
         fontScale = 0.5f;
+        counter = 0;
     }
 
     public void setStage(PlayScreen screen){
@@ -96,6 +97,7 @@ public abstract class Goal {
         textAlpha = 0;
         timer = 0;
         fontScale = 0.5f;
+        counter = 0;
     }
 
     public void update(float delta) {
