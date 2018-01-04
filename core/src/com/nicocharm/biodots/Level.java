@@ -57,7 +57,7 @@ public class Level {
         label.setPosition(x - (gl.width*scale)/2, y - (font.getLineHeight()*scale)/2);
 
         Texture t = screen.getBorder();
-        bounds = new Bounds( x - (t.getWidth()*this.scale)/2, y - (t.getHeight()*this.scale)/2, t.getWidth()*this.scale, t.getHeight()*this.scale);
+        bounds = new Bounds( x - (t.getWidth()*this.scale)/2f, y - (t.getHeight()*this.scale)/2f, t.getWidth()*this.scale, t.getHeight()*this.scale);
     }
 
     public void render(SpriteBatch batch){
@@ -93,7 +93,8 @@ public class Level {
     public void setPosition(float x, float y) {
         this.x = x;
         this.y += y;
-        bounds.setPosition(x, y);
+        Texture t = screen.getBorder();
+        bounds.setPosition(x - (t.getWidth()*scale)/2, y - t.getHeight()*scale);
         label.setPosition(x - (gl.width*scale)/2, y - (label.getStyle().font.getLineHeight()*scale)/2);
 
     }
@@ -105,7 +106,8 @@ public class Level {
     public void setX(float x) {
         this.x = x;
         label.setPosition(x - (gl.width*scale)/2, label.getY());
-        bounds.setPosition(x, bounds.getY());
+        Texture t = screen.getBorder();
+        bounds.setPosition(x  - (t.getWidth()*scale)/2, bounds.getY());
     }
 
     public boolean pressed(float x, float y){
