@@ -124,15 +124,13 @@ public class Player implements InputProcessor{
                 game.setToMenu(true);
             } else if(!game.lastLevel){
                 Gdx.app.log("tag", "In a level");
-                game.advance();
+                screen.win();
             } else{
                 Gdx.app.log("tag", "In last level");
                 game.setToMenu(true);
             }
             return false;
         }
-
-
 
         //seleccioná un antibiotico si estoy tocando un botón
         for(AntibioticButton b: screen.getPowerBar().getButtons()){

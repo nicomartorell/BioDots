@@ -3,6 +3,7 @@ package com.nicocharm.biodots.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -49,7 +50,8 @@ public class LevelScreen implements Screen, InputProcessor {
     private Texture border;
 
     private float pastX = -1;
-    private float currentX = -1;
+
+    private int i;
 
     public LevelScreen(BioDots game){
         this.game = game;
@@ -64,14 +66,32 @@ public class LevelScreen implements Screen, InputProcessor {
         cam.translate(game.WIDTH / 2, game.HEIGHT / 2);
 
         stage = new Stage(viewport, game.batch);
+        //stage.setDebugAll(true);
 
         border = (Texture)game.manager.get("level-border.png", Texture.class);
 
         levels = new Array<Level>();
-        for(int i = 0; i < game.getLevels().size; i++){
+        /*for(int i = 0; i < game.getLevels().size; i++){
             Level level = new Level(this, i, game.WIDTH/2 + game.WIDTH*i, game.HEIGHT/2 + 50);
             levels.add(level);
             stage.addActor(level.getLabel());
+        }*/
+
+        for(i = 0; i <= Gdx.app.getPreferences("BioDots").getInteger("lastLevel", 0); i++){
+            Level level = new Level(this, "Nivel " + Integer.toString(i), 1, game.WIDTH/2 + game.WIDTH*i, game.HEIGHT/2 + 50);
+            levels.add(level);
+            stage.addActor(level.getLabel());
+        }
+
+        if(i<game.getLevels().size){
+            Level level = new Level(this, "Seguí jugando\n" +
+                    "para desbloquear\n" +
+                    "más niveles!", 3,
+                    game.WIDTH/2 + game.WIDTH*i, game.HEIGHT/2 + 50);
+            levels.add(level);
+            stage.addActor(level.getLabel());
+        } else {
+            game.setCompleted(true);
         }
 
 
@@ -94,6 +114,25 @@ public class LevelScreen implements Screen, InputProcessor {
         float offset = 120;
         button = new Button(game, game.WIDTH/2,  offset + height/2, "menu-button.png", "VOLVER", scale, 0);
         stage.addActor(button.getLabel());
+    }
+
+    public void addLevel(){
+        if(game.isCompleted())return;
+
+        if(i < game.getLevels().size){
+            Level last = levels.get(levels.size-1);
+            last.setX(last.getX() + game.WIDTH);
+            last.setPreferedX(last.getPreferedX() + game.WIDTH);
+            Level level = new Level(this, "Nivel " + Integer.toString(i), 1, game.WIDTH/2 + game.WIDTH*i, game.HEIGHT/2 + 50);
+            levels.insert(levels.size - 1, level);
+            stage.addActor(level.getLabel());
+            i++;
+        }
+
+        if(i == game.getLevels().size){
+            levels.removeIndex(levels.size-1);
+            game.setCompleted(true);
+        }
     }
 
     public void update(float delta){
@@ -198,6 +237,10 @@ public class LevelScreen implements Screen, InputProcessor {
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 
+        Preferences preferences = Gdx.app.getPreferences("BioDots");
+        int current = preferences.getInteger("lastLevel");
+        Gdx.app.log("tag", "Highest level won: " + (current - 1));
+
         pastX = -1;
 
         Vector3 v = new Vector3(screenX, screenY, 0);
@@ -208,9 +251,11 @@ public class LevelScreen implements Screen, InputProcessor {
         if(touchable){
             for(Level level: levels){
                 if(level.pressed(x, y)){
-                    game.setLevel(levels.indexOf(level, true));
-                    reset();
-                    return false;
+                    if(!(levels.indexOf(level, true) == levels.size - 1) || game.isCompleted()){
+                        game.setLevel(levels.indexOf(level, true));
+                        reset();
+                        return false;
+                    };
                 }
             }
         }

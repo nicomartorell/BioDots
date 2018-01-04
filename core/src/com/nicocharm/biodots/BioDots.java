@@ -3,8 +3,10 @@ package com.nicocharm.biodots;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -16,8 +18,7 @@ import com.nicocharm.biodots.screens.LoadingScreen;
 import com.nicocharm.biodots.screens.MainMenu;
 import com.nicocharm.biodots.screens.PlayScreen;
 import com.nicocharm.biodots.screens.ScreenCreator;
-
-import java.awt.Menu;
+import java.io.File;
 import java.util.Random;
 
 public class BioDots extends Game {
@@ -55,6 +56,17 @@ public class BioDots extends Game {
 
 	private LoadingScreen loadingScreen;
 
+	public boolean isCompleted() {
+		return completed;
+	}
+
+	public void setCompleted(boolean completed) {
+		this.completed = completed;
+	}
+
+	private boolean completed = false;
+
+
 	@Override
 	public void create () {
         batch = new SpriteBatch();
@@ -71,11 +83,17 @@ public class BioDots extends Game {
         levels = new Array<PlayScreen>();
         currentLevel = 0;
 
-
         player = new Player();
 
-
-
+		Preferences preferences = Gdx.app.getPreferences("BioDots");
+		if(!preferences.contains("lastLevel")){
+			Gdx.app.log("tag", "it does not contain it");
+			preferences.putInteger("lastLevel", 0);
+			preferences.flush();
+		} else {
+			Gdx.app.log("tag", "it contains it");
+			//int lastLevel = preferences.getInteger("lastLevel", 0);
+		}
 
 	}
 
@@ -464,7 +482,7 @@ public class BioDots extends Game {
 		}
 		level.setBacteriaTypes(types);
 
-		level.setInitialTime(60f);
+		level.setInitialTime(120f);
 
 		goals = new String[2];
 		goals[0] = "Dejá vivas a las\n" +
@@ -516,7 +534,7 @@ public class BioDots extends Game {
 		}
 		level.setBacteriaTypes(types);
 
-		level.setInitialTime(70f);
+		level.setInitialTime(80f);
 
 		goals = new String[1];
 		goals[0] = "Quizás empiezan a ser\n" +
@@ -559,7 +577,7 @@ public class BioDots extends Game {
 		}
 		level.setBacteriaTypes(types);
 
-		level.setInitialTime(70f);
+		level.setInitialTime(80f);
 
 		goals = new String[1];
 		goals[0] = "El antibiótico rosa\n" +
@@ -612,7 +630,7 @@ public class BioDots extends Game {
 		}
 		level.setBacteriaTypes(types);
 
-		level.setInitialTime(120f);
+		level.setInitialTime(150f);
 
 		goals = new String[1];
 		goals[0] = "Solo pueden vivir\n" +
@@ -653,7 +671,7 @@ public class BioDots extends Game {
 		}
 		level.setBacteriaTypes(types);
 
-		level.setInitialTime(120f);
+		level.setInitialTime(150f);
 
 		goals = new String[1];
 		goals[0] = "El antibiótico rojo\n" +
@@ -689,7 +707,7 @@ public class BioDots extends Game {
 		}
 		level.setBacteriaTypes(types);
 
-		level.setInitialTime(120f);
+		level.setInitialTime(150f);
 
 		goals = new String[3];
 		goals[0] = "¡Acá termina el tutorial!";
@@ -762,5 +780,9 @@ public class BioDots extends Game {
 
 	public Array<PlayScreen> getLevels() {
 		return levels;
+	}
+
+	public LevelScreen getLevelScreen() {
+		return levelScreen;
 	}
 }

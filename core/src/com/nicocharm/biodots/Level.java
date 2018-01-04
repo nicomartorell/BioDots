@@ -1,5 +1,6 @@
 package com.nicocharm.biodots;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -15,13 +16,14 @@ import com.nicocharm.biodots.screens.LevelScreen;
 
 public class Level {
 
-    private int id;
+    private String id;
     private LevelScreen screen;
     private Label label;
 
     private float x;
     private float y;
     private float scale;
+    private int lines;
 
     private GlyphLayout gl;
 
@@ -33,11 +35,12 @@ public class Level {
 
     private float preferedX;
 
-    public Level(LevelScreen screen, int id, float x, float y){
+    public Level(LevelScreen screen, String id, int lines, float x, float y){
         this.screen = screen;
         this.id = id;
         this.x = x;
         this.y = y;
+        this.lines = lines;
 
         preferedX = x;
 
@@ -50,11 +53,12 @@ public class Level {
         style.font = font;
         style.fontColor = new Color(197/255f, 215/255f, 254/255f, 1);
 
-        label = new Label("Nivel " + Integer.toString(id), style);
+        label = new Label(id, style);
         label.setFontScale(scale);
         label.setAlignment(Align.center);
-        gl = new GlyphLayout(style.font, "Nivel " + Integer.toString(id));
-        label.setPosition(x - (gl.width*scale)/2, y - (font.getLineHeight()*scale)/2);
+        gl = new GlyphLayout(style.font, id);
+        Gdx.app.log("tag", "gl.width*scale /2: " + (gl.width*scale)/2 + " | font.getLineHeight*scale /2: " + (font.getLineHeight()*scale)/2);
+        label.setPosition(x - (gl.width/**scale*/)/2, y - (label.getStyle().font.getLineHeight()/**scale*/*lines)/2);
 
         Texture t = screen.getBorder();
         bounds = new Bounds( x - (t.getWidth()*this.scale)/2f, y - (t.getHeight()*this.scale)/2f, t.getWidth()*this.scale, t.getHeight()*this.scale);
@@ -83,8 +87,7 @@ public class Level {
         x += deltax;
         y += deltay;
         bounds.translate(deltax, deltay);
-        label.setPosition(x - (gl.width*scale)/2, y - (label.getStyle().font.getLineHeight()*scale)/2);
-    }
+        label.setPosition(label.getX() + deltax, label.getY());    }
 
     public Label getLabel() {
         return label;
@@ -95,8 +98,7 @@ public class Level {
         this.y += y;
         Texture t = screen.getBorder();
         bounds.setPosition(x - (t.getWidth()*scale)/2, y - t.getHeight()*scale);
-        label.setPosition(x - (gl.width*scale)/2, y - (label.getStyle().font.getLineHeight()*scale)/2);
-
+        label.setPosition(x - (gl.width/**scale*/)/2, y - (label.getStyle().font.getLineHeight()/**scale*/*lines)/2);
     }
 
     public float getX() {
@@ -105,7 +107,7 @@ public class Level {
 
     public void setX(float x) {
         this.x = x;
-        label.setPosition(x - (gl.width*scale)/2, label.getY());
+        label.setPosition(x - (gl.width/**scale*/)/2, label.getY());
         Texture t = screen.getBorder();
         bounds.setPosition(x  - (t.getWidth()*scale)/2, bounds.getY());
     }

@@ -1,6 +1,7 @@
 package com.nicocharm.biodots.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -368,11 +369,21 @@ public class PlayScreen implements Screen {
         background = backgroundLose;
     }
 
-    private void win(){
+    public void win(){
         endTime = timer;
         ended = true;
         won = true;
         background = backgroundWin;
+
+        Preferences preferences = Gdx.app.getPreferences("BioDots");
+        int current = preferences.getInteger("lastLevel");
+        int thisOne = game.getLevels().indexOf(this, true) + 1;
+        if(thisOne > current){
+            game.getLevelScreen().addLevel();
+            preferences.putInteger("lastLevel", thisOne);
+            preferences.flush();
+        }
+
     }
 
     @Override
