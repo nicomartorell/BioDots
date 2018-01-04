@@ -156,6 +156,16 @@ public class MainMenu implements Screen, InputProcessor {
 
         Gdx.app.log("tag", "INPUT!");
 
+        if(x < 110 && y > game.HEIGHT - 110){
+            Gdx.app.log("tag", "Reset process.");
+            game.resetProcess();
+            return false;
+        } else if(x > game.WIDTH - 110 && y > game.HEIGHT - 110){
+            Gdx.app.log("tag", "Advance all levels.");
+            game.advanceAll();
+            return false;
+        }
+
         for(MenuButton mbutton: buttons){
             if(mbutton.pressed(x, y)){
                 Gdx.app.log("tag", "ID: " + mbutton.id);

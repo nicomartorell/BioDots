@@ -785,4 +785,21 @@ public class BioDots extends Game {
 	public LevelScreen getLevelScreen() {
 		return levelScreen;
 	}
+
+	public void resetProcess(){
+		Preferences preferences = Gdx.app.getPreferences("BioDots");
+		preferences.putInteger("lastLevel", 0);
+		preferences.flush();
+		levelScreen.dispose();
+		levelScreen = new LevelScreen(this);
+		completed = false;
+	}
+
+	public void advanceAll(){
+		Preferences preferences = Gdx.app.getPreferences("BioDots");
+		preferences.putInteger("lastLevel", levels.size-1);
+		preferences.flush();
+		levelScreen.dispose();
+		levelScreen = new LevelScreen(this);
+	}
 }
