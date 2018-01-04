@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Array;
 import com.nicocharm.biodots.screens.AboutScreen;
 import com.nicocharm.biodots.screens.Goal;
+import com.nicocharm.biodots.screens.LevelScreen;
 import com.nicocharm.biodots.screens.LoadingScreen;
 import com.nicocharm.biodots.screens.MainMenu;
 import com.nicocharm.biodots.screens.PlayScreen;
@@ -41,6 +42,7 @@ public class BioDots extends Game {
     private boolean loading = false;
 	private AboutScreen aboutScreen;
 	private boolean inAboutScreen;
+	private LevelScreen levelScreen;
 
 	public boolean isInFreeGame() {
 		return inFreeGame;
@@ -136,6 +138,15 @@ public class BioDots extends Game {
 		setScreen(aboutScreen);
 	}
 
+	public void goToLevelScreen(){
+		played = false;
+		inFreeGame = false;
+		inAboutScreen = false;
+		playedLevel = false;
+		Gdx.input.setInputProcessor(levelScreen);
+		setScreen(levelScreen);
+	}
+
 	public void advance(){
     	lastLevel = false;
 		playedLevel = true;
@@ -164,18 +175,19 @@ public class BioDots extends Game {
 	}
 
 	public void setLevel(int level){
-        playedLevel = true;
+		playedLevel = true;
 		inFreeGame = false;
-
-        getLevel().dispose();
 		currentLevel = level;
 
 		if(currentLevel==levels.size-1){
 			lastLevel = true;
 		}
 
-		setScreen(getLevel());
 		player.setScreen(getLevel());
+		Gdx.input.setInputProcessor(player);
+
+		setScreen(getLevel());
+		getLevel().initialize();
 	}
 
 	public PlayScreen getLevel(){
@@ -206,6 +218,7 @@ public class BioDots extends Game {
 		// ABOUT
 		
 		aboutScreen = new AboutScreen(this);
+
 
         // FREE GAME
 
@@ -699,6 +712,10 @@ public class BioDots extends Game {
 
 		levels.add(screen);
 
+
+		// LEVEL SCREEN
+
+		levelScreen = new LevelScreen(this);
 	}
 
 	@Override
@@ -729,6 +746,7 @@ public class BioDots extends Game {
 			freeGame.dispose();
 		}
 		aboutScreen.dispose();
+		levelScreen.dispose();
 		manager.unload();
 		manager.dispose();
 		fontManager = null;
@@ -740,5 +758,9 @@ public class BioDots extends Game {
 
 	public void setToMenu(boolean toMenu) {
 		this.toMenu = toMenu;
+	}
+
+	public Array<PlayScreen> getLevels() {
+		return levels;
 	}
 }

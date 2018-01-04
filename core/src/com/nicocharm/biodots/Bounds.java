@@ -18,10 +18,21 @@ public class Bounds {
         return height;
     }
 
+    public void setPosition(float x, float y){
+        this.x = x;
+        this.y = y;
+    }
+
+    public void translate(float deltax, float deltay){
+        x += deltax;
+        y += deltay;
+    }
+
     private float x;
     private float y;
     private float width;
     private float height;
+
 
     public Bounds(float x, float y, float width, float height){
         this.x = x;

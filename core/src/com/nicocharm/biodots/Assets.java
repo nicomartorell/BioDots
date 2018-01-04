@@ -53,7 +53,7 @@ public class Assets {
         manager.load("background-play.png", Texture.class);
         manager.load("background-lose.png", Texture.class);
         manager.load("background-win.png", Texture.class);
-
+        manager.load("level-border.png", Texture.class);
 
         FileHandleResolver resolver = new InternalFileHandleResolver();
         manager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
@@ -133,6 +133,7 @@ public class Assets {
         manager.unload("background-play.png");
         manager.unload("background-lose.png");
         manager.unload("background-win.png");
+        manager.unload("level-border.png");
 
         manager.unload("GloriaHallelujah.ttf");
         manager.unload("Roboto-Bold.ttf");

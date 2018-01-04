@@ -165,7 +165,8 @@ public class MainMenu implements Screen, InputProcessor {
                     game.goToFreeGame();
                 } else if(mbutton.id == 2){
                     Gdx.app.log("tag", "level");
-                    game.goToFirstLevel();
+                    //game.goToFirstLevel();
+                    game.goToLevelScreen();
                 } else if(mbutton.id == 1){
                     game.goToAboutScreen();
                 } else if(mbutton.id == 0){
