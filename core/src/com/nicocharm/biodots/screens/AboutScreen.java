@@ -1,6 +1,7 @@
 package com.nicocharm.biodots.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
@@ -275,6 +276,9 @@ public class AboutScreen implements Screen, InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
+        if(keycode == Input.Keys.BACK){
+            game.setToMenu(true);
+        }
         return false;
     }
 

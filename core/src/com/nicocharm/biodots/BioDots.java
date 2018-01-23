@@ -66,12 +66,24 @@ public class BioDots extends Game {
 
 	private boolean completed = false;
 
+	private Array<Float> sineFunction;
 
 	@Override
 	public void create () {
+		Gdx.input.setCatchBackKey(true);
+
         batch = new SpriteBatch();
         BioDots.fontManager = new FontManager();
         Gdx.app.setLogLevel(Application.LOG_DEBUG);
+
+        sineFunction = new Array<Float>();
+		double x = 0;
+		while(x < 2*Math.PI){
+			float y = 3;
+			Float f = (float)((1f/(y - 1f))*(y - Math.cos(x)));
+			sineFunction.add(f);
+			x+=0.05;
+		}
 
 		loading = true;
 		loadingScreen = new LoadingScreen(this);
@@ -801,5 +813,9 @@ public class BioDots extends Game {
 		preferences.flush();
 		levelScreen.dispose();
 		levelScreen = new LevelScreen(this);
+	}
+
+	public Array<Float> getSineFunction() {
+		return sineFunction;
 	}
 }

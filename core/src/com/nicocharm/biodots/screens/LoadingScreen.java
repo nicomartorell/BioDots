@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.nicocharm.biodots.Bacteria;
 import com.nicocharm.biodots.BioDots;
 
 /**
@@ -26,6 +27,8 @@ public class LoadingScreen implements Screen {
     public OrthographicCamera cam;
     public Viewport viewport;
     private Color backgroundColor;
+    private Label title;
+    private int counter;
 
     public LoadingScreen(BioDots game){
         this.game = game;
@@ -45,12 +48,15 @@ public class LoadingScreen implements Screen {
         style.fontColor = new Color(197/255f, 215/255f, 254/255f, 1);
 
         String text = "Cargando...";
-        Label title = new Label(text, style);
+        title = new Label(text, style);
         title.setAlignment(Align.center);
         GlyphLayout gl = new GlyphLayout(style.font, text);
         title.setPosition(game.WIDTH/2 - gl.width/2, game.HEIGHT/2);
 
         stage.addActor(title);
+
+        counter = 0;
+
     }
 
     @Override
@@ -60,9 +66,17 @@ public class LoadingScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        //update();
         Gdx.gl.glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.draw();
+    }
+
+    private void update() {
+        title.setFontScale(1 + game.getSineFunction().get(counter)*0.2f);
+        counter++;
+        if(counter == game.getSineFunction().size) counter = 0;
+        Gdx.app.log("tag", "Counter: " + counter);
     }
 
     @Override

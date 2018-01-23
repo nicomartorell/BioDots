@@ -189,14 +189,7 @@ public class PlayScreen implements Screen {
         powerBar = new PowerBar(this, game.WIDTH / 2, totalLift, settings.getButtonTypes()); //centrada en x
 
         // calculo los puntos que necesito de la función seno para rep
-        bacteriaScale = new Array<Float>();
-        double x = 0;
-        while(x < 2*Math.PI){
-            float y = 3;
-            Float f = (float)((1f/(y - 1f))*(y - Math.cos(x)));
-            bacteriaScale.add(f);
-            x+=0.05;
-        }
+        bacteriaScale = game.getSineFunction();
 
         //creo mi grid
         grid = new Grid(this, 0, totalLift, game.WIDTH, 4, 5);
@@ -271,7 +264,7 @@ public class PlayScreen implements Screen {
         // paso por todas las bacterias!
         for(int i = 0; i < bacterias.size; i++){ // n = 60
             Bacteria b = bacterias.get(i);
-            b.update(delta);
+            b.update(delta, true);
 
             //sumo la probabilidad de que esta bacteria muera a la total
             infobar.sumP(b);

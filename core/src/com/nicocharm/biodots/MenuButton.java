@@ -15,7 +15,7 @@ public class MenuButton extends Button {
     public int id;
 
     public MenuButton(BioDots game, float x, float y, String text, float scale) {
-        super(game, x, y, "menu-button.png", text, scale);
+        super(game, x, y, "menu-button-transparent.png", text, scale);
         id = MenuButton.ID;
         MenuButton.ID++;
     }

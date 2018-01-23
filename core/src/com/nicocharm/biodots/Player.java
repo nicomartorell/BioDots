@@ -2,6 +2,7 @@ package com.nicocharm.biodots;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -46,6 +47,13 @@ public class Player implements InputProcessor{
 
     @Override
     public boolean keyDown(int keycode) {
+        if(keycode == Input.Keys.BACK){
+            if(screen.isShowingGoal() || screen.isPaused()){
+                screen.game.setToMenu(true);
+            } else{
+                screen.pause();
+            }
+        }
         return false;
     }
 

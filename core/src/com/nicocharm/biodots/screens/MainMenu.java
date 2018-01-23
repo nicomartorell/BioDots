@@ -1,6 +1,7 @@
 package com.nicocharm.biodots.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -10,7 +11,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -19,8 +22,12 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.nicocharm.biodots.Bacteria;
 import com.nicocharm.biodots.BioDots;
+import com.nicocharm.biodots.Bounds;
 import com.nicocharm.biodots.MenuButton;
+
+import java.util.Random;
 
 
 public class MainMenu implements Screen, InputProcessor {
@@ -41,8 +48,15 @@ public class MainMenu implements Screen, InputProcessor {
     public OrthographicCamera cam;
     public Viewport viewport;
 
+    private Label title;
+    private int counter;
+
     private Array<MenuButton> buttons;
     private String[] texts = {MainMenu.SALIR, MainMenu.ACERCA_DE, MainMenu.DESAFIO, MainMenu.JUGAR};
+
+    private Array<Bacteria> bacterias;
+
+    private PlayScreen screenHelper;
 
     public MainMenu(BioDots game){
         this.game = game;
@@ -62,24 +76,43 @@ public class MainMenu implements Screen, InputProcessor {
         style.fontColor = new Color(197/255f, 215/255f, 254/255f, 1);
 
         String text = "Bio Dots";
-        Label title = new Label(text, style);
+        title = new Label(text, style);
         title.setAlignment(Align.center);
         GlyphLayout gl = new GlyphLayout(style.font, text);
         title.setPosition(game.WIDTH/2 - gl.width/2, game.HEIGHT - 20 - font.getLineHeight());
-
+        counter = 0;
         stage.addActor(title);
 
 
         buttons = new Array<MenuButton>();
 
-        float yoffset = 250f;
+        float yoffset = 450f;
         float initialHeight = game.HEIGHT*0.8f;
         float buttonSpace = (initialHeight-yoffset)/texts.length + 18;
         for(int i = 0; i < texts.length; i++){
 
-            MenuButton button = new MenuButton(game, game.WIDTH/2, yoffset + buttonSpace*i, texts[i], 0.85f);
+            MenuButton button = new MenuButton(game, game.WIDTH/2, yoffset + buttonSpace*i, texts[i], 0.7f);
             buttons.add(button);
             stage.addActor(button.getLabel());
+        }
+
+        bacterias = new Array<Bacteria>();
+        ScreenCreator sc = new ScreenCreator();
+        String[] goals = {""};
+        screenHelper = new PlayScreen(game, sc, new Goal(goals){
+            @Override
+            public boolean met() {return false;}
+            @Override
+            public boolean failed() {
+                return false;
+            }
+        });
+        screenHelper.initialize();
+
+        Bounds bounds = new Bounds(game.WIDTH*0.1f, game.HEIGHT*0.05f, game.WIDTH*0.8f, game.HEIGHT*0.9f);
+        Random r = new Random();
+        for(int i = 0; i < 17; i++){
+            bacterias.add(new Bacteria(screenHelper, screenHelper.getNewBacteriaX(r.nextFloat(), bounds), screenHelper.getNewBacteriaY(r.nextFloat(), bounds), Bacteria.randomType(), 0));
         }
 
     }
@@ -94,11 +127,26 @@ public class MainMenu implements Screen, InputProcessor {
         Gdx.gl.glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        update(delta);
+
         game.batch.begin();
+        for(Bacteria b: bacterias){b.render(game.batch);}
         for(MenuButton button: buttons) button.render(game.batch);
         game.batch.end();
 
         stage.draw();
+    }
+
+    private void update(float delta) {
+
+        title.setFontScale(0.85f + game.getSineFunction().get(counter)*0.05f);
+        counter++;
+        if(counter == game.getSineFunction().size) counter = 0;
+
+        for(Bacteria b: bacterias){
+            b.update(delta, false);
+        }
+        screenHelper.getWorld().step(delta,6,2);
     }
 
     @Override
@@ -125,10 +173,15 @@ public class MainMenu implements Screen, InputProcessor {
     public void dispose() {
         stage.dispose();
         MenuButton.resetID();
+        screenHelper.dispose();
     }
 
     @Override
     public boolean keyDown(int keycode) {
+        if(keycode == Input.Keys.BACK){
+            Gdx.app.log("tag", "end");
+            Gdx.app.exit();
+        }
         return false;
     }
 

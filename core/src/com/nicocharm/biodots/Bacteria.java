@@ -151,7 +151,7 @@ public class Bacteria extends Actor {
 
     }
 
-    public void update(float delta){
+    public void update(float delta, boolean playable){
         timer += delta; //cuentan las bacterias
         targetTimer += delta; //desde el último target
 
@@ -163,11 +163,13 @@ public class Bacteria extends Actor {
             calculateVelocity();
             angle = body.getLinearVelocity().nor().angle();
             angle -=90;
-            handleReproduce(); //me reproduzco? solo si estoy libre
+            if(playable) handleReproduce(); //me reproduzco? solo si estoy libre y en un nivel
         }
 
         //nuevo target si se cumplió el límite
         if(targetTimer> targetTimerLimit) target = getNewTarget();
+
+        if(!playable) return;
 
         Grid grid = screen.getGrid();
 
@@ -311,7 +313,24 @@ public class Bacteria extends Actor {
         }
     }
 
-
+    public static short randomType(){
+        Random r = new Random();
+        int i = r.nextInt(5);
+        switch (i){
+            case 0:
+                return BACTERIA_RED;
+            case 1:
+                return BACTERIA_ORANGE;
+            case 2:
+                return BACTERIA_BLUE;
+            case 3:
+                return BACTERIA_GREEN;
+            case 4:
+                return BACTERIA_PINK;
+            default:
+                return BACTERIA_BLUE;
+        }
+    }
 
     public void die(float pOfKilling) { //me muero, quizás, segun pOfDying
         Random r = new Random();
