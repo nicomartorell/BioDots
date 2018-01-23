@@ -49,6 +49,7 @@ public class LevelScreen implements Screen, InputProcessor {
     }
 
     private Texture border;
+    private Texture lockedBorder;
 
     private float pastX = -1;
 
@@ -70,6 +71,7 @@ public class LevelScreen implements Screen, InputProcessor {
         //stage.setDebugAll(true);
 
         border = (Texture)game.manager.get("level-border.png", Texture.class);
+        lockedBorder = (Texture)game.manager.get("level-border-locked.png", Texture.class);
 
         levels = new Array<Level>();
         /*for(int i = 0; i < game.getLevels().size; i++){
@@ -79,18 +81,15 @@ public class LevelScreen implements Screen, InputProcessor {
         }*/
 
         for(i = 0; i <= Gdx.app.getPreferences("BioDots").getInteger("lastLevel", 0); i++){
-            Level level = new Level(this, "Nivel " + Integer.toString(i), 1, game.WIDTH/2 + game.WIDTH*i, game.HEIGHT/2 + 50);
+            Level level = new Level(this, "Nivel " + Integer.toString(i), 1, game.WIDTH/2 + game.WIDTH*i, game.HEIGHT/2 + 50, false);
             levels.add(level);
             stage.addActor(level.getLabel());
         }
 
         if(i<game.getLevels().size){
-            Level level = new Level(this, "Seguí jugando\n" +
-                    "para desbloquear\n" +
-                    "más niveles!", 3,
-                    game.WIDTH/2 + game.WIDTH*i, game.HEIGHT/2 + 50);
+            Level level = new Level(this, "No", 1,
+                    game.WIDTH/2 + game.WIDTH*i, game.HEIGHT/2 + 50, true);
             levels.add(level);
-            stage.addActor(level.getLabel());
         } else {
             game.setCompleted(true);
         }
@@ -124,7 +123,7 @@ public class LevelScreen implements Screen, InputProcessor {
             Level last = levels.get(levels.size-1);
             last.setX(last.getX() + game.WIDTH);
             last.setPreferedX(last.getPreferedX() + game.WIDTH);
-            Level level = new Level(this, "Nivel " + Integer.toString(i), 1, game.WIDTH/2 + game.WIDTH*i, game.HEIGHT/2 + 50);
+            Level level = new Level(this, "Nivel " + Integer.toString(i), 1, game.WIDTH/2 + game.WIDTH*i, game.HEIGHT/2 + 50, false);
             levels.insert(levels.size - 1, level);
             stage.addActor(level.getLabel());
             i++;
@@ -149,6 +148,7 @@ public class LevelScreen implements Screen, InputProcessor {
             }
 
             float deltaX = currentX - pastX;
+            Gdx.app.log("tag", "deltaX: " + deltaX);
             if(Math.abs(currentX - firstX) > 40) touchable = false;
 
             pastX = currentX;
@@ -171,17 +171,6 @@ public class LevelScreen implements Screen, InputProcessor {
         } else {
             for(Level level: levels){
                 level.update(delta);
-            }
-
-            Level level = levels.get(0);
-            if(level.getX() - level.getPreferedX() > game.WIDTH/2 && !(levels.get(0).getX() > game.WIDTH/2)){
-                for(Level l: levels){
-                    l.setPreferedX(l.getPreferedX() + game.WIDTH);
-                }
-            } else if(level.getPreferedX() - level.getX() > game.WIDTH/2 && !(levels.get(levels.size-1).getX() < game.WIDTH/2)){
-                for(Level l: levels){
-                    l.setPreferedX(l.getPreferedX() - game.WIDTH);
-                }
             }
         }
     }
@@ -247,16 +236,31 @@ public class LevelScreen implements Screen, InputProcessor {
 
         pastX = -1;
 
+        Level level = levels.get(0);
+        if(level.getX() - level.getPreferedX() > game.WIDTH/6 && !(levels.get(0).getX() > game.WIDTH/2)){
+            for(Level l: levels){
+                l.setPreferedX(l.getPreferedX() + game.WIDTH);
+            }
+            return false;
+        } else if(level.getPreferedX() - level.getX() > game.WIDTH/6 && !(levels.get(levels.size-1).getX() < game.WIDTH/2)){
+            for(Level l: levels){
+                l.setPreferedX(l.getPreferedX() - game.WIDTH);
+            }
+            return false;
+        }
+
+
+
         Vector3 v = new Vector3(screenX, screenY, 0);
         Vector3 v2 = cam.unproject(v);
         float x = v2.x;
         float y = v2.y;
 
         if(touchable){
-            for(Level level: levels){
-                if(level.pressed(x, y)){
-                    if(!(levels.indexOf(level, true) == levels.size - 1) || game.isCompleted()){
-                        game.setLevel(levels.indexOf(level, true));
+            for(Level l: levels){
+                if(l.pressed(x, y)){
+                    if(!(levels.indexOf(l, true) == levels.size - 1) || game.isCompleted()){
+                        game.setLevel(levels.indexOf(l, true));
                         reset();
                         return false;
                     };
@@ -319,5 +323,9 @@ public class LevelScreen implements Screen, InputProcessor {
     @Override
     public void dispose() {
         stage.dispose();
+    }
+
+    public Texture getLockedBorder() {
+        return lockedBorder;
     }
 }

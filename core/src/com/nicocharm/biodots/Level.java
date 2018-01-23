@@ -35,7 +35,9 @@ public class Level {
 
     private float preferedX;
 
-    public Level(LevelScreen screen, String id, int lines, float x, float y){
+    private boolean locked;
+
+    public Level(LevelScreen screen, String id, int lines, float x, float y, boolean locked){
         this.screen = screen;
         this.id = id;
         this.x = x;
@@ -45,27 +47,41 @@ public class Level {
         preferedX = x;
 
         scale = 0.88f;
+        Texture t;
 
-        BitmapFont font = (BitmapFont) screen.getGame().manager.get("Roboto-Bold.ttf", BitmapFont.class);
+        this.locked = locked;
 
-        Label.LabelStyle style = new Label.LabelStyle();
-        font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        style.font = font;
-        style.fontColor = new Color(197/255f, 215/255f, 254/255f, 1);
+        if(!locked){
+            BitmapFont font = (BitmapFont) screen.getGame().manager.get("Roboto-Bold.ttf", BitmapFont.class);
 
-        label = new Label(id, style);
-        label.setFontScale(scale);
-        label.setAlignment(Align.center);
-        gl = new GlyphLayout(style.font, id);
-        Gdx.app.log("tag", "gl.width*scale /2: " + (gl.width*scale)/2 + " | font.getLineHeight*scale /2: " + (font.getLineHeight()*scale)/2);
-        label.setPosition(x - (gl.width/**scale*/)/2, y - (label.getStyle().font.getLineHeight()/**scale*/*lines)/2);
+            Label.LabelStyle style = new Label.LabelStyle();
+            font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+            style.font = font;
+            style.fontColor = new Color(197/255f, 215/255f, 254/255f, 1);
 
-        Texture t = screen.getBorder();
+            label = new Label(id, style);
+            label.setFontScale(scale);
+            label.setAlignment(Align.center);
+            gl = new GlyphLayout(style.font, id);
+            Gdx.app.log("tag", "gl.width*scale /2: " + (gl.width*scale)/2 + " | font.getLineHeight*scale /2: " + (font.getLineHeight()*scale)/2);
+            label.setPosition(x - (gl.width/**scale*/)/2, y - (label.getStyle().font.getLineHeight()/**scale*/*lines)/2);
+
+            t = screen.getBorder();
+        } else {
+            t = screen.getLockedBorder();
+        }
+
+
         bounds = new Bounds( x - (t.getWidth()*this.scale)/2f, y - (t.getHeight()*this.scale)/2f, t.getWidth()*this.scale, t.getHeight()*this.scale);
     }
 
     public void render(SpriteBatch batch){
-        Texture t = screen.getBorder();
+        Texture t;
+        if(locked){
+            t = screen.getLockedBorder();
+        } else {
+            t = screen.getBorder();
+        }
         batch.draw(t, x - (t.getWidth()*scale)/2, y - (t.getHeight()*scale)/2, t.getWidth()*scale, t.getHeight()*scale);
     }
 
@@ -87,6 +103,7 @@ public class Level {
         x += deltax;
         y += deltay;
         bounds.translate(deltax, deltay);
+        if(locked) return;
         label.setPosition(label.getX() + deltax, label.getY());    }
 
     public Label getLabel() {
@@ -98,6 +115,7 @@ public class Level {
         this.y += y;
         Texture t = screen.getBorder();
         bounds.setPosition(x - (t.getWidth()*scale)/2, y - t.getHeight()*scale);
+        if(locked) return;
         label.setPosition(x - (gl.width/**scale*/)/2, y - (label.getStyle().font.getLineHeight()/**scale*/*lines)/2);
     }
 
@@ -107,9 +125,10 @@ public class Level {
 
     public void setX(float x) {
         this.x = x;
-        label.setPosition(x - (gl.width/**scale*/)/2, label.getY());
         Texture t = screen.getBorder();
         bounds.setPosition(x  - (t.getWidth()*scale)/2, bounds.getY());
+        if(locked) return;
+        label.setPosition(x - (gl.width/**scale*/)/2, label.getY());
     }
 
     public boolean pressed(float x, float y){
