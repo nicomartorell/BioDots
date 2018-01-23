@@ -25,6 +25,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.nicocharm.biodots.Bacteria;
 import com.nicocharm.biodots.BioDots;
 import com.nicocharm.biodots.Bounds;
+import com.nicocharm.biodots.Button;
 import com.nicocharm.biodots.MenuButton;
 
 import java.util.Random;
@@ -57,6 +58,9 @@ public class MainMenu implements Screen, InputProcessor {
     private Array<Bacteria> bacterias;
 
     private PlayScreen screenHelper;
+
+    private Button config;
+    private Button highScores;
 
     public MainMenu(BioDots game){
         this.game = game;
@@ -91,7 +95,7 @@ public class MainMenu implements Screen, InputProcessor {
         float buttonSpace = (initialHeight-yoffset)/texts.length + 18;
         for(int i = 0; i < texts.length; i++){
 
-            MenuButton button = new MenuButton(game, game.WIDTH/2, yoffset + buttonSpace*i, texts[i], 0.7f);
+            MenuButton button = new MenuButton(game, game.WIDTH/2, yoffset + buttonSpace*i, texts[i], 0.75f);
             buttons.add(button);
             stage.addActor(button.getLabel());
         }
@@ -115,6 +119,11 @@ public class MainMenu implements Screen, InputProcessor {
             bacterias.add(new Bacteria(screenHelper, screenHelper.getNewBacteriaX(r.nextFloat(), bounds), screenHelper.getNewBacteriaY(r.nextFloat(), bounds), Bacteria.randomType(), 0));
         }
 
+        config = new Button(game, game.WIDTH*(1/8f), 150, "config-icon.png", null, 0.2f);
+        highScores = new Button(game, game.WIDTH*(7/8f), 130, null, "Máximos puntajes", 0.5f);
+
+        highScores.setButtonPosition(game.WIDTH - highScores.getLabelWidth()/2 - 60, 130);
+        stage.addActor(highScores.getLabel());
     }
 
     @Override
@@ -132,6 +141,7 @@ public class MainMenu implements Screen, InputProcessor {
         game.batch.begin();
         for(Bacteria b: bacterias){b.render(game.batch);}
         for(MenuButton button: buttons) button.render(game.batch);
+        config.render(game.batch);
         game.batch.end();
 
         stage.draw();

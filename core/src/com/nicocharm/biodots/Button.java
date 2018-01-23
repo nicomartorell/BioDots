@@ -40,28 +40,42 @@ public class Button extends Actor{
 
     public Button(BioDots game, float x, float y, String path, String text, float scale) {
         super(null, x, y, false);
-        this.path = path;
-        setTexture((Texture)game.manager.get(path, Texture.class));
-        width = getTexture().getWidth();
-        height = getTexture().getHeight();
+
+        boolean setDims = false;
+
+        if(path !=null){
+            this.path = path;
+            setTexture((Texture)game.manager.get(path, Texture.class));
+            width = getTexture().getWidth();
+            height = getTexture().getHeight();
+            setDims = true;
+        }
+
         setScale(scale);
         this.scale = scale;
+
+        if(text != null){
+            BitmapFont font = (BitmapFont) game.manager.get("Roboto-Bold.ttf", BitmapFont.class);
+
+            style = new Label.LabelStyle();
+            font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+            style.font = font;
+            style.fontColor = new Color(197/255f, 215/255f, 254/255f, 1);
+
+            label = new Label(text, style);
+            label.setFontScale(scale);
+            label.setAlignment(Align.center);
+            GlyphLayout gl = new GlyphLayout(style.font, text);
+            label.setPosition(getX() - gl.width/2, getY() - font.getLineHeight()/2);
+
+            if(!setDims){
+                width = gl.width;
+                height = font.getLineHeight();
+            }
+        }
+
         bounds = new Bounds(getX() - (width*this.scale)/2, getY() - (height*this.scale)/2, width*this.scale, height*this.scale);
 
-        if(text == null) return;
-
-        BitmapFont font = (BitmapFont) game.manager.get("Roboto-Bold.ttf", BitmapFont.class);
-
-        Label.LabelStyle style = new Label.LabelStyle();
-        font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        style.font = font;
-        style.fontColor = new Color(197/255f, 215/255f, 254/255f, 1);
-
-        label = new Label(text, style);
-        label.setFontScale(scale);
-        label.setAlignment(Align.center);
-        GlyphLayout gl = new GlyphLayout(style.font, text);
-        label.setPosition(getX() - gl.width/2, getY() - font.getLineHeight()/2);
     }
 
     public Button(BioDots game, float x, float y, String path, String text, float scale, int id) {
@@ -84,11 +98,28 @@ public class Button extends Actor{
         return false;
     }
 
+    public void setButtonPosition(float x, float y){
+        setPosition(x, y);
+        bounds.setPosition(getX() - (width*this.scale)/2, getY() - (height*this.scale)/2);
+        GlyphLayout gl = new GlyphLayout(style.font, label.getText());
+        label.setPosition(getX() - gl.width/2, getY() - style.font.getLineHeight()/2);
+
+    }
+
     public float getScaledWidth(){
         return width * scale;
     }
 
     public float getScaledHeight() {
         return height*scale;
+    }
+
+    public float getLabelWidth(){
+        GlyphLayout gl = new GlyphLayout(style.font, label.getText());
+        return gl.width*scale;
+    }
+
+    public float getLabelHeight(){
+        return style.font.getLineHeight();
     }
 }
