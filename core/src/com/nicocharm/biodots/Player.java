@@ -159,7 +159,7 @@ public class Player implements InputProcessor{
         //dependiendo de cuanto tiempo presioné
         if(delta >= 0.3 && screen.getAntibiotic() != null && !screen.getAntibiotic().isActive()){
             applyAntibiotic(x, y); //aplicá antibiotico
-        } else if(delta < 0.3 && screen.getGrid().getActiveBlocks()<3){
+        } else if(delta < 0.3 && screen.getGrid().getActiveBlocks()<1){
             screen.getGrid().activateBlock(x, y); //activá un bloque
         }
 

@@ -186,7 +186,7 @@ public class Bacteria extends Actor {
                     locked = true;
 
                     // gano puntos al encerrar bacterias
-                    screen.getInfobar().updatePoints(10);
+                    //screen.getInfobar().updatePoints(10);
 
                     bounds = block.getBounds();
                     savedVelocity = body.getLinearVelocity();
@@ -288,7 +288,7 @@ public class Bacteria extends Actor {
         dividing = true;
 
         //pierdo puntos al dividirse
-        screen.getInfobar().updatePoints(-120);
+        //screen.getInfobar().updatePoints(-120);
     }
 
 

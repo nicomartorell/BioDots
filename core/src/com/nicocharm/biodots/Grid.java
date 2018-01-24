@@ -89,6 +89,7 @@ public class Grid {
             if(!block.isActive() && block.isTouched(x, y)){
                 activeBlocks++;
                 block.activate();
+                screen.getInfobar().updatePoints(-20);
             }
         }
     }
