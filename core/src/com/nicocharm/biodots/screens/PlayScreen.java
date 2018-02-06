@@ -43,7 +43,7 @@ public class PlayScreen implements Screen {
 
     private Texture background;
 
-    private float timer;
+    protected float timer;
 
     public boolean isShowingGoal() {return showingGoal;}
     public void setShowingGoal(boolean showingGoal) {this.showingGoal = showingGoal;}
@@ -148,16 +148,24 @@ public class PlayScreen implements Screen {
 
     private boolean paused;
 
-    private Goal goal;
+    protected Goal goal;
 
     private PauseMenu pauseMenu;
 
     private float lastBacteria = 0;
 
+    private int maxBlocks;
+
+    public boolean isTutorial() {
+        return isTutorial;
+    }
+
+    protected boolean isTutorial;
+
     public PlayScreen(BioDots game, ScreenCreator creator, Goal goal){
         settings = creator;
         this.goal = goal;
-
+        this.isTutorial = false;
 
         random = new Random();
         paused = true;
@@ -211,6 +219,8 @@ public class PlayScreen implements Screen {
         goal.setStage(this);
 
         pauseMenu = new PauseMenu(this);
+
+        maxBlocks = settings.getMaxBlocks();
     }
 
     //retorno valores X e Y para una nueva bacteria, según un random pasado
@@ -221,7 +231,7 @@ public class PlayScreen implements Screen {
         return (r*bounds.getHeight()*0.9f + bounds.getY() + bounds.getHeight()*0.05f);
     }
 
-    private void update(float delta){
+    protected void update(float delta){
         if(paused) return;
 
         timer+=delta;
@@ -435,5 +445,9 @@ public class PlayScreen implements Screen {
 
     public Goal getGoal() {
         return goal;
+    }
+
+    public int getMaxBlocks() {
+        return maxBlocks;
     }
 }

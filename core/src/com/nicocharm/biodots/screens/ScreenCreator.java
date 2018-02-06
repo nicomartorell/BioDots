@@ -59,12 +59,14 @@ public class ScreenCreator {
         this.nBacterias = nBacterias;
         types = new short[nBacterias];
         Random random = new Random();
-        for(int i = 0; i < nBacterias; i++){
-            types[i] = (short)(random.nextInt(5) + 1);
+        for (int i = 0; i < nBacterias; i++) {
+            types[i] = (short) (random.nextInt(5) + 1);
         }
     }
 
     private int nBacterias;
+
+    private int maxBlocks;
 
     public ScreenCreator(){
         initial_pOfDying = 1.0f;
@@ -86,6 +88,11 @@ public class ScreenCreator {
         }
 
         isFreeGame = false;
+
+        maxBlocks = 1;
     }
 
+    public int getMaxBlocks() {
+        return maxBlocks;
+    }
 }

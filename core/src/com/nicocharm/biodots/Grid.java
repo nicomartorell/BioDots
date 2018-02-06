@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.utils.Array;
 import com.nicocharm.biodots.screens.PlayScreen;
+import com.nicocharm.biodots.screens.TutorialScreen;
 
 public class Grid {
     public Array<Block> getBlocks() {
@@ -90,6 +91,13 @@ public class Grid {
                 activeBlocks++;
                 block.activate();
                 screen.getInfobar().updatePoints(-20);
+            }
+        }
+
+        if(screen.isTutorial()){
+            TutorialScreen ts = (TutorialScreen)screen;
+            if(ts.getState() == ts.STATE_SHORTPRESS  && !ts.isToAdvance()){
+                ts.setToAdvance(3);
             }
         }
     }

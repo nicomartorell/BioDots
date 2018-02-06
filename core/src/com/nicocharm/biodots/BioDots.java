@@ -18,6 +18,8 @@ import com.nicocharm.biodots.screens.LoadingScreen;
 import com.nicocharm.biodots.screens.MainMenu;
 import com.nicocharm.biodots.screens.PlayScreen;
 import com.nicocharm.biodots.screens.ScreenCreator;
+import com.nicocharm.biodots.screens.TutorialScreen;
+
 import java.io.File;
 import java.util.Random;
 
@@ -299,15 +301,15 @@ public class BioDots extends Game {
 
 		level.setInitialTime(50f);
 
-		goals = new String[3];
+		/*goals = new String[3];
 		goals[0] = "Matá a las bacterias usando\n" +
 				"el antibiótico blanco.";
 		goals[1] = "Un toque corto en un\n" +
 				"cuadrante pausa a las bacterias\n" +
 				"que están sobre él.";
-		goals[2] = "Un toque largo aplica el antibiótico.";
+		goals[2] = "Un toque largo aplica el antibiótico.";*/
 
-		PlayScreen screen = new PlayScreen(this, level, new Goal(goals){
+		TutorialScreen tscreen = new TutorialScreen(this, level, null);/*new Goal(goals){
 
 			@Override
 			public boolean met() {
@@ -318,9 +320,9 @@ public class BioDots extends Game {
 			public boolean failed() {
 				return false;
 			}
-		});
+		});*/
 
-		levels.add(screen);
+		levels.add(tscreen);
 
         ///////////////////////////////////////////////////////////
 
@@ -349,7 +351,7 @@ public class BioDots extends Game {
 		goals = new String[1];
 		goals[0] = "Matá a las bacterias!\nSi no te apurás se dividen!";
 
-		screen = new PlayScreen(this, level, new Goal(goals){
+		PlayScreen screen = new PlayScreen(this, level, new Goal(goals){
 
 			@Override
 			public boolean met() {

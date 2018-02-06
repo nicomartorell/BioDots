@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.nicocharm.biodots.screens.PlayScreen;
 import com.nicocharm.biodots.screens.ScreenCreator;
+import com.nicocharm.biodots.screens.TutorialScreen;
 
 
 public class Player implements InputProcessor{
@@ -43,6 +44,14 @@ public class Player implements InputProcessor{
 
         //usar antibiotico cuesta puntos!
         screen.getInfobar().updatePoints(-30);
+
+        //si es un tutorial, tengo que mostrar como aplicar este antibiotico
+        if(screen.isTutorial()){
+            TutorialScreen ts = (TutorialScreen)screen;
+            if(ts.getState() == ts.STATE_LONGPRESS && !ts.isToAdvance()){
+                ts.setToAdvance(5);
+            }
+        }
     }
 
     @Override
@@ -159,7 +168,7 @@ public class Player implements InputProcessor{
         //dependiendo de cuanto tiempo presioné
         if(delta >= 0.3 && screen.getAntibiotic() != null && !screen.getAntibiotic().isActive()){
             applyAntibiotic(x, y); //aplicá antibiotico
-        } else if(delta < 0.3 && screen.getGrid().getActiveBlocks()<1){
+        } else if(delta < 0.3 && screen.getGrid().getActiveBlocks()<screen.getMaxBlocks()){
             screen.getGrid().activateBlock(x, y); //activá un bloque
         }
 

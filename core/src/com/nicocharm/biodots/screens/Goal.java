@@ -130,4 +130,13 @@ public abstract class Goal {
 
         counter++;
     }
+
+    public void setFinalParams(){
+        timer = 10f;
+        fontScale = 1;
+        textAlpha = 0.9f;
+        alpha = 0.7f;
+        label.setFontScale(fontScale*0.75f);
+        label.getStyle().fontColor = new Color(1, 0, 0, textAlpha);
+    }
 }
