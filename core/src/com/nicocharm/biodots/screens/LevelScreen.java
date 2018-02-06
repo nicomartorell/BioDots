@@ -80,7 +80,11 @@ public class LevelScreen implements Screen, InputProcessor {
             stage.addActor(level.getLabel());
         }*/
 
-        for(i = 0; i <= Gdx.app.getPreferences("BioDots").getInteger("lastLevel", 0); i++){
+        Level level0 = new Level(this, "TUTORIAL", 1, game.WIDTH/2, game.HEIGHT/2 + 50, false);
+        levels.add(level0);
+        stage.addActor(level0.getLabel());
+
+        for(i = 1; i <= Gdx.app.getPreferences("BioDots").getInteger("lastLevel", 0); i++){
             Level level = new Level(this, "Nivel " + Integer.toString(i), 1, game.WIDTH/2 + game.WIDTH*i, game.HEIGHT/2 + 50, false);
             levels.add(level);
             stage.addActor(level.getLabel());
@@ -101,7 +105,7 @@ public class LevelScreen implements Screen, InputProcessor {
         style.font = font;
         style.fontColor = new Color(197/255f, 215/255f, 254/255f, 1);
 
-        String text = "Elegí tu nivel";
+        String text = "Elegí un nivel";
         Label title = new Label(text, style);
         title.setAlignment(Align.center);
         GlyphLayout gl = new GlyphLayout(style.font, text);

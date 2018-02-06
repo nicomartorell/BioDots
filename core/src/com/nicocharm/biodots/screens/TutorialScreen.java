@@ -76,9 +76,9 @@ public class TutorialScreen extends PlayScreen{
         String[] statements3 = {"Excelente!\n", "En el panel superior\n" +
                 "podés encontrar el tiempo que\n" +
                 "queda, los puntos que ganaste\n" +
-                "(o perdiste!) y la probabilidad\n" +
-                "de que una bacteria muera con\n" +
-                "el antibiótico seleccionado.",
+                "y la probabilidad de que una\n" +
+                "bacteria muera con el antibió-\n" +
+                "tico seleccionado.",
                 "Matá a todas las bacterias\n" +
                 "antes de que se acabe el tiempo.\n"};
         map.put(STATE_FINAL, new Goal(statements3){
@@ -110,9 +110,9 @@ public class TutorialScreen extends PlayScreen{
         }
 
         super.update(delta);
-        if(thumb.isAlive()){
-            thumb.update(delta);
-        }
+
+        thumb.update(delta);
+
     }
 
     @Override
@@ -139,9 +139,8 @@ public class TutorialScreen extends PlayScreen{
         grid.render(game.batch);
         powerBar.render(game.batch);
         infobar.render(game.batch);
-        if(thumb.isAlive()){
-            thumb.render(game.batch);
-        }
+        thumb.render(game.batch);
+
         game.batch.end();
 
         infobar.stage.draw();
@@ -157,12 +156,11 @@ public class TutorialScreen extends PlayScreen{
     }
 
     public void advance(){
+        state++;
+
         if(state == STATE_FINAL) {
             thumb.setAlive(false);
-            return;
         }
-
-        state++;
 
         if(state == STATE_SHORTPRESS){
             thumb.setTimes(0.1f, 1.9f);

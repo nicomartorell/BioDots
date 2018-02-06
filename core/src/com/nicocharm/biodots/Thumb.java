@@ -75,6 +75,7 @@ public class Thumb extends Actor{
 
     @Override
     public void update(float delta) {
+        if(!alive) return;
         timer+=delta;
 
         if(state==STATE_UP && timer - lastTime > upTime){
@@ -86,6 +87,7 @@ public class Thumb extends Actor{
 
     @Override
     public void render(SpriteBatch batch) {
+        if(!alive) return;
         batch.draw(getTexture(), getX(), getY(), width * scale, height * scale);
     }
 }

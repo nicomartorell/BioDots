@@ -3,6 +3,7 @@ package com.nicocharm.biodots.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -34,7 +35,7 @@ import java.util.Random;
 public class MainMenu implements Screen, InputProcessor {
 
     public static final String JUGAR = "JUEGO RÁPIDO";
-    public static final String DESAFIO = "DESAFIO";
+    public static final String DESAFIO = "NIVELES";
     public static final String ACERCA_DE = "ACERCA DE";
     public static final String SALIR = "SALIR";
 
@@ -128,7 +129,19 @@ public class MainMenu implements Screen, InputProcessor {
 
     @Override
     public void show() {
-
+        Preferences preferences = Gdx.app.getPreferences("BioDots");
+        if(preferences.contains("lastLevel")){
+            int current = preferences.getInteger("lastLevel", 0);
+            MenuButton b = buttons.get(2); //botón niveles
+            MenuButton b2 = buttons.get(3); // juego libre
+            if(current == 0){
+                b.setText("TUTORIAL");
+                b2.setActive(false);
+            } else {
+                b.setText(DESAFIO);
+                b2.setActive(true);
+            }
+        }
     }
 
     @Override

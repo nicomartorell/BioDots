@@ -38,6 +38,16 @@ public class Button extends Actor{
 
     private int id;
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    private boolean active;
+
     public Button(BioDots game, float x, float y, String path, String text, float scale) {
         super(null, x, y, false);
 
@@ -53,6 +63,8 @@ public class Button extends Actor{
 
         setScale(scale);
         this.scale = scale;
+
+        active = true;
 
         if(text != null){
             BitmapFont font = (BitmapFont) game.manager.get("Roboto-Bold.ttf", BitmapFont.class);
@@ -92,6 +104,8 @@ public class Button extends Actor{
     }
 
     public boolean pressed(float x, float y){
+        if(!active) return false;
+
         if(bounds.intersects(x, y)){
             return true;
         }
@@ -121,5 +135,9 @@ public class Button extends Actor{
 
     public float getLabelHeight(){
         return style.font.getLineHeight();
+    }
+
+    public void setText(String text){
+        label.setText(text);
     }
 }
