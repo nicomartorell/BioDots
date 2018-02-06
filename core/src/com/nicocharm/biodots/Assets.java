@@ -57,6 +57,8 @@ public class Assets {
         manager.load("level-border.png", Texture.class);
         manager.load("level-border-locked.png", Texture.class);
         manager.load("config-icon.png", Texture.class);
+        manager.load("thumb-up.png", Texture.class);
+        manager.load("thumb-down.png", Texture.class);
 
         FileHandleResolver resolver = new InternalFileHandleResolver();
         manager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
@@ -140,6 +142,8 @@ public class Assets {
         manager.unload("level-border.png");
         manager.unload("level-border-locked.png");
         manager.unload("config-icon.png");
+        manager.unload("thumb-up.png");
+        manager.unload("thumb-down.png");
 
         manager.unload("GloriaHallelujah.ttf");
         manager.unload("Roboto-Bold.ttf");

@@ -1,7 +1,11 @@
 package com.nicocharm.biodots.screens;
 
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
+import com.nicocharm.biodots.Bacteria;
 import com.nicocharm.biodots.BioDots;
+import com.nicocharm.biodots.Thumb;
 
 import java.util.HashMap;
 
@@ -26,6 +30,8 @@ public class TutorialScreen extends PlayScreen{
 
     private short state;
 
+    private Thumb thumb;
+
     public TutorialScreen(BioDots game, ScreenCreator creator, Goal goal) {
         super(game, creator, goal);
 
@@ -41,7 +47,7 @@ public class TutorialScreen extends PlayScreen{
         map.put(STATE_LONGPRESS, new Goal(statements){
             @Override
             public boolean met() {
-                return false;
+                return bacterias.size < 1;
             }
 
             @Override
@@ -58,7 +64,7 @@ public class TutorialScreen extends PlayScreen{
         map.put(STATE_SHORTPRESS, new Goal(statements2){
             @Override
             public boolean met() {
-                return false;
+                return bacterias.size < 1;
             }
 
             @Override
@@ -91,6 +97,8 @@ public class TutorialScreen extends PlayScreen{
 
         isTutorial = true;
         toAdvance = false;
+
+        thumb = new Thumb(this, game.WIDTH/2, game.HEIGHT/2);
     }
 
     @Override
@@ -102,17 +110,64 @@ public class TutorialScreen extends PlayScreen{
         }
 
         super.update(delta);
+        if(thumb.isAlive()){
+            thumb.update(delta);
+        }
     }
 
     @Override
     public void render(float delta){
-        super.render(delta);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        game.batch.setProjectionMatrix(cam.combined); //dibujo según la cam
+
+        update(delta); // sin esto no pasa nada
+
+        game.batch.begin();
+
+        game.batch.draw(background, 0, 0);
+
+        for(Bacteria bacteria: bacterias){ // dibujo todas las bacterias
+            bacteria.render(game.batch); // 60
+        }
+
+        //dr.render(world, cam.combined);
+
+        if(currentAntibiotic != null) currentAntibiotic.render(game.batch);
+
+        grid.render(game.batch);
+        powerBar.render(game.batch);
+        infobar.render(game.batch);
+        if(thumb.isAlive()){
+            thumb.render(game.batch);
+        }
+        game.batch.end();
+
+        infobar.stage.draw();
+
+        if(showingGoal){
+            goal.render(game.batch);
+        }
+
+        if(paused){
+            pauseMenu.render(game.batch);
+        }
+
     }
 
     public void advance(){
-        if(state == STATE_FINAL) return;
+        if(state == STATE_FINAL) {
+            thumb.setAlive(false);
+            return;
+        }
 
         state++;
+
+        if(state == STATE_SHORTPRESS){
+            thumb.setTimes(0.1f, 1.9f);
+        }
+
         Goal goal = map.get(state);
         goal.setStage(this);
         goal.setFinalParams();

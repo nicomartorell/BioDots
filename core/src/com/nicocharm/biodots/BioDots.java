@@ -299,7 +299,7 @@ public class BioDots extends Game {
 		}
 		level.setBacteriaTypes(types);
 
-		level.setInitialTime(50f);
+		level.setInitialTime(100f);
 
 		/*goals = new String[3];
 		goals[0] = "Matá a las bacterias usando\n" +

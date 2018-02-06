@@ -41,14 +41,14 @@ public class PlayScreen implements Screen {
     private Texture backgroundWin;
     private Texture backgroundLose;
 
-    private Texture background;
+    protected Texture background;
 
     protected float timer;
 
     public boolean isShowingGoal() {return showingGoal;}
     public void setShowingGoal(boolean showingGoal) {this.showingGoal = showingGoal;}
     //private final float firstTime = 15;
-    private boolean showingGoal = true;
+    protected boolean showingGoal = true;
 
     public Random random;
 
@@ -63,7 +63,7 @@ public class PlayScreen implements Screen {
     public Viewport viewport;
 
     //acá guardo mis bacterias vivas
-    private Array<Bacteria> bacterias;
+    protected Array<Bacteria> bacterias;
     public Array<Bacteria> getBacterias(){
         return bacterias;
     }
@@ -86,7 +86,7 @@ public class PlayScreen implements Screen {
     }
 
     //guardo mi antibiótico actual y el proximo
-    private Antibiotic currentAntibiotic;
+    protected Antibiotic currentAntibiotic;
     private Antibiotic nextAntibiotic;
 
 
@@ -100,7 +100,7 @@ public class PlayScreen implements Screen {
 
     //instancio mi powerbar y defino cuánto se separa de y=0
     public PowerBar getPowerBar() {return powerBar;}
-    private PowerBar powerBar;
+    protected PowerBar powerBar;
     private float totalLift = 300; //altura del tope de la barra
 
     public Bounds getArena() {
@@ -116,14 +116,14 @@ public class PlayScreen implements Screen {
     }
 
     //la grid de blocks
-    private Grid grid;
+    protected Grid grid;
 
     public InfoBar getInfobar() {
         return infobar;
     }
 
     //la barra de información de arriba
-    private InfoBar infobar;
+    protected InfoBar infobar;
 
 
     // llevo la cuenta de si terminó el nivel y si gané o perdí
@@ -146,11 +146,11 @@ public class PlayScreen implements Screen {
     }
     private float endTime;
 
-    private boolean paused;
+    protected boolean paused;
 
     protected Goal goal;
 
-    private PauseMenu pauseMenu;
+    protected PauseMenu pauseMenu;
 
     private float lastBacteria = 0;
 
