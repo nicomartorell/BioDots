@@ -390,11 +390,18 @@ public class BioDots extends Game {
 
 		level.setInitialTime(60f);
 
-		goals = new String[2];
+		goals = new String[4];
 		goals[0] = "El antibiotico azul es más\n" +
 				"potente, pero tarda más en\n" +
 				"activarse...";
-		goals[1] = "TIP:\n" +
+		goals[1] = "En el panel de abajo aparecen\n" +
+				"los antibióticos activos (los no\n" +
+				"disponibles en gris). Tocá el anti-\n" +
+				"biótico para seleccionarlo!";
+		goals[2] = "Cuando un antibiótico aparece\n" +
+				"oscurecido, está desactivado. Luego\n" +
+				"de un tiempo volverá a activarse.";
+		goals[3] = "TIP:\n" +
 				"El porcentaje de bacterias\n" +
 				"que mueren toma el color\n" +
 				"del antibiótico elegido, según\n" +
