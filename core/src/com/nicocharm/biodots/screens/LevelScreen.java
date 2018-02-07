@@ -99,7 +99,7 @@ public class LevelScreen implements Screen, InputProcessor {
         }
 
 
-        BitmapFont font = (BitmapFont) game.manager.get("Roboto-Bold.ttf", BitmapFont.class);
+        BitmapFont font = (BitmapFont) game.manager.get("Roboto-Regular.ttf", BitmapFont.class);
         Label.LabelStyle style = new Label.LabelStyle();
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         style.font = font;
@@ -108,6 +108,7 @@ public class LevelScreen implements Screen, InputProcessor {
         String text = "Elegí un nivel";
         Label title = new Label(text, style);
         title.setAlignment(Align.center);
+        title.setFontScale(1.3f);
         GlyphLayout gl = new GlyphLayout(style.font, text);
         title.setPosition(game.WIDTH/2 - gl.width/2, game.HEIGHT - 140 - font.getLineHeight());
 
