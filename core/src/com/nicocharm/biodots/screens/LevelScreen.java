@@ -120,6 +120,17 @@ public class LevelScreen implements Screen, InputProcessor {
         stage.addActor(button.getLabel());
     }
 
+    @Override
+    public void show() {
+        int current = Gdx.app.getPreferences("BioDots").getInteger("lastLevel", 0);
+
+        for(int i = 0; i < levels.size; i++){
+            float x = game.WIDTH/2 + game.WIDTH*(i - current);
+            levels.get(i).setX(x);
+            levels.get(i).setPreferedX(x);
+        }
+    }
+
     public void addLevel(){
         if(game.isCompleted())return;
 
@@ -297,10 +308,7 @@ public class LevelScreen implements Screen, InputProcessor {
         return false;
     }
 
-    @Override
-    public void show() {
 
-    }
 
 
 

@@ -56,7 +56,7 @@ public abstract class Goal {
 
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         style.font = font;
-        style.fontColor = new Color(1, 0, 0, textAlpha);
+        style.fontColor = new Color(197/255f, 215/255f, 254/255f, textAlpha);
 
         label = new Label(statements[0], style);
         label.setFontScale(fontScale*0.75f);
@@ -108,7 +108,7 @@ public abstract class Goal {
         if(textAlpha < 0.9f) textAlpha += delta*0.3f;
         if(alpha > 0.7f) alpha -= delta*0.1f;
         label.setFontScale(fontScale*0.75f);
-        label.getStyle().fontColor = new Color(1, 0, 0, textAlpha);
+        label.getStyle().fontColor = new Color(197/255f, 215/255f, 254/255f, textAlpha);
     }
 
     public void pressed(){
@@ -118,7 +118,7 @@ public abstract class Goal {
             textAlpha = 0.9f;
             alpha = 0.7f;
             label.setFontScale(fontScale*0.75f);
-            label.getStyle().fontColor = new Color(1, 0, 0, textAlpha);
+            label.getStyle().fontColor = new Color(197/255f, 215/255f, 254/255f, textAlpha);
             return;
         }
 
@@ -137,6 +137,6 @@ public abstract class Goal {
         textAlpha = 0.9f;
         alpha = 0.7f;
         label.setFontScale(fontScale*0.75f);
-        label.getStyle().fontColor = new Color(1, 0, 0, textAlpha);
+        label.getStyle().fontColor = new Color(197/255f, 215/255f, 254/255f, textAlpha);
     }
 }
