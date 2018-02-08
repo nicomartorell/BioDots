@@ -90,20 +90,55 @@ public class Grid {
     public void activateBlock(float x, float y) {
         for(final Block block: blocks){
             if(!block.isActive() && block.isTouched(x, y)){
-                final Music s = (Music) screen.game.manager.get("frozen.wav", Music.class);
+                final long time0 = System.nanoTime();
+
+                final Music s = (Music) screen.game.manager.get("frozen.ogg", Music.class);
+
+                /*long time1 = System.nanoTime();
+
                 s.play();
+
+                long time2 = System.nanoTime();*/
                 activeBlocks++;
 
-                Thread t = new Thread(new Runnable() {
+                screen.game.manager.playSound(s, 0.002f, new Runnable(){
+
                     @Override
                     public void run() {
-                        while(!s.isPlaying() || s.getPosition()<0.03f){
-                        }
                         block.activate();
                         screen.getInfobar().updatePoints(-20);
                     }
                 });
+
+                /*Thread t = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        long time3 = 0;
+                        boolean entered = false;
+                        while(!s.isPlaying() || s.getPosition()<0.0002f){
+                            if(!entered && s.getPosition()>0.009f){
+                                time3 = System.nanoTime();
+                                entered = true;
+                            }
+                        }
+                        long time4 = System.nanoTime();
+                        block.activate();
+                        screen.getInfobar().updatePoints(-20);
+
+                        long delta1 = (time3 - time0)/1000000;
+                        long delta2 = (time4 - time0)/1000000;
+
+                        Gdx.app.log("tag", "Been playing for 0.1ms: " + delta1);
+                        Gdx.app.log("tag", "Out of loop, played 30ms: " + delta2);
+                    }
+                });
                 t.start();
+
+                long delta1 = (time1 - time0)/1000000;
+                long delta2 = (time2 - time0)/1000000;
+
+                Gdx.app.log("tag", "Got the file: " + delta1);
+                Gdx.app.log("tag", "Set to play: " + delta2);*/
             }
         }
 
