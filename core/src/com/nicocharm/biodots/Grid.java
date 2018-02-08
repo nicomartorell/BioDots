@@ -1,6 +1,8 @@
 package com.nicocharm.biodots;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -86,11 +88,22 @@ public class Grid {
     }
 
     public void activateBlock(float x, float y) {
-        for(Block block: blocks){
+        for(final Block block: blocks){
             if(!block.isActive() && block.isTouched(x, y)){
+                final Music s = (Music) screen.game.manager.get("frozen.wav", Music.class);
+                s.play();
                 activeBlocks++;
-                block.activate();
-                screen.getInfobar().updatePoints(-20);
+
+                Thread t = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        while(!s.isPlaying() || s.getPosition()<0.03f){
+                        }
+                        block.activate();
+                        screen.getInfobar().updatePoints(-20);
+                    }
+                });
+                t.start();
             }
         }
 

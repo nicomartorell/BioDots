@@ -5,6 +5,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -60,6 +62,7 @@ public class Assets {
         manager.load("thumb-up.png", Texture.class);
         manager.load("thumb-down.png", Texture.class);
         manager.load("button-mask.png", Texture.class);
+        manager.load("frozen.wav", Music.class);
 
         FileHandleResolver resolver = new InternalFileHandleResolver();
         manager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
@@ -146,6 +149,7 @@ public class Assets {
         manager.unload("thumb-up.png");
         manager.unload("thumb-down.png");
         manager.unload("button-mask.png");
+        manager.unload("frozen.wav");
 
         manager.unload("GloriaHallelujah.ttf");
         manager.unload("Roboto-Bold.ttf");
