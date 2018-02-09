@@ -3,6 +3,7 @@ package com.nicocharm.biodots.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -221,6 +222,9 @@ public class PlayScreen implements Screen {
         pauseMenu = new PauseMenu(this);
 
         maxBlocks = settings.getMaxBlocks();
+
+        final Music s = (Music) game.manager.get("menu-music.ogg", Music.class);
+        s.stop();
     }
 
     //retorno valores X e Y para una nueva bacteria, según un random pasado

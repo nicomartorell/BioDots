@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -129,6 +130,11 @@ public class MainMenu implements Screen, InputProcessor {
 
     @Override
     public void show() {
+
+        final Music s = (Music) game.manager.get("menu-music.ogg", Music.class);
+        s.setLooping(true);
+        s.play();
+
         Preferences preferences = Gdx.app.getPreferences("BioDots");
         if(preferences.contains("lastLevel")){
             int current = preferences.getInteger("lastLevel", 0);

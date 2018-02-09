@@ -2,6 +2,8 @@ package com.nicocharm.biodots;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -32,6 +34,7 @@ public class Antibiotic extends Actor{
     private float pOfKilling;
     private float duration;
     private float inactiveTime;
+    private float lastTime;
 
     public boolean isActive() {
         return active;
@@ -55,6 +58,8 @@ public class Antibiotic extends Actor{
 
         setVisuals();
         checkedBacterias = new HashSet<Integer>();
+
+        lastTime = 0;
     }
 
     @Override
@@ -132,6 +137,13 @@ public class Antibiotic extends Actor{
     public void update(float delta) {
         if(!active) return;
 
+        final Sound s = (Sound) screen.game.manager.get("antibiotic.ogg", Sound.class);
+
+        if(lastTime == 0 || timer - lastTime > 0.5f){
+            s.play(0.5f);
+            lastTime = timer;
+        }
+
         if(timer > duration){
            reset();
            //screen.setAntibiotic(null);
@@ -147,6 +159,7 @@ public class Antibiotic extends Actor{
         timer = 0;
         checkedBacterias.clear();
         button.inactivate();
+        lastTime = 0;
     }
 
     public void checkBacteria(Bacteria b){
