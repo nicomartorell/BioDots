@@ -1,6 +1,7 @@
 package com.nicocharm.biodots;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -287,6 +288,9 @@ public class Bacteria extends Actor {
         screen.getBacterias().add(new Bacteria(screen, getX(), getY(), getType(), pOfDying, body.getLinearVelocity(), target));
         dividing = true;
 
+        /*Sound s = (Sound) screen.game.manager.get("division.ogg", Sound.class);
+        s.play(0.3f);*/
+
         //pierdo puntos al dividirse
         //screen.getInfobar().updatePoints(-120);
     }
@@ -337,6 +341,9 @@ public class Bacteria extends Actor {
         if(r.nextFloat() < pOfDying*pOfKilling){
             Gdx.app.log("tag", "I am dying!!");
             isDead = true;
+            Sound s = (Sound) screen.game.manager.get("kill.ogg", Sound.class);
+            s.play(0.3f);
+
         }
     }
 

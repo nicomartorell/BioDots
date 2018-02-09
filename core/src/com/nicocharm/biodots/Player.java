@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -111,6 +112,8 @@ public class Player implements InputProcessor{
 
         if(screen.getInfobar().getPauseButton().pressed(x, y)){
             //screen.game.setToMenu(true);
+            final Sound s = (Sound) screen.game.manager.get("select.ogg", Sound.class);
+            s.play(0.3f);
             screen.pause();
             return true;
         }
@@ -151,9 +154,16 @@ public class Player implements InputProcessor{
 
         //seleccioná un antibiotico si estoy tocando un botón
         for(AntibioticButton b: screen.getPowerBar().getButtons()){
-            if(b.pressed(x, y) && b.isAvailable() && b.isUsable()){
-                screen.getPowerBar().notifyActivation(b);
-                return true;
+            if(b.pressed(x, y)){
+                if(b.isAvailable() && b.isUsable()){
+                    screen.getPowerBar().notifyActivation(b);
+                    final Sound s = (Sound) screen.game.manager.get("select.ogg", Sound.class);
+                    s.play(0.3f);
+                    return true;
+                } else if(b.isInactive()){
+                    final Sound s = (Sound) screen.game.manager.get("wrong-select.ogg", Sound.class);
+                    s.play(0.3f);
+                }
             }
         }
 

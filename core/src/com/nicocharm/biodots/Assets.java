@@ -62,10 +62,13 @@ public class Assets {
         manager.load("thumb-up.png", Texture.class);
         manager.load("thumb-down.png", Texture.class);
         manager.load("button-mask.png", Texture.class);
-        manager.load("frozen.ogg", Music.class);
+        manager.load("frozen.ogg", Sound.class);
         manager.load("menu-music.ogg", Music.class);
         manager.load("antibiotic.ogg", Sound.class);
-
+        manager.load("wrong-select.ogg", Sound.class);
+        manager.load("select.ogg", Sound.class);
+        manager.load("kill.ogg", Sound.class);
+        //manager.load("division.ogg", Sound.class);
 
         FileHandleResolver resolver = new InternalFileHandleResolver();
         manager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
@@ -155,6 +158,10 @@ public class Assets {
         manager.unload("frozen.ogg");
         manager.unload("menu-music.ogg");
         manager.unload("antibiotic.ogg");
+        manager.unload("wrong-select.ogg");
+        manager.unload("select.ogg");
+        manager.unload("kill.ogg");
+        //manager.unload("division.ogg");
 
         manager.unload("GloriaHallelujah.ttf");
         manager.unload("Roboto-Bold.ttf");

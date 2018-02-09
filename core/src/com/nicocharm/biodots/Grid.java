@@ -92,23 +92,29 @@ public class Grid {
             if(!block.isActive() && block.isTouched(x, y)){
                 final long time0 = System.nanoTime();
 
-                final Music s = (Music) screen.game.manager.get("frozen.ogg", Music.class);
+                //final Music s = (Music) screen.game.manager.get("frozen.ogg", Music.class);
+                Sound s = (Sound) screen.game.manager.get("frozen.ogg", Sound.class);
+                s.play(0.3f);
 
+                activeBlocks++;
+
+                block.activate();
+                screen.getInfobar().updatePoints(-20);
                 /*long time1 = System.nanoTime();
 
                 s.play();
 
                 long time2 = System.nanoTime();*/
-                activeBlocks++;
 
-                screen.game.manager.playSound(s, 0.002f, new Runnable(){
+
+                /*screen.game.manager.playSound(s, 0.002f, new Runnable(){
 
                     @Override
                     public void run() {
                         block.activate();
                         screen.getInfobar().updatePoints(-20);
                     }
-                });
+                });*/
 
                 /*Thread t = new Thread(new Runnable() {
                     @Override
