@@ -94,7 +94,7 @@ public class Grid {
 
                 //final Music s = (Music) screen.game.manager.get("frozen.ogg", Music.class);
                 Sound s = (Sound) screen.game.manager.get("frozen.ogg", Sound.class);
-                s.play(0.3f);
+                s.play(0.45f);
 
                 activeBlocks++;
 

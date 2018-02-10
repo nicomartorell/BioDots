@@ -140,7 +140,7 @@ public class Antibiotic extends Actor{
         final Sound s = (Sound) screen.game.manager.get("antibiotic.ogg", Sound.class);
 
         if(lastTime == 0 || timer - lastTime > 0.5f){
-            s.play(0.5f);
+            s.play(0.25f);
             lastTime = timer;
         }
 

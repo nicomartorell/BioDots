@@ -68,6 +68,7 @@ public class Assets {
         manager.load("wrong-select.ogg", Sound.class);
         manager.load("select.ogg", Sound.class);
         manager.load("kill.ogg", Sound.class);
+        manager.load("play-song.ogg", Music.class);
         //manager.load("division.ogg", Sound.class);
 
         FileHandleResolver resolver = new InternalFileHandleResolver();
@@ -161,6 +162,7 @@ public class Assets {
         manager.unload("wrong-select.ogg");
         manager.unload("select.ogg");
         manager.unload("kill.ogg");
+        manager.unload("play-song.ogg");
         //manager.unload("division.ogg");
 
         manager.unload("GloriaHallelujah.ttf");

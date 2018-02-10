@@ -131,6 +131,9 @@ public class MainMenu implements Screen, InputProcessor {
     @Override
     public void show() {
 
+        final Music s1 = (Music) game.manager.get("play-song.ogg", Music.class);
+        s1.stop();
+
         final Music s = (Music) game.manager.get("menu-music.ogg", Music.class);
         s.setLooping(true);
         s.play();
