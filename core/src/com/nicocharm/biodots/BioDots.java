@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Array;
 import com.nicocharm.biodots.screens.AboutScreen;
+import com.nicocharm.biodots.screens.ConfigScreen;
 import com.nicocharm.biodots.screens.Goal;
 import com.nicocharm.biodots.screens.LevelScreen;
 import com.nicocharm.biodots.screens.LoadingScreen;
@@ -69,6 +70,8 @@ public class BioDots extends Game {
 	private boolean completed = false;
 
 	private Array<Float> sineFunction;
+
+	private ConfigScreen configScreen;
 
 	@Override
 	public void create () {
@@ -177,6 +180,15 @@ public class BioDots extends Game {
 		playedLevel = false;
 		Gdx.input.setInputProcessor(levelScreen);
 		setScreen(levelScreen);
+	}
+
+	public void goToConfigScreen(){
+		played = false;
+		inFreeGame = false;
+		inAboutScreen = false;
+		playedLevel = false;
+		Gdx.input.setInputProcessor(configScreen);
+		setScreen(configScreen);
 	}
 
 	public void advance(){
@@ -755,6 +767,11 @@ public class BioDots extends Game {
 		// LEVEL SCREEN
 
 		levelScreen = new LevelScreen(this);
+
+
+		// CONFIG SCREEN
+
+		configScreen = new ConfigScreen(this);
 	}
 
 	@Override
@@ -786,6 +803,7 @@ public class BioDots extends Game {
 		}
 		aboutScreen.dispose();
 		levelScreen.dispose();
+		configScreen.dispose();
 		manager.unload();
 		manager.dispose();
 		fontManager = null;

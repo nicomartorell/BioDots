@@ -226,10 +226,12 @@ public class PlayScreen implements Screen {
         final Music s = (Music) game.manager.get("menu-music.ogg", Music.class);
         s.stop();
 
-        final Music s1 = (Music) game.manager.get("play-song.ogg", Music.class);
-        s1.setLooping(true);
-        s1.setVolume(0.8f);
-        s1.play();
+        if(game.getScreen().getClass() == PlayScreen.class){
+            final Music s1 = (Music) game.manager.get("play-song.ogg", Music.class);
+            s1.setLooping(true);
+            s1.setVolume(0.8f);
+            s1.play();
+        }
     }
 
     //retorno valores X e Y para una nueva bacteria, según un random pasado
