@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.collision.BoundingBox;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.utils.Array;
 import com.nicocharm.biodots.screens.PlayScreen;
+import com.nicocharm.biodots.screens.TutorialScreen;
 
 import java.util.Random;
 
@@ -164,7 +165,7 @@ public class Bacteria extends Actor {
             calculateVelocity();
             angle = body.getLinearVelocity().nor().angle();
             angle -=90;
-            if(playable) handleReproduce(); //me reproduzco? solo si estoy libre y en un nivel
+            if(playable && !(screen.getClass() == TutorialScreen.class)) handleReproduce(); //me reproduzco? solo si estoy libre y en un nivel
         }
 
         //nuevo target si se cumplió el límite
@@ -342,7 +343,7 @@ public class Bacteria extends Actor {
             Gdx.app.log("tag", "I am dying!!");
             isDead = true;
             Sound s = (Sound) screen.game.manager.get("kill.ogg", Sound.class);
-            s.play(0.3f);
+            s.play(0.17f);
 
         }
     }

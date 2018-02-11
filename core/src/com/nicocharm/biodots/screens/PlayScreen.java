@@ -226,7 +226,7 @@ public class PlayScreen implements Screen {
         final Music s = (Music) game.manager.get("menu-music.ogg", Music.class);
         s.stop();
 
-        if(game.getScreen().getClass() == PlayScreen.class){
+        if(game.getScreen().getClass() == PlayScreen.class || game.getScreen().getClass() == TutorialScreen.class){
             final Music s1 = (Music) game.manager.get("play-song.ogg", Music.class);
             s1.setLooping(true);
             s1.setVolume(0.8f);
