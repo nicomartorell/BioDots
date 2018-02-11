@@ -428,6 +428,7 @@ public class PlayScreen implements Screen {
     public void hide() {
         final Music s1 = (Music) game.manager.get("play-song.ogg", Music.class);
         s1.stop();
+        this.goal.reset();
     }
 
     @Override

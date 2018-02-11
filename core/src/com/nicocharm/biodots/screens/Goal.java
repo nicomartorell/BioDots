@@ -93,11 +93,7 @@ public abstract class Goal {
         Gdx.app.log("tag", "DISPOSED GOAL");
         if(stage!=null)stage.dispose();
         stage = null;
-        alpha = 1f;
-        textAlpha = 0;
-        timer = 0;
-        fontScale = 0.5f;
-        counter = 0;
+        reset();
     }
 
     public void update(float delta) {
@@ -138,5 +134,13 @@ public abstract class Goal {
         alpha = 0.7f;
         label.setFontScale(fontScale*0.75f);
         label.getStyle().fontColor = new Color(197/255f, 215/255f, 254/255f, textAlpha);
+    }
+
+    public void reset() {
+        alpha = 1f;
+        textAlpha = 0;
+        timer = 0;
+        fontScale = 0.5f;
+        counter = 0;
     }
 }

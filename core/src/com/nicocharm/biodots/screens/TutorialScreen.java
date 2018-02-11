@@ -179,4 +179,13 @@ public class TutorialScreen extends PlayScreen{
         recordedTime = timer;
         timeToNextAdvance = time;
     }
+
+    @Override
+    public void hide() {
+        state = STATE_LONGPRESS;
+        Goal goal = map.get(state);
+        goal.setStage(this);
+        this.goal = goal;
+        super.hide();
+    }
 }
