@@ -281,6 +281,10 @@ public class MainMenu implements Screen, InputProcessor {
             game.goToConfigScreen();
         }
 
+        if(highScores.pressed(x, y)){
+            game.goToHighScoresScreen();
+        }
+
         /*if(game.setToEnd){
             game.end();
         }*/

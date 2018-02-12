@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.Array;
 import com.nicocharm.biodots.screens.AboutScreen;
 import com.nicocharm.biodots.screens.ConfigScreen;
 import com.nicocharm.biodots.screens.Goal;
+import com.nicocharm.biodots.screens.HighScoresScreen;
 import com.nicocharm.biodots.screens.LevelScreen;
 import com.nicocharm.biodots.screens.LoadingScreen;
 import com.nicocharm.biodots.screens.MainMenu;
@@ -47,6 +48,7 @@ public class BioDots extends Game {
 	private AboutScreen aboutScreen;
 	private boolean inAboutScreen;
 	private LevelScreen levelScreen;
+	private HighScoresScreen highScoresScreen;
 
 	public boolean isInFreeGame() {
 		return inFreeGame;
@@ -209,6 +211,15 @@ public class BioDots extends Game {
 		playedLevel = false;
 		Gdx.input.setInputProcessor(configScreen);
 		setScreen(configScreen);
+	}
+
+	public void goToHighScoresScreen(){
+		played = false;
+		inFreeGame = false;
+		inAboutScreen = false;
+		playedLevel = false;
+		highScoresScreen.setAsInput();
+		setScreen(highScoresScreen);
 	}
 
 	public void advance(){
@@ -805,6 +816,10 @@ public class BioDots extends Game {
 		// CONFIG SCREEN
 
 		configScreen = new ConfigScreen(this);
+
+		// HIGH SCORES SCREEN
+
+		highScoresScreen = new HighScoresScreen(this);
 	}
 
 	@Override
@@ -877,5 +892,9 @@ public class BioDots extends Game {
 
 	public Array<Float> getSineFunction() {
 		return sineFunction;
+	}
+
+	public int getLevelNumber() {
+		return currentLevel;
 	}
 }

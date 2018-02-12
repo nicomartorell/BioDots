@@ -195,4 +195,8 @@ public class InfoBar extends Actor {
     public void updatePoints(int newPoints){
         points += newPoints;
     }
+
+    public int getPoints() {
+        return points;
+    }
 }

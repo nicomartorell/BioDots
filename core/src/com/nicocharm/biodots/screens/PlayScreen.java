@@ -376,11 +376,58 @@ public class PlayScreen implements Screen {
     }
 
 
+    private void saveScore(Preferences preferences){
+        int score = infobar.getPoints();
+
+        if(game.isInFreeGame()){
+            String s;
+            String[] values;
+            if(preferences.contains("scoreFree")){
+                s = preferences.getString("scoreFree", "Free Game&" + 0);
+                values = s.split("&");
+            } else {
+                values = new String[2];
+                values[0] = "Free Game";
+                values[1] = "" + 0;
+            }
+
+            int pastScore = Integer.getInteger(values[1]);
+
+            if(score>pastScore){
+                preferences.putString("scoreFree", "Free Game&" + score);
+            }
+
+        } else {
+            String s;
+            String[] values;
+
+            if(preferences.contains("score" + game.getLevelNumber())){
+                s = preferences.getString("score" + game.getLevelNumber(), game.getLevelNumber() + "&" + 0);
+                values = s.split("&");
+            } else {
+                values = new String[2];
+                values[0] = "score" + game.getLevelNumber();
+                values[1] = "" + 0;
+            }
+
+            Gdx.app.log("tag", values[1]);
+
+            int pastScore = Integer.parseInt(values[1]);
+
+            if(score>pastScore){
+                preferences.putString("score" + game.getLevelNumber(), game.getLevelNumber() + "&" + score);
+            }
+        }
+    }
+
     private void lose(){
         endTime = timer;
         ended = true;
         won = false;
         background = backgroundLose;
+
+        Preferences preferences = Gdx.app.getPreferences("BioDots");
+        saveScore(preferences);
     }
 
     public void win(){
@@ -390,6 +437,9 @@ public class PlayScreen implements Screen {
         background = backgroundWin;
 
         Preferences preferences = Gdx.app.getPreferences("BioDots");
+
+        saveScore(preferences);
+
         int current = preferences.getInteger("lastLevel");
         int thisOne = game.getLevels().indexOf(this, true) + 1;
         if(thisOne > current){
