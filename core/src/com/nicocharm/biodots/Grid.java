@@ -93,8 +93,13 @@ public class Grid {
                 final long time0 = System.nanoTime();
 
                 //final Music s = (Music) screen.game.manager.get("frozen.ogg", Music.class);
-                Sound s = (Sound) screen.game.manager.get("frozen.ogg", Sound.class);
-                s.play(0.45f);
+
+                if(screen.game.getSound()){
+                    Sound s = (Sound) screen.game.manager.get("frozen.ogg", Sound.class);
+                    s.play(0.45f);
+                }
+
+
 
                 activeBlocks++;
 

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -75,15 +76,26 @@ public class ConfigScreen implements Screen, InputProcessor {
         buttons = new Array<Button>();
         labels = new Array<Label>();
 
-        String[] buttonNames = {"Sonido general", "Efectos", "Música"};
+        String[] buttonNames = {"Efectos", "Música"};
+
+        int margin = 150;
 
         for(int i = 0; i < buttonNames.length; i++){
             Label l = new Label(buttonNames[i], style);
             l.setFontScale(0.8f);
-            float height1 = l.getStyle().font.getLineHeight() + 20;
-            l.setPosition(150, game.HEIGHT*3/4f - height1*i);
+            float height1 = l.getStyle().font.getLineHeight() + 40;
+            l.setPosition(margin, game.HEIGHT*0.74f - height1*i);
             stage.addActor(l);
             labels.add(l);
+        }
+
+        for(int i = 0; i < buttonNames.length; i++){
+            Button l = new Button(game, game.WIDTH*(7/8f), 630, null, "Si", 0.8f, "Roboto-Regular.ttf", i + 1);
+            float height1 = l.getLabel().getStyle().font.getLineHeight() + 40;
+            l.getLabel().setAlignment(Align.right);
+            l.setButtonPosition(game.WIDTH - margin, game.HEIGHT*0.74f + height1*(0.5f - i) - 40);
+            stage.addActor(l.getLabel());
+            buttons.add(l);
         }
 
 
@@ -122,6 +134,30 @@ public class ConfigScreen implements Screen, InputProcessor {
         if(this.button.pressed(x, y)){
             game.setToMenu(true);
             return false;
+        }
+
+        for(Button b: buttons){
+            if(b.pressed(x, y)){
+                if(b.getId() == 1){
+                    if(game.getSound()){
+                        game.setSound(false);
+                        b.setText("No");
+                    } else if(!game.getSound()){
+                        game.setSound(true);
+                        b.setText("Si");
+                    }
+                } else if(b.getId() == 2){
+                    if(game.getMusic()){
+                        game.setMusic(false);
+                        b.setText("No");
+                        final Music s = (Music) game.manager.get("menu-music.ogg", Music.class);
+                        s.stop();
+                    } else if(!game.getMusic()){
+                        game.setMusic(true);
+                        b.setText("Si");
+                    }
+                }
+            }
         }
 
         return false;

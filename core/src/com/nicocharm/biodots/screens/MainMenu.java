@@ -134,9 +134,12 @@ public class MainMenu implements Screen, InputProcessor {
         final Music s1 = (Music) game.manager.get("play-song.ogg", Music.class);
         s1.stop();
 
-        final Music s = (Music) game.manager.get("menu-music.ogg", Music.class);
-        s.setLooping(true);
-        s.play();
+        if(game.getMusic()){
+            final Music s = (Music) game.manager.get("menu-music.ogg", Music.class);
+            s.setLooping(true);
+            s.play();
+        }
+
 
         Preferences preferences = Gdx.app.getPreferences("BioDots");
         if(preferences.contains("lastLevel")){

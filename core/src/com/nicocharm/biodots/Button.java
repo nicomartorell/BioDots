@@ -49,6 +49,10 @@ public class Button extends Actor{
     private boolean active;
 
     public Button(BioDots game, float x, float y, String path, String text, float scale) {
+        this(game, x, y, path, text, scale, "Roboto-Bold.ttf");
+    }
+
+    public Button(BioDots game, float x, float y, String path, String text, float scale, String fontS){
         super(null, x, y, false);
 
         boolean setDims = false;
@@ -67,7 +71,7 @@ public class Button extends Actor{
         active = true;
 
         if(text != null){
-            BitmapFont font = (BitmapFont) game.manager.get("Roboto-Bold.ttf", BitmapFont.class);
+            BitmapFont font = (BitmapFont) game.manager.get(fontS, BitmapFont.class);
 
             style = new Label.LabelStyle();
             font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
@@ -87,11 +91,15 @@ public class Button extends Actor{
         }
 
         bounds = new Bounds(getX() - (width*this.scale)/2, getY() - (height*this.scale)/2, width*this.scale, height*this.scale);
-
     }
 
     public Button(BioDots game, float x, float y, String path, String text, float scale, int id) {
         this(game, x, y, path, text, scale);
+        this.id = id;
+    }
+
+    public Button(BioDots game, float x, float y, String path, String text, float scale, String font, int id) {
+        this(game, x, y, path, text, scale, font);
         this.id = id;
     }
 

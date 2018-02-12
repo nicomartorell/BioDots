@@ -73,6 +73,22 @@ public class BioDots extends Game {
 
 	private ConfigScreen configScreen;
 
+	public boolean getGSound() {
+		return gSound;
+	}
+
+	public boolean getSound() {
+		return sound;
+	}
+
+	public boolean getMusic() {
+		return music;
+	}
+
+	private boolean gSound;
+	private boolean sound;
+	private boolean music;
+
 	@Override
 	public void create () {
 		Gdx.input.setCatchBackKey(true);
@@ -101,6 +117,10 @@ public class BioDots extends Game {
         currentLevel = 0;
 
         player = new Player();
+
+        gSound = true;
+        sound = true;
+        music = true;
 
 		Preferences preferences = Gdx.app.getPreferences("BioDots");
 		if(!preferences.contains("lastLevel")){
@@ -237,6 +257,19 @@ public class BioDots extends Game {
 	public PlayScreen getLevel(){
 		return levels.get(currentLevel);
 	}
+
+	public void setMusic(boolean b){
+		music = b;
+	}
+
+	public void setSound(boolean b){
+		sound = b;
+	}
+
+	public void setGeneralSound(boolean b){
+		gSound = b;
+	}
+
 
 	private void createLevels(){ // acá está la lógica que define cada nivel
 

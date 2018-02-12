@@ -137,12 +137,15 @@ public class Antibiotic extends Actor{
     public void update(float delta) {
         if(!active) return;
 
-        final Sound s = (Sound) screen.game.manager.get("antibiotic.ogg", Sound.class);
+        if(screen.game.getSound()){
+            final Sound s = (Sound) screen.game.manager.get("antibiotic.ogg", Sound.class);
 
-        if(lastTime == 0 || timer - lastTime > 0.5f){
-            s.play(0.25f);
-            lastTime = timer;
+            if(lastTime == 0 || timer - lastTime > 0.5f){
+                s.play(0.25f);
+                lastTime = timer;
+            }
         }
+
 
         if(timer > duration){
            reset();

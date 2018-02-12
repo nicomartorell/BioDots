@@ -112,8 +112,10 @@ public class Player implements InputProcessor{
 
         if(screen.getInfobar().getPauseButton().pressed(x, y)){
             //screen.game.setToMenu(true);
-            final Sound s = (Sound) screen.game.manager.get("select.ogg", Sound.class);
-            s.play(0.3f);
+            if(screen.game.getSound()){
+                final Sound s = (Sound) screen.game.manager.get("select.ogg", Sound.class);
+                s.play(0.3f);
+            }
             screen.pause();
             return true;
         }
@@ -157,12 +159,16 @@ public class Player implements InputProcessor{
             if(b.pressed(x, y)){
                 if(b.isAvailable() && b.isUsable()){
                     screen.getPowerBar().notifyActivation(b);
-                    final Sound s = (Sound) screen.game.manager.get("select.ogg", Sound.class);
-                    s.play(0.3f);
+                    if(screen.game.getSound()){
+                        final Sound s = (Sound) screen.game.manager.get("select.ogg", Sound.class);
+                        s.play(0.3f);
+                    }
                     return true;
                 } else if(b.isInactive()){
-                    final Sound s = (Sound) screen.game.manager.get("wrong-select.ogg", Sound.class);
-                    s.play(0.3f);
+                    if(screen.game.getSound()){
+                        final Sound s = (Sound) screen.game.manager.get("wrong-select.ogg", Sound.class);
+                        s.play(0.3f);
+                    }
                 }
             }
         }

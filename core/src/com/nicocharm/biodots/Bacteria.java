@@ -342,8 +342,11 @@ public class Bacteria extends Actor {
         if(r.nextFloat() < pOfDying*pOfKilling){
             Gdx.app.log("tag", "I am dying!!");
             isDead = true;
-            Sound s = (Sound) screen.game.manager.get("kill.ogg", Sound.class);
-            s.play(0.17f);
+            if(screen.game.getSound()){
+                Sound s = (Sound) screen.game.manager.get("kill.ogg", Sound.class);
+                s.play(0.17f);
+            }
+
 
         }
     }
