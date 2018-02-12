@@ -92,12 +92,44 @@ public class ConfigScreen implements Screen, InputProcessor {
         for(int i = 0; i < buttonNames.length; i++){
             Button l = new Button(game, game.WIDTH*(7/8f), 630, null, "Si", 0.8f, "Roboto-Regular.ttf", i + 1);
             float height1 = l.getLabel().getStyle().font.getLineHeight() + 40;
-            l.getLabel().setAlignment(Align.right);
-            l.setButtonPosition(game.WIDTH - margin, game.HEIGHT*0.74f + height1*(0.5f - i) - 40);
+            l.getLabel().setAlignment(Align.right, Align.center);
+            l.setButtonPosition(game.WIDTH - margin, game.HEIGHT*0.74f + height1*(0.5f - i) - 30);
             stage.addActor(l.getLabel());
             buttons.add(l);
         }
 
+        String text2 = "Controles";
+        Label title2 = new Label(text2, style);
+        title2.setAlignment(Align.center);
+        title2.setFontScale(1.2f);
+        GlyphLayout gl2 = new GlyphLayout(style.font, text2);
+        title2.setPosition(game.WIDTH/2 - gl2.width/2, game.HEIGHT*0.6f - title2.getStyle().font.getLineHeight());
+
+        stage.addActor(title2);
+
+        String[][] controls = {{"Antibiótico", "Toque largo"}, {"Congelar", "Toque corto"}, };
+
+        for(int i = 0; i < controls.length; i++){
+            String[] texts = controls[i];
+            String name = texts[0];
+            String value = texts[1];
+
+            Label l = new Label(name, style);
+            l.setFontScale(0.65f);
+            float height1 = l.getStyle().font.getLineHeight() + 40;
+            l.setPosition(margin, game.HEIGHT*0.45f - height1*i);
+            stage.addActor(l);
+            labels.add(l);
+
+            Label l2 = new Label(value, style);
+            l2.setFontScale(0.65f);
+            l2.setAlignment(Align.right);
+            float height2 = l2.getStyle().font.getLineHeight() + 40;
+            GlyphLayout gl3 = new GlyphLayout(style.font, value);
+            l2.setPosition(game.WIDTH - margin - gl3.width, game.HEIGHT*0.45f - height2*i);
+            stage.addActor(l2);
+            labels.add(l2);
+        }
 
     }
 
