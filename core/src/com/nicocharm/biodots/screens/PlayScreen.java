@@ -163,6 +163,12 @@ public class PlayScreen implements Screen {
 
     protected boolean isTutorial;
 
+    public double getpOfRep() {
+        return pOfRep;
+    }
+
+    private double pOfRep;
+
     public PlayScreen(BioDots game, ScreenCreator creator, Goal goal){
         settings = creator;
         this.goal = goal;
@@ -184,6 +190,8 @@ public class PlayScreen implements Screen {
         backgroundLose = (Texture) game.manager.get("background-lose.png", Texture.class);
 
         background = backgroundPlay;
+
+        pOfRep = settings.getpOfRep();
 
         bacterias = new Array<Bacteria>();
         //bacteriaTimer = 0;
@@ -269,7 +277,7 @@ public class PlayScreen implements Screen {
         }
 
         if(settings.isFreeGame() && !ended && timer - lastBacteria >= 4){
-            bacterias.add(new Bacteria(this, getNewBacteriaX(random.nextFloat(), arena), getNewBacteriaY(random.nextFloat(), arena), (short)(random.nextInt(5) + 1), initial_pOfDying));
+            bacterias.add(new Bacteria(this, getNewBacteriaX(random.nextFloat(), arena), getNewBacteriaY(random.nextFloat(), arena), (short)(random.nextInt(5) + 1), infobar.getAverageP()));
             lastBacteria = timer;
         }
 

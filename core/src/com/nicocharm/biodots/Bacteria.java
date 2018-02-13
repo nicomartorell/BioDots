@@ -266,7 +266,7 @@ public class Bacteria extends Actor {
             return;
         }
 
-        if(screen.random.nextDouble() < 0.0014 && !reproducing) { //muy baja probabilidad
+        if(screen.random.nextDouble() < screen.getpOfRep() && !reproducing) { //muy baja probabilidad
             reproducing = true;
             scaleCount = 0; //me reproduzco y empiezo a contar la funcion seno
         } else if (reproducing){

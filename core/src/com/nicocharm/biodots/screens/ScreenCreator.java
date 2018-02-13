@@ -68,6 +68,16 @@ public class ScreenCreator {
 
     private int maxBlocks;
 
+    public double getpOfRep() {
+        return pOfRep;
+    }
+
+    public void setpOfRep(double pOfRep) {
+        this.pOfRep = pOfRep;
+    }
+
+    private double pOfRep;
+
     public ScreenCreator(){
         initial_pOfDying = 1.0f;
 
@@ -90,6 +100,8 @@ public class ScreenCreator {
         isFreeGame = false;
 
         maxBlocks = 1;
+
+        pOfRep = 0.0011;
     }
 
     public int getMaxBlocks() {

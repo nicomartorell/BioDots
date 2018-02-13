@@ -311,7 +311,7 @@ public class BioDots extends Game {
         // FREE GAME
 
         ScreenCreator freeGame = new ScreenCreator();
-        freeGame.setInitial_pOfDying(0.8f);
+        freeGame.setInitial_pOfDying(1.0f);
         freeGame.setInitialTime(0);
         freeGame.setnBacterias(10);
         freeGame.setFreeGame(true);

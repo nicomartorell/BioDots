@@ -84,25 +84,25 @@ public class Antibiotic extends Actor{
                 break;
             case ANTIBIOTIC_BLUE:
                 path = "antibiotic-blue.png";
-                pOfKilling = 0.7f;
+                pOfKilling = 0.8f;
                 duration = 4f;
                 inactiveTime = 20;
                 break;
             case ANTIBIOTIC_GREEN:
                 path = "antibiotic-green.png";
-                pOfKilling = 0.7f;
+                pOfKilling = 0.75f;
                 duration = 2f;
                 inactiveTime = 15;
                 break;
             case ANTIBIOTIC_PINK:
                 path = "antibiotic-pink.png";
-                pOfKilling = 0.8f;
+                pOfKilling = 0.85f;
                 duration = 8f;
                 inactiveTime = 10;
                 break;
             case ANTIBIOTIC_WHITE:
                 path = "antibiotic-white.png";
-                pOfKilling = 0.4f;
+                pOfKilling = 0.55f;
                 duration = 4f;
                 inactiveTime = 0;
                 break;
