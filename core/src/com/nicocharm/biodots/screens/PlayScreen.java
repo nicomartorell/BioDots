@@ -391,31 +391,41 @@ public class PlayScreen implements Screen {
                 values[1] = "" + 0;
             }
 
-            int pastScore = Integer.getInteger(values[1]);
+            int pastScore = Integer.parseInt(values[1]);
 
             if(score>pastScore){
                 preferences.putString("scoreFree", "Free Game&" + score);
+                preferences.flush();
             }
 
         } else {
             String s;
             String[] values;
 
+            Gdx.app.log("tag", "Saving score");
+
             if(preferences.contains("score" + game.getLevelNumber())){
                 s = preferences.getString("score" + game.getLevelNumber(), game.getLevelNumber() + "&" + 0);
                 values = s.split("&");
+                Gdx.app.log("tag", "There was a value");
             } else {
                 values = new String[2];
                 values[0] = "score" + game.getLevelNumber();
                 values[1] = "" + 0;
+                Gdx.app.log("tag", "There was not a value");
             }
 
-            Gdx.app.log("tag", values[1]);
+            Gdx.app.log("tag", "The value is now " + values[1]);
 
             int pastScore = Integer.parseInt(values[1]);
 
+            Gdx.app.log("tag", "Score is " + score + " and the past score is " + pastScore);
+
+            Gdx.app.log("tag", "The level number is " + game.getLevelNumber());
+
             if(score>pastScore){
                 preferences.putString("score" + game.getLevelNumber(), game.getLevelNumber() + "&" + score);
+                preferences.flush();
             }
         }
     }

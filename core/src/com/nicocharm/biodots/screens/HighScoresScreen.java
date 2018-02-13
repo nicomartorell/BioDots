@@ -92,7 +92,7 @@ public class HighScoresScreen implements Screen, InputProcessor {
     @Override
     public void show() {
         table.clear();
-        tableHeight = padding;
+        tableHeight = padding + 100;
 
         Preferences preferences = Gdx.app.getPreferences("BioDots");
 
@@ -100,10 +100,10 @@ public class HighScoresScreen implements Screen, InputProcessor {
         String[] values = s.split("&");
         Label l = new Label("Juego libre", style);
         l.setFontScale(0.8f);
-        table.add(l).expandX();
+        table.add(l).expandX().padTop(30);;
         l = new Label(values[1], style);
         l.setFontScale(0.8f);
-        table.add(l).expandX();
+        table.add(l).expandX().padTop(30);;
         table.row();
 
         for(int i = 0; i</*game.getLevels().size*/50; i++){
@@ -117,10 +117,10 @@ public class HighScoresScreen implements Screen, InputProcessor {
             values = s.split("&");
             l = new Label("Nivel " + values[0], style);
             l.setFontScale(0.8f);
-            table.add(l).expandX().padTop(25);
+            table.add(l).expandX().padTop(30);
             l = new Label(values[1], style);
             l.setFontScale(0.8f);
-            table.add(l).expandX().padTop(25);;
+            table.add(l).expandX().padTop(30);;
             table.row();
         }
 
