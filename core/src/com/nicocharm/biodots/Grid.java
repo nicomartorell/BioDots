@@ -104,7 +104,7 @@ public class Grid {
                 activeBlocks++;
 
                 block.activate();
-                screen.getInfobar().updatePoints(-20);
+                screen.getInfobar().updatePoints(-100);
                 /*long time1 = System.nanoTime();
 
                 s.play();

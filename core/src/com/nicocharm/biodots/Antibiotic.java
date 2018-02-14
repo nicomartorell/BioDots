@@ -102,7 +102,7 @@ public class Antibiotic extends Actor{
                 break;
             case ANTIBIOTIC_WHITE:
                 path = "antibiotic-white.png";
-                pOfKilling = 0.55f;
+                pOfKilling = 0.45f;
                 duration = 4f;
                 inactiveTime = 0;
                 break;

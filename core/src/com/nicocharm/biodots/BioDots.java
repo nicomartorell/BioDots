@@ -437,7 +437,7 @@ public class BioDots extends Game {
 		buttonTypes[4] = Antibiotic.ANTIBIOTIC_GRAY;
 		level.setButtonTypes(buttonTypes);
 
-		nBacterias = 9;
+		nBacterias = 11;
 		types = new short[nBacterias];
 		for(int i = 0; i < nBacterias; i++){
 			types[i] = (short)(random.nextInt(5) + 1);
@@ -446,22 +446,15 @@ public class BioDots extends Game {
 
 		level.setInitialTime(60f);
 
-		goals = new String[4];
+		goals = new String[2];
 		goals[0] = "El antibiotico azul es más\n" +
 				"potente, pero tarda más en\n" +
 				"activarse...";
-		goals[1] = "En el panel de abajo aparecen\n" +
+		goals[1] = "TIP:\n" +
+				"En el panel de abajo aparecen\n" +
 				"los antibióticos activos (los no\n" +
 				"disponibles en gris). Tocá el anti-\n" +
 				"biótico para seleccionarlo!";
-		goals[2] = "Cuando un antibiótico aparece\n" +
-				"oscurecido, está desactivado. Luego\n" +
-				"de un tiempo volverá a activarse.";
-		goals[3] = "TIP:\n" +
-				"El porcentaje de bacterias\n" +
-				"que mueren toma el color\n" +
-				"del antibiótico elegido, según\n" +
-				"cuán efectivo es.";
 
 		screen = new PlayScreen(this, level, new Goal(goals){
 
@@ -506,9 +499,13 @@ public class BioDots extends Game {
 		}
 		level.setBacteriaTypes(types);
 
-		goals = new String[1];
+		goals = new String[2];
 		goals[0] = "Dejá vivas solo a las\n" +
 				"bacterias que sean verdes.";
+		goals[1] = "TIP:\n" +
+				"Cuando un antibiótico aparece\n" +
+				"oscurecido, está desactivado. Luego\n" +
+				"de un tiempo volverá a activarse.";
 
 		screen = new PlayScreen(this, level,
 				new Goal(goals){
@@ -546,7 +543,7 @@ public class BioDots extends Game {
 		buttonTypes[4] = Antibiotic.ANTIBIOTIC_GRAY;
 		level.setButtonTypes(buttonTypes);
 
-		nBacterias = 10;
+		nBacterias = 14;
 		types = new short[nBacterias];
 		for(int i = 0; i < types.length; i++){
 			short type;
@@ -561,12 +558,17 @@ public class BioDots extends Game {
 
 		level.setInitialTime(120f);
 
-		goals = new String[2];
+		goals = new String[3];
 		goals[0] = "Dejá vivas a las\n" +
 				"bacterias naranjas.";
 		goals[1] = "El antibiótico verde es tan\n" +
 				"bueno como el azul,\n" +
 				"pero dura menos...";
+		goals[2] = "TIP:\n" +
+				"En la barra superior, el\n" +
+				"porcentaje de bacterias que\n" +
+				"mueren cambia según el\n" +
+				"antibiótico elegido.";
 
 		screen = new PlayScreen(this, level, new Goal(goals){
 
@@ -604,7 +606,7 @@ public class BioDots extends Game {
 		buttonTypes[4] = Antibiotic.ANTIBIOTIC_GRAY;
 		level.setButtonTypes(buttonTypes);
 
-		nBacterias = 14;
+		nBacterias = 17;
 		types = new short[nBacterias];
 		for(int i = 0; i < nBacterias; i++){
 			types[i] = (short)(random.nextInt(5) + 1);
@@ -647,7 +649,7 @@ public class BioDots extends Game {
 		buttonTypes[4] = Antibiotic.ANTIBIOTIC_GRAY;
 		level.setButtonTypes(buttonTypes);
 
-		nBacterias = 17;
+		nBacterias = 20;
 		types = new short[nBacterias];
 		for(int i = 0; i < nBacterias; i++){
 			types[i] = (short)(random.nextInt(5) + 1);
@@ -741,7 +743,7 @@ public class BioDots extends Game {
 		level = new ScreenCreator();
 		level.setInitial_pOfDying(1f);
 
-		nBacterias = 20;
+		nBacterias = 24;
 		types = new short[nBacterias];
 		for(int i = 0; i < nBacterias; i++){
 			types[i] = (short)(random.nextInt(5) + 1);
@@ -775,9 +777,9 @@ public class BioDots extends Game {
 		// NIVEL 9
 
 		level = new ScreenCreator();
-		level.setInitial_pOfDying(0.8f);
+		level.setInitial_pOfDying(0.75f);
 
-		nBacterias = 23;
+		nBacterias = 25;
 		types = new short[nBacterias];
 		for(int i = 0; i < nBacterias; i++){
 			types[i] = (short)(random.nextInt(5) + 1);
@@ -787,8 +789,10 @@ public class BioDots extends Game {
 		level.setInitialTime(150f);
 
 		goals = new String[3];
-		goals[0] = "¡Acá termina el tutorial!";
-		goals[1] = "Ahora las bacterias no\n" +
+		goals[0] = "Ya tenés todos\n" +
+				"los antibióticos,\n" +
+				"¿Jugamos en serio?";
+		goals[1] = "Desde ahora las bacterias no\n" +
 				"se mueren tan fácil.\n";
 		goals[2] = "¡Suerte!";
 
