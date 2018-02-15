@@ -121,8 +121,6 @@ public class BioDots extends Game {
         player = new Player();
 
         gSound = true;
-        sound = true;
-        music = true;
 
 		Preferences preferences = Gdx.app.getPreferences("BioDots");
 		if(!preferences.contains("lastLevel")){
@@ -134,6 +132,20 @@ public class BioDots extends Game {
 			//int lastLevel = preferences.getInteger("lastLevel", 0);
 		}
 
+		if(preferences.contains("sound")){
+			sound = preferences.getBoolean("sound", true);
+		} else {
+			preferences.putBoolean("sound", true);
+			sound = true;
+		}
+
+		if(preferences.contains("music")){
+			music = preferences.getBoolean("music", true);
+		} else {
+			preferences.putBoolean("music", true);
+			music = true;
+		}
+		preferences.flush();
 	}
 
 	public void goToMenu(){

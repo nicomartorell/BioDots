@@ -3,6 +3,7 @@ package com.nicocharm.biodots.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
@@ -89,8 +90,28 @@ public class ConfigScreen implements Screen, InputProcessor {
             labels.add(l);
         }
 
+        Preferences preferences = Gdx.app.getPreferences("BioDots");
+        String soundString = "";
+        if(preferences.getBoolean("sound")){
+            soundString = "Si";
+        } else {
+            soundString = "No";
+        }
+        String musicString = "";
+        if(preferences.getBoolean("music")){
+            musicString = "Si";
+        } else {
+            musicString = "No";
+        }
+
         for(int i = 0; i < buttonNames.length; i++){
-            Button l = new Button(game, game.WIDTH*(7/8f), 630, null, "Si", 0.8f, "Roboto-Regular.ttf", i + 1);
+            String s = "";
+            if(i==0){
+                s = soundString;
+            } else if(i==1){
+                s = musicString;
+            }
+            Button l = new Button(game, game.WIDTH*(7/8f), 630, null, s, 0.8f, "Roboto-Regular.ttf", i + 1);
             float height1 = l.getLabel().getStyle().font.getLineHeight() + 40;
             l.getLabel().setAlignment(Align.right, Align.center);
             l.setButtonPosition(game.WIDTH - margin, game.HEIGHT*0.74f + height1*(0.5f - i) - 30);
@@ -168,26 +189,35 @@ public class ConfigScreen implements Screen, InputProcessor {
             return false;
         }
 
+        Preferences preferences = Gdx.app.getPreferences("BioDots");
+
         for(Button b: buttons){
             if(b.pressed(x, y)){
                 if(b.getId() == 1){
                     if(game.getSound()){
                         game.setSound(false);
                         b.setText("No");
+                        preferences.putBoolean("sound", false);
                     } else if(!game.getSound()){
                         game.setSound(true);
                         b.setText("Si");
+                        preferences.putBoolean("sound", true);
                     }
                 } else if(b.getId() == 2){
                     if(game.getMusic()){
                         game.setMusic(false);
                         b.setText("No");
+                        preferences.putBoolean("music", false);
                         final Music s = (Music) game.manager.get("menu-music.ogg", Music.class);
                         s.stop();
                     } else if(!game.getMusic()){
                         game.setMusic(true);
                         b.setText("Si");
+                        preferences.putBoolean("music", true);
+                        Music s = (Music) game.manager.get("menu-music.ogg", Music.class);
+                        s.play();
                     }
+                    preferences.flush();
                 }
             }
         }
