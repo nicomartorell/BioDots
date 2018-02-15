@@ -19,6 +19,7 @@ public class InfoBar extends Actor {
     public Stage stage;
     private int points;
 
+
     public float getTime() {
         return time;
     }
@@ -53,6 +54,8 @@ public class InfoBar extends Actor {
     private Button pauseButton;
 
     private Label scoreUpdate;
+    private float lastUpdate;
+    private boolean showingScoreUpdate;
 
     public InfoBar(PlayScreen screen, float x, float y, float initialTime) {
         super(screen, x, y, false);
@@ -125,6 +128,20 @@ public class InfoBar extends Actor {
         table.row();
         table.add(averageLabel).colspan(2).expandX().padTop(40);
         stage.addActor(table);*/
+
+        Label.LabelStyle style3 = new Label.LabelStyle();
+        BitmapFont font = (BitmapFont) screen.game.manager.get("Roboto-Bold.ttf", BitmapFont.class);
+        font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        style3.font = font;
+        style3.fontColor = Color.LIGHT_GRAY;
+        scoreUpdate = new Label("", style3);
+        scoreUpdate.setFontScale(1f);
+        scoreUpdate.setAlignment(Align.topRight);
+        scoreUpdate.setPosition(screen.game.WIDTH, screen.game.HEIGHT - height*scale - scoreUpdate.getStyle().font.getLineHeight());
+
+        stage.addActor(scoreUpdate);
+        showingScoreUpdate = false;
+
     }
 
     @Override
@@ -134,6 +151,7 @@ public class InfoBar extends Actor {
         }
 
         time-=delta;
+        timer+=delta;
 
         int printTime = screen.getSettings().isFreeGame() ? (int)(time*-1) : (int)time;
         pointsLabel.setText("Puntos: " + points);
@@ -172,6 +190,11 @@ public class InfoBar extends Actor {
             averageLabel.setPosition(screen.game.WIDTH/2 - gl2.width*downScale/2, screen.game.HEIGHT - padTop - gl.height*upScale - averageOffset - gl2.height*downScale);
         }
 
+        if(showingScoreUpdate && timer - lastUpdate > 1f){
+            scoreUpdate.setText("");
+            showingScoreUpdate = false;
+        }
+
     }
 
     public void sumP(Bacteria bacteria){
@@ -203,6 +226,28 @@ public class InfoBar extends Actor {
 
     public void updatePoints(int newPoints){
         points += newPoints;
+
+        int text = newPoints;
+
+        if(showingScoreUpdate){
+            text += Integer.parseInt(scoreUpdate.getText().toString());
+        }
+
+        if(text >= 0){
+            scoreUpdate.getStyle().fontColor = new Color(0, 1, 0, 1);
+            scoreUpdate.setText("+" + text);
+        } else {
+            scoreUpdate.getStyle().fontColor = new Color(1, 0, 0, 1);
+            scoreUpdate.setText("" + text);
+        }
+
+        GlyphLayout gl = scoreUpdate.getGlyphLayout();
+        Gdx.app.log("tag", "gl.width: " + gl.width);
+        scoreUpdate.setPosition(screen.game.WIDTH - 40, screen.game.HEIGHT - height*scale - 15);
+
+        showingScoreUpdate = true;
+        lastUpdate = timer;
+
     }
 
     public int getPoints() {
