@@ -252,6 +252,10 @@ public class BioDots extends Game {
 
 	public void replay(){
 		lastLevel = false;
+		if(currentLevel==levels.size-1){
+			lastLevel = true;
+		}
+
 		playedLevel = true;
 		inFreeGame = false;
 		getLevel().dispose();
@@ -464,7 +468,7 @@ public class BioDots extends Game {
 		goals[0] = "El antibiotico azul es más\n" +
 				"potente, pero tarda más en\n" +
 				"activarse...";
-		goals[1] = "TIP:\n" +
+		goals[1] = "[RED]TIP:[]\n" +
 				"En el panel de abajo aparecen\n" +
 				"los antibióticos activos (los no\n" +
 				"disponibles en gris). Tocá el anti-\n" +
@@ -516,7 +520,7 @@ public class BioDots extends Game {
 		goals = new String[2];
 		goals[0] = "Dejá vivas solo a las\n" +
 				"bacterias que sean verdes.";
-		goals[1] = "TIP:\n" +
+		goals[1] = "[RED]TIP:[]\n" +
 				"Cuando un antibiótico aparece\n" +
 				"oscurecido, está desactivado. Luego\n" +
 				"de un tiempo volverá a activarse.";
@@ -578,7 +582,7 @@ public class BioDots extends Game {
 		goals[1] = "El antibiótico verde es tan\n" +
 				"bueno como el azul,\n" +
 				"pero dura menos...";
-		goals[2] = "TIP:\n" +
+		goals[2] = "[RED]TIP:[]\n" +
 				"En la barra superior, el\n" +
 				"porcentaje de bacterias que\n" +
 				"mueren cambia según el\n" +
@@ -826,6 +830,178 @@ public class BioDots extends Game {
 
 		levels.add(screen);
 
+		///////////////////////////////////////////////////////////
+
+		// NIVEL 10
+
+		level = new ScreenCreator();
+		level.setInitial_pOfDying(0.75f);
+		level.setMutationStDev(0.1f);
+		level.setMaxBlocks(3);
+		level.setpOfRep(0.003);
+
+		nBacterias = 25;
+		types = new short[nBacterias];
+		for(int i = 0; i < nBacterias; i++){
+			types[i] = (short)(random.nextInt(5) + 1);
+		}
+		level.setBacteriaTypes(types);
+
+		level.setInitialTime(150f);
+
+		goals = new String[2];
+		goals[0] = "Ahora congelás hasta\n" +
+				"tres cuadrantes...\n";
+		goals[1] = "...pero las bacterias\n" +
+				"están con más ganas\n" +
+				"de dividirse.";
+
+		screen = new PlayScreen(this, level, new Goal(goals){
+
+			@Override
+			public boolean met() {
+				return getScreen().getBacterias().size < 1;
+			}
+
+			@Override
+			public boolean failed() {
+				return false;
+			}
+		});
+
+		levels.add(screen);
+
+		///////////////////////////////////////////////////////////
+
+		// NIVEL 11
+
+		level = new ScreenCreator();
+		level.setInitial_pOfDying(0.9f);
+		level.setMutationStDev(0.1f);
+		level.setMaxBlocks(3);
+		level.setpOfRep(0.005);
+
+		nBacterias = 20;
+		types = new short[nBacterias];
+		for(int i = 0; i < nBacterias; i++){
+			types[i] = (short)(random.nextInt(5) + 1);
+		}
+		level.setBacteriaTypes(types);
+
+		level.setInitialTime(90f);
+
+		goals = new String[1];
+		goals[0] = "Rápido... se\n" +
+				"reproducen como locas.\n";
+
+		screen = new PlayScreen(this, level, new Goal(goals){
+
+			@Override
+			public boolean met() {
+				return getScreen().getBacterias().size < 1;
+			}
+
+			@Override
+			public boolean failed() {
+				return false;
+			}
+		});
+
+		levels.add(screen);
+
+		///////////////////////////////////////////////////////////
+
+		// NIVEL 12
+
+		level = new ScreenCreator();
+		level.setInitial_pOfDying(0.8f);
+		level.setMutationStDev(0.1f);
+		level.setMaxBlocks(3);
+		level.setpOfRep(0.0018);
+
+		nBacterias = 55;
+		types = new short[nBacterias];
+		for(int i = 0; i < nBacterias; i++){
+			types[i] = (short)(random.nextInt(5) + 1);
+		}
+		level.setBacteriaTypes(types);
+
+		level.setInitialTime(180f);
+
+		goals = new String[2];
+		goals[0] = "¿Y si empezás a punto\n" +
+				"de perder?\n";
+		goals[1] = "Matalas antes de que\n" +
+				"se reproduzcan!\n";
+
+		screen = new PlayScreen(this, level, new Goal(goals){
+
+			@Override
+			public boolean met() {
+				return getScreen().getBacterias().size < 1;
+			}
+
+			@Override
+			public boolean failed() {
+				return false;
+			}
+		});
+
+		levels.add(screen);
+
+		///////////////////////////////////////////////////////////
+
+		// NIVEL 13
+
+		level = new ScreenCreator();
+		level.setInitial_pOfDying(0.8f);
+		level.setMutationStDev(0.1f);
+		level.setMaxBlocks(3);
+		level.setpOfRep(0.002);
+
+		nBacterias = 30;
+		types = new short[nBacterias];
+		for(int i = 0; i < types.length; i++){
+			short type;
+			if(i<22){
+				type = Bacteria.BACTERIA_GREEN;
+			} else if(i<29){
+				type = Bacteria.BACTERIA_RED;
+			} else {
+				type = Bacteria.BACTERIA_BLUE;
+			}
+			types[i] = type;
+		}
+		level.setBacteriaTypes(types);
+
+		level.setInitialTime(120f);
+
+		goals = new String[2];
+		goals[0] = "¿Podrás dejar vivas\n" +
+				"solo a las celestes?";
+		goals[1] = "Acordate de\n" +
+				"no perder :)";
+
+		screen = new PlayScreen(this, level, new Goal(goals){
+
+			@Override
+			public boolean met() {
+				for(Bacteria b: getScreen().getBacterias()){
+					if(b.getType() != Bacteria.BACTERIA_BLUE) return false;
+				}
+				return true;
+			}
+
+			@Override
+			public boolean failed() {
+				for(Bacteria b: getScreen().getBacterias()){
+					if(b.getType() == Bacteria.BACTERIA_BLUE) return false;
+				}
+				return true;
+			}
+		});
+
+		levels.add(screen);
 
 		// LEVEL SCREEN
 

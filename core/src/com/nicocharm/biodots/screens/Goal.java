@@ -63,7 +63,7 @@ public abstract class Goal {
         label.setAlignment(Align.center);
         GlyphLayout gl = new GlyphLayout(font, statements[0]);
         label.setPosition(screen.game.WIDTH/2 - gl.width/2, screen.game.HEIGHT/2 - gl.height/2 + 50);
-
+        label.getStyle().font.getData().markupEnabled = true;
 
         stage.addActor(label);
 

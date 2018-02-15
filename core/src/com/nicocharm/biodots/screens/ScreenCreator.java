@@ -66,6 +66,10 @@ public class ScreenCreator {
 
     private int nBacterias;
 
+    public void setMaxBlocks(int maxBlocks) {
+        this.maxBlocks = maxBlocks;
+    }
+
     private int maxBlocks;
 
     public double getpOfRep() {

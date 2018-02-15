@@ -255,7 +255,7 @@ public class InfoBar extends Actor {
 
         }
 
-        scoreUpdate.setAlignment(Align.left);
+        scoreUpdate.setAlignment(Align.topLeft);
         scoreUpdate.setPosition(40, screen.game.HEIGHT - height*scale - 15);
         updatePoints(newPoints);
     }

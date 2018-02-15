@@ -106,7 +106,7 @@ public class HighScoresScreen implements Screen, InputProcessor {
         table.add(l).expandX().padTop(30);;
         table.row();
 
-        for(int i = 0; i</*game.getLevels().size*/50; i++){
+        for(int i = 0; i<game.getLevels().size; i++){
             if(preferences.contains("score" + i)){
                 Gdx.app.log("tag", "It's there");
             } else {
