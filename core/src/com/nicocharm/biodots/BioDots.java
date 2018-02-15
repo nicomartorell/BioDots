@@ -348,12 +348,12 @@ public class BioDots extends Game {
 		buttonTypes[4] = Antibiotic.ANTIBIOTIC_GRAY;
 		level.setButtonTypes(buttonTypes);
 
-		int nBacterias = 3;
+		/*int nBacterias = 0;
 		short[] types = new short[nBacterias];
 		for(int i = 0; i < nBacterias; i++){
 			types[i] = (short)(random.nextInt(5) + 1);
-		}
-		level.setBacteriaTypes(types);
+		}*/
+		level.setBacteriaTypes(new short[0]);
 
 		level.setInitialTime(100f);
 
@@ -395,8 +395,8 @@ public class BioDots extends Game {
 		buttonTypes[4] = Antibiotic.ANTIBIOTIC_GRAY;
 		level.setButtonTypes(buttonTypes);
 
-		nBacterias = 6;
-		types = new short[nBacterias];
+		int nBacterias = 6;
+		short[] types = new short[nBacterias];
 		for(int i = 0; i < nBacterias; i++){
 			types[i] = (short)(random.nextInt(5) + 1);
 		}

@@ -11,9 +11,10 @@ import java.util.HashMap;
 
 public class TutorialScreen extends PlayScreen{
 
-    public final Short STATE_LONGPRESS = 1;
-    public final Short STATE_SHORTPRESS = 2;
-    public final Short STATE_FINAL = 3;
+    public final Short STATE_SHORTPRESS = 1;
+    public final Short STATE_LONGPRESS = 2;
+    public final Short STATE_BAD_LONGPRESS = 3;
+    public final Short STATE_FINAL = 4;
     private HashMap<Short, Goal> map;
 
     public boolean isToAdvance() {
@@ -30,24 +31,25 @@ public class TutorialScreen extends PlayScreen{
 
     private short state;
 
-    private Thumb thumb;
+    public void setTimePressed(float timePressed) {
+        this.timePressed = timePressed;
+    }
+
+    private float timePressed;
+    //private Thumb thumb;
 
     public TutorialScreen(BioDots game, ScreenCreator creator, Goal goal) {
         super(game, creator, goal);
 
-        state = STATE_LONGPRESS;
+        state = STATE_SHORTPRESS;
         map = new HashMap<Short, Goal>();
 
-        String[] statements = {"Bienvenido al juego!\n" +
-                "El objetivo es matar bacterias.\n" +
-                "Con un toque largo aplicás\n" +
-                "el antibiótico.", "Cuidado!\n" +
-                "El antibiótico no siempre funciona.\n" +
-                "A veces es cuestión de suerte..."};
-        map.put(STATE_LONGPRESS, new Goal(statements){
+        String[] statements = {"Tocá la pantalla para\n" +
+                "congelar un cuadrante.\n"};
+        map.put(STATE_SHORTPRESS, new Goal(statements){
             @Override
             public boolean met() {
-                return bacterias.size < 1;
+                return false;
             }
 
             @Override
@@ -57,14 +59,12 @@ public class TutorialScreen extends PlayScreen{
         });
 
         String[] statements2 = {"Bien hecho!\n" +
-                "Con un toque corto congelás\n" +
-                "a las bacterias del cuadrante\n" +
-                "pulsado", "Solo se quedan\n" +
-                "congeladas por un tiempo..."};
-        map.put(STATE_SHORTPRESS, new Goal(statements2){
+                "Ahora un toque más largo\n" +
+                "aplica un antibiótico."};
+        map.put(STATE_LONGPRESS, new Goal(statements2){
             @Override
             public boolean met() {
-                return bacterias.size < 1;
+                return false;
             }
 
             @Override
@@ -73,12 +73,22 @@ public class TutorialScreen extends PlayScreen{
             }
         });
 
-        String[] statements3 = {"Excelente!\n", "En el panel superior\n" +
-                "podés encontrar el tiempo que\n" +
-                "queda, los puntos que ganaste\n" +
-                "y la probabilidad de que una\n" +
-                "bacteria muera con el antibió-\n" +
-                "tico seleccionado.",
+        String[] statements4 = {"Demasiado corto,\n" +
+                "probá de nuevo."};
+
+        map.put(STATE_BAD_LONGPRESS, new Goal(statements4){
+            @Override
+            public boolean met() {
+                return false;
+            }
+
+            @Override
+            public boolean failed() {
+                return false;
+            }
+        });
+
+        String[] statements3 = {"¡Excelente!",
                 "Matá a todas las bacterias\n" +
                 "antes de que se acabe el tiempo.\n"};
         map.put(STATE_FINAL, new Goal(statements3){
@@ -98,7 +108,8 @@ public class TutorialScreen extends PlayScreen{
         isTutorial = true;
         toAdvance = false;
 
-        thumb = new Thumb(this, game.WIDTH/2, game.HEIGHT/2);
+        //thumb = new Thumb(this, game.WIDTH/2, game.HEIGHT/2);
+        timePressed = 0;
     }
 
     @Override
@@ -111,7 +122,7 @@ public class TutorialScreen extends PlayScreen{
 
         super.update(delta);
 
-        thumb.update(delta);
+        //thumb.update(delta);
 
     }
 
@@ -139,7 +150,7 @@ public class TutorialScreen extends PlayScreen{
         grid.render(game.batch);
         powerBar.render(game.batch);
         infobar.render(game.batch);
-        thumb.render(game.batch);
+        //thumb.render(game.batch);
 
         game.batch.end();
 
@@ -156,14 +167,29 @@ public class TutorialScreen extends PlayScreen{
     }
 
     public void advance(){
-        state++;
 
-        if(state == STATE_FINAL) {
-            thumb.setAlive(false);
-        }
-
-        if(state == STATE_SHORTPRESS){
-            thumb.setTimes(0.1f, 1.9f);
+        switch(state){
+            case 1: //SHORTPRESS --> LONGPRESS
+                state = STATE_LONGPRESS;
+                break;
+            case 2: //LONGPRESS --> BAD LONGPRESS OR FINAL
+                if(timePressed < 0.3f){
+                state = STATE_BAD_LONGPRESS;
+                } else {
+                    for(int i = 0; i<4; i++){
+                        addBacteria();
+                    }
+                    state = STATE_FINAL;
+                }
+                break;
+            case 3: //BAD LONGPRESS --> FINAL
+                for(int i = 0; i<4; i++){
+                    addBacteria();
+                }
+                state = STATE_FINAL;
+                break;
+            case 4: // FINAL
+                break;
         }
 
         Goal goal = map.get(state);
@@ -182,7 +208,7 @@ public class TutorialScreen extends PlayScreen{
 
     @Override
     public void hide() {
-        state = STATE_LONGPRESS;
+        state = STATE_SHORTPRESS;
         Goal goal = map.get(state);
         goal.setStage(this);
         this.goal = goal;

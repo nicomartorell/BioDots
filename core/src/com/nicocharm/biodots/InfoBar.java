@@ -1,5 +1,6 @@
 package com.nicocharm.biodots;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -176,7 +177,15 @@ public class InfoBar extends Actor {
     }
 
     private void calculateAverageP() {
+        if(screen.getBacterias().size == 0){
+            averageP = 0;
+            pSum = 0;
+            Gdx.app.log("tag", "No bacterias in array.");
+            return;
+        }
+
         averageP = pSum / (float)screen.getBacterias().size;
+        Gdx.app.log("tag", "Average p = " + averageP);
         pSum = 0;
     }
 

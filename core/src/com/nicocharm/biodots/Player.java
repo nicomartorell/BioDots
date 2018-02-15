@@ -49,7 +49,7 @@ public class Player implements InputProcessor{
         //si es un tutorial, tengo que mostrar como aplicar este antibiotico
         if(screen.isTutorial()){
             TutorialScreen ts = (TutorialScreen)screen;
-            if(ts.getState() == ts.STATE_LONGPRESS && !ts.isToAdvance()){
+            if((ts.getState() == ts.STATE_LONGPRESS || ts.getState() == ts.STATE_BAD_LONGPRESS) && !ts.isToAdvance()){
                 ts.setToAdvance(5);
             }
         }
@@ -136,7 +136,6 @@ public class Player implements InputProcessor{
         }
 
 
-
         //for debugging only
 
         if(x < 110 && y > screen.game.HEIGHT - 110){
@@ -180,6 +179,13 @@ public class Player implements InputProcessor{
 
         secondTouch = System.nanoTime();
         double delta = ((double)(secondTouch - firstTouch))/1000000000.0;
+
+        if(screen.getClass() == TutorialScreen.class && (((TutorialScreen)screen).getState()) == ((TutorialScreen)screen).STATE_LONGPRESS){
+            ((TutorialScreen)screen).setTimePressed((float)delta);
+            if(delta < 0.3){
+                ((TutorialScreen)screen).setToAdvance(1f);
+            }
+        }
 
         //dependiendo de cuanto tiempo presioné
         if(delta >= 0.3 && screen.getAntibiotic() != null && !screen.getAntibiotic().isActive()){

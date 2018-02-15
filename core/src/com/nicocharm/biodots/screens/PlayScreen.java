@@ -270,15 +270,17 @@ public class PlayScreen implements Screen {
             }else if (bacterias.size < 1){
                 if(goal.met()){
                     win();
-                } else lose();
+                } else if(this.getClass() == TutorialScreen.class && ((TutorialScreen)this).getState()!=((TutorialScreen)this).STATE_FINAL){
+                } else {
+                    lose();
+                }
             } else if(goal.met()){
                 win();
             }
         }
 
         if(settings.isFreeGame() && !ended && timer - lastBacteria >= 4){
-            bacterias.add(new Bacteria(this, getNewBacteriaX(random.nextFloat(), arena), getNewBacteriaY(random.nextFloat(), arena), (short)(random.nextInt(5) + 1), infobar.getAverageP()));
-            lastBacteria = timer;
+            addBacteria();
         }
 
         
@@ -343,6 +345,16 @@ public class PlayScreen implements Screen {
 
         world.step(delta,6,2); //avanza box2d
 
+    }
+
+    protected void addBacteria() {
+        if(infobar.getAverageP()==0){
+            bacterias.add(new Bacteria(this, getNewBacteriaX(random.nextFloat(), arena), getNewBacteriaY(random.nextFloat(), arena), (short)(random.nextInt(5) + 1), initial_pOfDying));
+            lastBacteria = timer;
+            return;
+        }
+        bacterias.add(new Bacteria(this, getNewBacteriaX(random.nextFloat(), arena), getNewBacteriaY(random.nextFloat(), arena), (short)(random.nextInt(5) + 1), infobar.getAverageP()));
+        lastBacteria = timer;
     }
 
     @Override

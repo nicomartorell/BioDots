@@ -156,7 +156,7 @@ public class Grid {
         if(screen.isTutorial()){
             TutorialScreen ts = (TutorialScreen)screen;
             if(ts.getState() == ts.STATE_SHORTPRESS  && !ts.isToAdvance()){
-                ts.setToAdvance(3);
+                ts.setToAdvance(1f);
             }
         }
     }

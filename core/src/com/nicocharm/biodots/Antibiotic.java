@@ -46,6 +46,8 @@ public class Antibiotic extends Actor{
 
     private boolean active;
 
+    private int cost;
+
     public Antibiotic(PlayScreen screen, AntibioticButton button, short type) {
         super(screen, 0, 0, false);
         scale = 2.5f;
@@ -80,31 +82,36 @@ public class Antibiotic extends Actor{
                 path = "antibiotic-red.png";
                 pOfKilling = 0.95f;
                 duration = 4f;
-                inactiveTime = 35;
+                inactiveTime = 30;
+                cost = 200;
                 break;
             case ANTIBIOTIC_BLUE:
                 path = "antibiotic-blue.png";
                 pOfKilling = 0.8f;
                 duration = 4f;
                 inactiveTime = 20;
+                cost = 50;
                 break;
             case ANTIBIOTIC_GREEN:
                 path = "antibiotic-green.png";
                 pOfKilling = 0.75f;
                 duration = 2f;
                 inactiveTime = 15;
+                cost = 50;
                 break;
             case ANTIBIOTIC_PINK:
                 path = "antibiotic-pink.png";
                 pOfKilling = 0.85f;
                 duration = 8f;
                 inactiveTime = 10;
+                cost = 100;
                 break;
             case ANTIBIOTIC_WHITE:
                 path = "antibiotic-white.png";
                 pOfKilling = 0.45f;
                 duration = 4f;
                 inactiveTime = 0;
+                cost = 0;
                 break;
 
         }
