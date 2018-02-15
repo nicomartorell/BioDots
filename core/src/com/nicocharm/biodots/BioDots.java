@@ -314,6 +314,7 @@ public class BioDots extends Game {
         freeGame.setInitial_pOfDying(1.0f);
         freeGame.setInitialTime(0);
         freeGame.setnBacterias(10);
+        freeGame.setMutationStDev(0.05f);
         freeGame.setFreeGame(true);
 
         String[] goals = {"Las bacterias no dejan\n" +

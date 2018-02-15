@@ -111,7 +111,7 @@ public class Bacteria extends Actor {
         //esa media se la pasé al constructor y es pOfDying de madre
 
         Random r = new Random(); //debería optimizar
-        this.pOfDying = (float)r.nextGaussian()*0.1f + pOfDying;
+        this.pOfDying = (float)r.nextGaussian()*screen.getSettings().getMutationStDev() + pOfDying;
 
         //no dejo que sea más que 1 ni menos que 0
         if(this.pOfDying > 1){

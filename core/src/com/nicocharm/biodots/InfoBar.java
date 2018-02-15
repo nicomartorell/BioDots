@@ -52,6 +52,8 @@ public class InfoBar extends Actor {
 
     private Button pauseButton;
 
+    private Label scoreUpdate;
+
     public InfoBar(PlayScreen screen, float x, float y, float initialTime) {
         super(screen, x, y, false);
 
@@ -180,12 +182,10 @@ public class InfoBar extends Actor {
         if(screen.getBacterias().size == 0){
             averageP = 0;
             pSum = 0;
-            Gdx.app.log("tag", "No bacterias in array.");
             return;
         }
 
         averageP = pSum / (float)screen.getBacterias().size;
-        Gdx.app.log("tag", "Average p = " + averageP);
         pSum = 0;
     }
 

@@ -78,6 +78,12 @@ public class ScreenCreator {
 
     private double pOfRep;
 
+    public float getMutationStDev() {
+        return mutationStDev;
+    }
+
+    private float mutationStDev;
+
     public ScreenCreator(){
         initial_pOfDying = 1.0f;
 
@@ -102,9 +108,15 @@ public class ScreenCreator {
         maxBlocks = 1;
 
         pOfRep = 0.0011;
+        
+        mutationStDev = 0.1f;
     }
 
     public int getMaxBlocks() {
         return maxBlocks;
+    }
+
+    public void setMutationStDev(float mutationStDev) {
+        this.mutationStDev = mutationStDev;
     }
 }

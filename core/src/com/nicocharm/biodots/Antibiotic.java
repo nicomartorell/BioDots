@@ -83,28 +83,28 @@ public class Antibiotic extends Actor{
                 pOfKilling = 0.95f;
                 duration = 4f;
                 inactiveTime = 30;
-                cost = 200;
+                cost = -200;
                 break;
             case ANTIBIOTIC_BLUE:
                 path = "antibiotic-blue.png";
                 pOfKilling = 0.8f;
                 duration = 4f;
                 inactiveTime = 20;
-                cost = 50;
+                cost = -50;
                 break;
             case ANTIBIOTIC_GREEN:
                 path = "antibiotic-green.png";
                 pOfKilling = 0.75f;
                 duration = 2f;
                 inactiveTime = 15;
-                cost = 50;
+                cost = -50;
                 break;
             case ANTIBIOTIC_PINK:
                 path = "antibiotic-pink.png";
                 pOfKilling = 0.85f;
                 duration = 8f;
                 inactiveTime = 10;
-                cost = 100;
+                cost = -100;
                 break;
             case ANTIBIOTIC_WHITE:
                 path = "antibiotic-white.png";
@@ -201,5 +201,9 @@ public class Antibiotic extends Actor{
 
     public float getPOfKilling() {
         return pOfKilling;
+    }
+
+    public int getCost() {
+        return cost;
     }
 }

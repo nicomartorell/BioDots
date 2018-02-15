@@ -44,7 +44,7 @@ public class Player implements InputProcessor{
         screen.getAntibiotic().init(x, y);
 
         //usar antibiotico cuesta puntos!
-        screen.getInfobar().updatePoints(-30);
+        screen.getInfobar().updatePoints(screen.getAntibiotic().getCost());
 
         //si es un tutorial, tengo que mostrar como aplicar este antibiotico
         if(screen.isTutorial()){
