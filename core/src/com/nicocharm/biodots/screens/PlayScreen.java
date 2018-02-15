@@ -466,6 +466,8 @@ public class PlayScreen implements Screen {
         won = true;
         background = backgroundWin;
 
+        infobar.endPoints();
+
         Preferences preferences = Gdx.app.getPreferences("BioDots");
 
         saveScore(preferences);

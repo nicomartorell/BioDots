@@ -137,7 +137,7 @@ public class InfoBar extends Actor {
         scoreUpdate = new Label("", style3);
         scoreUpdate.setFontScale(1f);
         scoreUpdate.setAlignment(Align.topRight);
-        scoreUpdate.setPosition(screen.game.WIDTH, screen.game.HEIGHT - height*scale - scoreUpdate.getStyle().font.getLineHeight());
+        scoreUpdate.setPosition(screen.game.WIDTH - 40, screen.game.HEIGHT - height*scale - 15);
 
         stage.addActor(scoreUpdate);
         showingScoreUpdate = false;
@@ -241,13 +241,23 @@ public class InfoBar extends Actor {
             scoreUpdate.setText("" + text);
         }
 
-        GlyphLayout gl = scoreUpdate.getGlyphLayout();
-        Gdx.app.log("tag", "gl.width: " + gl.width);
-        scoreUpdate.setPosition(screen.game.WIDTH - 40, screen.game.HEIGHT - height*scale - 15);
-
         showingScoreUpdate = true;
         lastUpdate = timer;
+    }
 
+    public void endPoints(){
+        if(!screen.finished()) return;
+
+        int newPoints = 0;
+        if(!screen.game.isInFreeGame()){
+            newPoints = (int)time*20;
+        } else {
+
+        }
+
+        scoreUpdate.setAlignment(Align.left);
+        scoreUpdate.setPosition(40, screen.game.HEIGHT - height*scale - 15);
+        updatePoints(newPoints);
     }
 
     public int getPoints() {

@@ -314,13 +314,12 @@ public class BioDots extends Game {
         freeGame.setInitial_pOfDying(1.0f);
         freeGame.setInitialTime(0);
         freeGame.setnBacterias(10);
-        freeGame.setMutationStDev(0.05f);
+        freeGame.setMutationStDev(0.075f);
         freeGame.setFreeGame(true);
 
         String[] goals = {"Las bacterias no dejan\n" +
 				"de aparecer!", "Matalas a todas en\n" +
-				"el menor tiempo posible.", "Cuando hay demasiadas\n" +
-				"bacterias perdés."};
+				"el menor tiempo posible."};
         this.freeGame = new PlayScreen(this, freeGame, new Goal(goals){
 
             @Override
@@ -396,17 +395,19 @@ public class BioDots extends Game {
 		buttonTypes[4] = Antibiotic.ANTIBIOTIC_GRAY;
 		level.setButtonTypes(buttonTypes);
 
-		int nBacterias = 6;
+		int nBacterias = 9;
 		short[] types = new short[nBacterias];
 		for(int i = 0; i < nBacterias; i++){
 			types[i] = (short)(random.nextInt(5) + 1);
 		}
 		level.setBacteriaTypes(types);
 
-		level.setInitialTime(50f);
+		level.setInitialTime(60f);
 
-		goals = new String[1];
+		goals = new String[2];
 		goals[0] = "Matá a las bacterias!\nSi no te apurás se dividen!";
+		goals[1] = "Cuando hay demasiadas\n" +
+				"bacterias perdés!";
 
 		PlayScreen screen = new PlayScreen(this, level, new Goal(goals){
 
@@ -438,7 +439,7 @@ public class BioDots extends Game {
 		buttonTypes[4] = Antibiotic.ANTIBIOTIC_GRAY;
 		level.setButtonTypes(buttonTypes);
 
-		nBacterias = 11;
+		nBacterias = 14;
 		types = new short[nBacterias];
 		for(int i = 0; i < nBacterias; i++){
 			types[i] = (short)(random.nextInt(5) + 1);
@@ -544,11 +545,11 @@ public class BioDots extends Game {
 		buttonTypes[4] = Antibiotic.ANTIBIOTIC_GRAY;
 		level.setButtonTypes(buttonTypes);
 
-		nBacterias = 14;
+		nBacterias = 16;
 		types = new short[nBacterias];
 		for(int i = 0; i < types.length; i++){
 			short type;
-			if(i<types.length*(9f/(float)nBacterias)){
+			if(i<13){
 				type = Bacteria.BACTERIA_RED;
 			} else {
 				type = Bacteria.BACTERIA_ORANGE;
@@ -710,7 +711,7 @@ public class BioDots extends Game {
 		}
 		level.setBacteriaTypes(types);
 
-		level.setInitialTime(150f);
+		level.setInitialTime(120f);
 
 		goals = new String[1];
 		goals[0] = "Solo pueden vivir\n" +
@@ -751,7 +752,7 @@ public class BioDots extends Game {
 		}
 		level.setBacteriaTypes(types);
 
-		level.setInitialTime(150f);
+		level.setInitialTime(100f);
 
 		goals = new String[1];
 		goals[0] = "El antibiótico rojo\n" +
@@ -779,6 +780,7 @@ public class BioDots extends Game {
 
 		level = new ScreenCreator();
 		level.setInitial_pOfDying(0.75f);
+		level.setMutationStDev(0.075f);
 
 		nBacterias = 25;
 		types = new short[nBacterias];
@@ -892,6 +894,7 @@ public class BioDots extends Game {
 		preferences.putInteger("lastLevel", levels.size-1);
 		preferences.flush();
 		levelScreen.dispose();
+		completed = true;
 		levelScreen = new LevelScreen(this);
 	}
 

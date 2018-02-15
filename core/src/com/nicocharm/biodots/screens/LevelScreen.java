@@ -84,7 +84,13 @@ public class LevelScreen implements Screen, InputProcessor {
         levels.add(level0);
         stage.addActor(level0.getLabel());
 
-        for(i = 1; i <= Gdx.app.getPreferences("BioDots").getInteger("lastLevel", 0); i++){
+        int last = Gdx.app.getPreferences("BioDots").getInteger("lastLevel", 0);
+        if(last == game.getLevels().size){
+            Gdx.app.log("tag", "Decreasing last");
+            last-=1;
+        }
+
+        for(i = 1; i <= last; i++){
             Level level = new Level(this, "Nivel " + Integer.toString(i), 1, game.WIDTH/2 + game.WIDTH*i, game.HEIGHT/2 + 50, false);
             levels.add(level);
             stage.addActor(level.getLabel());
@@ -125,6 +131,8 @@ public class LevelScreen implements Screen, InputProcessor {
     public void show() {
         int current = Gdx.app.getPreferences("BioDots").getInteger("lastLevel", 0);
 
+        if(current == game.getLevels().size) current -=1;
+
         for(int i = 0; i < levels.size; i++){
             float x = game.WIDTH/2 + game.WIDTH*(i - current);
             levels.get(i).setX(x);
@@ -135,7 +143,11 @@ public class LevelScreen implements Screen, InputProcessor {
     public void addLevel(){
         if(game.isCompleted())return;
 
+        Gdx.app.log("tag", "i is " + i);
+        Gdx.app.log("tag", "levels size is " + game.getLevels().size);
+
         if(i < game.getLevels().size){
+            Gdx.app.log("tag", "creating level");
             Level last = levels.get(levels.size-1);
             last.setX(last.getX() + game.WIDTH);
             last.setPreferedX(last.getPreferedX() + game.WIDTH);
