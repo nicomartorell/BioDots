@@ -155,10 +155,16 @@ public class Antibiotic extends Actor{
 
 
         if(timer > duration){
-           reset();
+            reset();
            //screen.setAntibiotic(null);
             if(!screen.getPowerBar().getActiveButton().isInactive()) return;
-           screen.getPowerBar().notifyActivation(screen.getPowerBar().getButtons().get(0));
+
+            AntibioticButton b = screen.getPowerBar().getButtons().get(0);
+            if(!b.isInactive() && b.isUsable()){
+                screen.getPowerBar().notifyActivation(b);
+            } else {
+                //screen.getPowerBar().setActiveButton(0);
+            }
         } else {
             timer += delta;
         }
@@ -170,6 +176,7 @@ public class Antibiotic extends Actor{
         checkedBacterias.clear();
         button.inactivate();
         lastTime = 0;
+        //screen.setAntibiotic(null); //funcionará?
     }
 
     public void checkBacteria(Bacteria b){

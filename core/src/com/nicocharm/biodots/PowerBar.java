@@ -81,4 +81,8 @@ public class PowerBar{
     public AntibioticButton getActiveButton() {
         return buttons.get(activeButton);
     }
+
+    public void setActiveButton(int activeButton) {
+        this.activeButton = activeButton;
+    }
 }

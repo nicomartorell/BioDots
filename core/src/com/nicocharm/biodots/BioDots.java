@@ -1048,6 +1048,232 @@ public class BioDots extends Game {
 
 		levels.add(screen);
 
+		///////////////////////////////////////////////////////////
+
+		// NIVEL 15
+
+		level = new ScreenCreator();
+		level.setInitial_pOfDying(0.8f);
+		level.setMutationStDev(0.1f);
+		level.setMaxBlocks(3);
+		level.setpOfRep(0.004);
+
+		nBacterias = 1;
+		types = new short[nBacterias];
+		for(int i = 0; i < nBacterias; i++){
+			types[i] = (short)(random.nextInt(5) + 1);
+		}
+		level.setBacteriaTypes(types);
+
+		level.setInitialTime(90f);
+
+		goals = new String[2];
+		goals[0] = "Quizás querés\n" +
+				"menos bacterias...";
+		goals[1] = "¿Podrás ganar habiendo\n" +
+				"hecho al menos 3000 puntos?";
+
+		screen = new PlayScreen(this, level, new Goal(goals){
+
+			@Override
+			public boolean met() {
+				return getScreen().getInfobar().getPoints() >= 3000;
+			}
+
+			@Override
+			public boolean failed() {
+				return getScreen().getBacterias().size < 1 && getScreen().getInfobar().getPoints() < 3000;
+			}
+		});
+
+		levels.add(screen);
+
+		///////////////////////////////////////////////////////////
+
+		// NIVEL 16
+
+		level = new ScreenCreator();
+		level.setInitial_pOfDying(0.8f);
+		level.setMutationStDev(0.1f);
+		level.setMaxBlocks(3);
+		level.setpOfRep(0.0002);
+
+		nBacterias = 50;
+		types = new short[nBacterias];
+		for(int i = 0; i < nBacterias; i++){
+			types[i] = (short)(random.nextInt(5) + 1);
+		}
+		level.setBacteriaTypes(types);
+
+		buttonTypes = new short[5];
+		buttonTypes[0] = Antibiotic.ANTIBIOTIC_WHITE;
+		buttonTypes[1] = Antibiotic.ANTIBIOTIC_GRAY;
+		buttonTypes[2] = Antibiotic.ANTIBIOTIC_GRAY;
+		buttonTypes[3] = Antibiotic.ANTIBIOTIC_GRAY;
+		buttonTypes[4] = Antibiotic.ANTIBIOTIC_GRAY;
+		level.setButtonTypes(buttonTypes);
+
+		level.setInitialTime(90f);
+
+		goals = new String[1];
+		goals[0] = "Estas casi no se reproducen.\n" +
+				"¿Te arreglás con un\n" +
+				"solo antibiótico?";
+
+		screen = new PlayScreen(this, level, new Goal(goals){
+
+			@Override
+			public boolean met() {
+				return getScreen().getBacterias().size < 1;
+			}
+
+			@Override
+			public boolean failed() {
+				return false;
+			}
+		});
+
+		levels.add(screen);
+
+		///////////////////////////////////////////////////////////
+
+		// NIVEL 17
+
+		level = new ScreenCreator();
+		level.setInitial_pOfDying(0.8f);
+		level.setMutationStDev(0.1f);
+		level.setMaxBlocks(3);
+		level.setpOfRep(0.0005);
+
+		nBacterias = 15;
+		types = new short[nBacterias];
+		for(int i = 0; i < nBacterias; i++){
+			types[i] = (short)(random.nextInt(5) + 1);
+		}
+		level.setBacteriaTypes(types);
+
+		buttonTypes = new short[5];
+		buttonTypes[0] = Antibiotic.ANTIBIOTIC_GRAY;
+		buttonTypes[1] = Antibiotic.ANTIBIOTIC_BLUE;
+		buttonTypes[2] = Antibiotic.ANTIBIOTIC_GRAY;
+		buttonTypes[3] = Antibiotic.ANTIBIOTIC_GRAY;
+		buttonTypes[4] = Antibiotic.ANTIBIOTIC_GRAY;
+		level.setButtonTypes(buttonTypes);
+
+		level.setInitialTime(120f);
+
+		goals = new String[1];
+		goals[0] = "¿Y si el único anti-\n" +
+				"biótico que tenés\n" +
+				"tarda en cargarse?";
+
+		screen = new PlayScreen(this, level, new Goal(goals){
+
+			@Override
+			public boolean met() {
+				return getScreen().getBacterias().size < 1;
+			}
+
+			@Override
+			public boolean failed() {
+				return false;
+			}
+		});
+
+		levels.add(screen);
+
+		///////////////////////////////////////////////////////////
+
+		// NIVEL 18
+
+		level = new ScreenCreator();
+		level.setInitial_pOfDying(0.8f);
+		level.setMutationStDev(0.1f);
+		level.setMaxBlocks(3);
+		level.setpOfRep(0.0005);
+
+		nBacterias = 25;
+		types = new short[nBacterias];
+		for(int i = 0; i < nBacterias; i++){
+			types[i] = (short)(random.nextInt(5) + 1);
+		}
+		level.setBacteriaTypes(types);
+
+		buttonTypes = new short[5];
+		buttonTypes[0] = Antibiotic.ANTIBIOTIC_GRAY;
+		buttonTypes[1] = Antibiotic.ANTIBIOTIC_GRAY;
+		buttonTypes[2] = Antibiotic.ANTIBIOTIC_GRAY;
+		buttonTypes[3] = Antibiotic.ANTIBIOTIC_GRAY;
+		buttonTypes[4] = Antibiotic.ANTIBIOTIC_RED;
+		level.setButtonTypes(buttonTypes);
+
+		level.setInitialTime(150f);
+
+		goals = new String[1];
+		goals[0] = "¿Y si tarda un\n" +
+				"montón en cargarse?";
+
+		screen = new PlayScreen(this, level, new Goal(goals){
+
+			@Override
+			public boolean met() {
+				return getScreen().getBacterias().size < 1;
+			}
+
+			@Override
+			public boolean failed() {
+				return false;
+			}
+		});
+
+		levels.add(screen);
+
+		///////////////////////////////////////////////////////////
+
+		// NIVEL 18
+
+		level = new ScreenCreator();
+		level.setInitial_pOfDying(0.8f);
+		level.setMutationStDev(0.1f);
+		level.setMaxBlocks(3);
+		level.setpOfRep(0.0005);
+
+		nBacterias = 15;
+		types = new short[nBacterias];
+		for(int i = 0; i < nBacterias; i++){
+			types[i] = (short)(random.nextInt(5) + 1);
+		}
+		level.setBacteriaTypes(types);
+
+		buttonTypes = new short[5];
+		buttonTypes[0] = Antibiotic.ANTIBIOTIC_GRAY;
+		buttonTypes[1] = Antibiotic.ANTIBIOTIC_GRAY;
+		buttonTypes[2] = Antibiotic.ANTIBIOTIC_GRAY;
+		buttonTypes[3] = Antibiotic.ANTIBIOTIC_PINK;
+		buttonTypes[4] = Antibiotic.ANTIBIOTIC_GRAY;
+		level.setButtonTypes(buttonTypes);
+
+		level.setInitialTime(120f);
+
+		goals = new String[1];
+		goals[0] = "Este nivel puede ser\n" +
+				"un poco molesto...";
+
+		screen = new PlayScreen(this, level, new Goal(goals){
+
+			@Override
+			public boolean met() {
+				return getScreen().getBacterias().size < 1;
+			}
+
+			@Override
+			public boolean failed() {
+				return false;
+			}
+		});
+
+		levels.add(screen);
+
 		// LEVEL SCREEN
 
 		levelScreen = new LevelScreen(this);

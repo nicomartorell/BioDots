@@ -168,8 +168,12 @@ public class InfoBar extends Actor {
 
         if(!screen.finished()){
             AntibioticButton button = screen.getPowerBar().getActiveButton();
+            float p = button.getPOfKilling();
+            if(!button.isUsable()){
+                p = 1;
+            }
             String tag = button.getColorTag();
-            String averageText = tag + String.format("%.1f", averageP*button.getPOfKilling()*100) + "% [LIGHT_GRAY]de las bacterias mueren al ser atacadas.";
+            String averageText = tag + String.format("%.1f", averageP*p*100) + "% [LIGHT_GRAY]de las bacterias mueren al ser atacadas.";
             averageLabel.setText(averageText);
             GlyphLayout gl2 = new GlyphLayout(font, averageText);
             averageLabel.setPosition(screen.game.WIDTH/2 - gl2.width*downScale/2, screen.game.HEIGHT - padTop - gl.height*upScale - averageOffset - gl2.height*downScale);

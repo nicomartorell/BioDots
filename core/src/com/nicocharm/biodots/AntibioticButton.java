@@ -81,6 +81,7 @@ public class AntibioticButton extends Actor {
                 break;
             case Antibiotic.ANTIBIOTIC_GRAY:
                 path = "antibiotic-box-gray.png";
+                colorTag = "[LIGHT_GRAY]";
                 break;
             case Antibiotic.ANTIBIOTIC_BLUE:
                 path = "antibiotic-box-blue.png";
@@ -115,8 +116,12 @@ public class AntibioticButton extends Actor {
 
         if(state == STATE_INACTIVE){
             if(timer > antibiotic.getInactiveTime()){
-                setTexture(texture);
-                state = STATE_DEFAULT;
+                if(screen.getPowerBar().getActiveButton().equals(this)){
+                    selectAntibiotic();
+                } else {
+                    setTexture(texture);
+                    state = STATE_DEFAULT;
+                }
                 timer = 0;
             } else {
                 timer += delta;
