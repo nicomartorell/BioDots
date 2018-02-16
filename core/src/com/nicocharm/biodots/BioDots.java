@@ -633,9 +633,13 @@ public class BioDots extends Game {
 
 		level.setInitialTime(80f);
 
-		goals = new String[1];
+		goals = new String[2];
 		goals[0] = "Quizás empiezan a ser\n" +
 				"muchas bacterias...";
+		goals[1] = "[RED]TIP:[]\n" +
+				"Las bacterias se adaptan\n" +
+				"un poco a los antibióticos\n" +
+				"cada vez que se reproducen.";
 
 		screen = new PlayScreen(this, level, new Goal(goals){
 
@@ -998,6 +1002,47 @@ public class BioDots extends Game {
 					if(b.getType() == Bacteria.BACTERIA_BLUE) return false;
 				}
 				return true;
+			}
+		});
+
+		levels.add(screen);
+
+		///////////////////////////////////////////////////////////
+
+		// NIVEL 14
+
+		level = new ScreenCreator();
+		level.setInitial_pOfDying(0.8f);
+		level.setMutationStDev(0.2f);
+		level.setMaxBlocks(3);
+		level.setpOfRep(0.002);
+
+		nBacterias = 20;
+		types = new short[nBacterias];
+		for(int i = 0; i < nBacterias; i++){
+			types[i] = (short)(random.nextInt(5) + 1);
+		}
+		level.setBacteriaTypes(types);
+
+		level.setInitialTime(120f);
+
+		goals = new String[2];
+		goals[0] = "¿Qué hacés cuando las\n" +
+				"bacterias se adaptan\n" +
+				"muy rápido?";
+		goals[1] = "Te apurás...\n" +
+				"o perdés.";
+
+		screen = new PlayScreen(this, level, new Goal(goals){
+
+			@Override
+			public boolean met() {
+				return getScreen().getBacterias().size < 1;
+			}
+
+			@Override
+			public boolean failed() {
+				return false;
 			}
 		});
 

@@ -116,8 +116,8 @@ public class Bacteria extends Actor {
         //no dejo que sea más que 1 ni menos que 0
         if(this.pOfDying > 1){
             this.pOfDying = 1;
-        } else if(this.pOfDying < 0.001){
-            this.pOfDying = 0.001f;
+        } else if(this.pOfDying < 0.03){
+            this.pOfDying = 0.03f;
         }
 
         locked = false;
