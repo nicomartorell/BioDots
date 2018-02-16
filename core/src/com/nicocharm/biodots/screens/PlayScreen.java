@@ -251,14 +251,15 @@ public class PlayScreen implements Screen {
     }
 
     protected void update(float delta){
-        if(paused) return;
-
-        timer+=delta;
 
         if(showingGoal){
             goal.update(delta);
             return;
         }
+
+        if(paused) return;
+
+        timer+=delta;
 
         if(!ended){
             if(bacterias.size >= 60 || goal.failed()){
@@ -390,7 +391,7 @@ public class PlayScreen implements Screen {
             goal.render(game.batch);
         }
 
-        if(paused){
+        if(paused && !showingGoal){
             pauseMenu.render(game.batch);
         }
     }

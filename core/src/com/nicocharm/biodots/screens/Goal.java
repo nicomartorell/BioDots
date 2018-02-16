@@ -142,5 +142,6 @@ public abstract class Goal {
         timer = 0;
         fontScale = 0.5f;
         counter = 0;
+        label.setText(statements[0]);
     }
 }

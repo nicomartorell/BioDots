@@ -23,6 +23,7 @@ public class Level {
     private float x;
     private float y;
     private float scale;
+    private float textScale;
     private int lines;
 
     private GlyphLayout gl;
@@ -37,7 +38,7 @@ public class Level {
 
     private boolean locked;
 
-    public Level(LevelScreen screen, String id, int lines, float x, float y, boolean locked){
+    public Level(LevelScreen screen, String id, int lines, float x, float y, boolean locked, float textScale){
         this.screen = screen;
         this.id = id;
         this.x = x;
@@ -47,12 +48,19 @@ public class Level {
         preferedX = x;
 
         scale = 0.88f;
+        this.textScale = textScale;
         Texture t;
 
         this.locked = locked;
 
         if(!locked){
-            BitmapFont font = (BitmapFont) screen.getGame().manager.get("Roboto-Bold.ttf", BitmapFont.class);
+            BitmapFont font;
+            if(textScale > 1.5){
+                font = (BitmapFont) screen.getGame().manager.get("Roboto-Regular.ttf", BitmapFont.class);
+            } else {
+                font = (BitmapFont) screen.getGame().manager.get("Roboto-Bold.ttf", BitmapFont.class);
+            }
+
 
             Label.LabelStyle style = new Label.LabelStyle();
             font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
@@ -60,10 +68,10 @@ public class Level {
             style.fontColor = new Color(197/255f, 215/255f, 254/255f, 1);
 
             label = new Label(id, style);
-            label.setFontScale(scale);
+            label.setFontScale(scale*textScale);
             label.setAlignment(Align.center);
             gl = new GlyphLayout(style.font, id);
-            Gdx.app.log("tag", "gl.width*scale /2: " + (gl.width*scale)/2 + " | font.getLineHeight*scale /2: " + (font.getLineHeight()*scale)/2);
+            Gdx.app.log("tag", "gl.width*scale /2: " + (gl.width*scale*textScale)/2 + " | font.getLineHeight*scale /2: " + (font.getLineHeight()*scale*textScale)/2);
             label.setPosition(x - (gl.width/**scale*/)/2, y - (label.getStyle().font.getLineHeight()/**scale*/*lines)/2);
 
             t = screen.getBorder();

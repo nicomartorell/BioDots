@@ -19,6 +19,8 @@ public class PauseMenu {
     private final String MENU = "MENU";
     private String[] texts = {MENU, CONTINUAR};
 
+    private Button showGoals;
+
     public PauseMenu(PlayScreen screen){
         this.screen = screen;
 
@@ -44,6 +46,8 @@ public class PauseMenu {
             stage.addActor(button.getLabel());
         }*/
 
+        showGoals = new Button(screen.game, screen.game.WIDTH/2, 190, null, "Mostrar objetivo", 0.6f);
+        stage.addActor(showGoals.getLabel());
 
     }
 
@@ -52,10 +56,19 @@ public class PauseMenu {
             if(button.pressed(x, y)){
                 if(button.getId() == 0){
                     screen.resume();
+                    return;
                 } else if(button.getId() == 1){
                     screen.game.setToMenu(true);
+                    return;
                 }
             }
+        }
+
+        if(showGoals.pressed(x, y)){
+            screen.getGoal().reset();
+            screen.getGoal().setFinalParams();
+            screen.setShowingGoal(true);
+
         }
     }
 

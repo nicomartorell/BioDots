@@ -80,7 +80,7 @@ public class LevelScreen implements Screen, InputProcessor {
             stage.addActor(level.getLabel());
         }*/
 
-        Level level0 = new Level(this, "TUTORIAL", 1, game.WIDTH/2, game.HEIGHT/2 + 50, false);
+        Level level0 = new Level(this, "TUTORIAL", 1, game.WIDTH/2, game.HEIGHT/2 + 50, false, 1);
         levels.add(level0);
         stage.addActor(level0.getLabel());
 
@@ -91,14 +91,14 @@ public class LevelScreen implements Screen, InputProcessor {
         }
 
         for(i = 1; i <= last; i++){
-            Level level = new Level(this, "Nivel " + Integer.toString(i), 1, game.WIDTH/2 + game.WIDTH*i, game.HEIGHT/2 + 50, false);
+            Level level = new Level(this, /*"Nivel " + */Integer.toString(i), 1, game.WIDTH/2 + game.WIDTH*i, game.HEIGHT/2 + 50, false, 2.5f);
             levels.add(level);
             stage.addActor(level.getLabel());
         }
 
         if(i<game.getLevels().size){
             Level level = new Level(this, "No", 1,
-                    game.WIDTH/2 + game.WIDTH*i, game.HEIGHT/2 + 50, true);
+                    game.WIDTH/2 + game.WIDTH*i, game.HEIGHT/2 + 50, true, 1);
             levels.add(level);
         } else {
             game.setCompleted(true);
@@ -151,7 +151,7 @@ public class LevelScreen implements Screen, InputProcessor {
             Level last = levels.get(levels.size-1);
             last.setX(last.getX() + game.WIDTH);
             last.setPreferedX(last.getPreferedX() + game.WIDTH);
-            Level level = new Level(this, "Nivel " + Integer.toString(i), 1, game.WIDTH/2 + game.WIDTH*i, game.HEIGHT/2 + 50, false);
+            Level level = new Level(this, /*"Nivel " + */Integer.toString(i), 1, game.WIDTH/2 + game.WIDTH*i, game.HEIGHT/2 + 50, false, 2.5f);
             levels.insert(levels.size - 1, level);
             stage.addActor(level.getLabel());
             i++;
