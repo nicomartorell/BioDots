@@ -408,7 +408,7 @@ public class PlayScreen implements Screen {
             } else {
                 values = new String[2];
                 values[0] = "Free Game";
-                values[1] = "" + 0;
+                values[1] = "" + -100000;
             }
 
             int pastScore = Integer.parseInt(values[1]);
@@ -431,7 +431,7 @@ public class PlayScreen implements Screen {
             } else {
                 values = new String[2];
                 values[0] = "score" + game.getLevelNumber();
-                values[1] = "" + 0;
+                values[1] = "" + -100000;
                 Gdx.app.log("tag", "There was not a value");
             }
 

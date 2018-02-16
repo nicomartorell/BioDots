@@ -225,6 +225,8 @@ public class InfoBar extends Actor {
     }
 
     public void updatePoints(int newPoints){
+        if(newPoints == 0) return;
+
         points += newPoints;
 
         int text = newPoints;
@@ -252,7 +254,7 @@ public class InfoBar extends Actor {
         if(!screen.game.isInFreeGame()){
             newPoints = (int)time*20;
         } else {
-
+            // ?
         }
 
         scoreUpdate.setAlignment(Align.topLeft);
