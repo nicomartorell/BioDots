@@ -1140,7 +1140,7 @@ public class BioDots extends Game {
 		// NIVEL 17
 
 		level = new ScreenCreator();
-		level.setInitial_pOfDying(0.8f);
+		level.setInitial_pOfDying(1f);
 		level.setMutationStDev(0.1f);
 		level.setMaxBlocks(3);
 		level.setpOfRep(0.0005);
@@ -1187,7 +1187,7 @@ public class BioDots extends Game {
 		// NIVEL 18
 
 		level = new ScreenCreator();
-		level.setInitial_pOfDying(0.8f);
+		level.setInitial_pOfDying(1f);
 		level.setMutationStDev(0.1f);
 		level.setMaxBlocks(3);
 		level.setpOfRep(0.0005);
@@ -1230,10 +1230,10 @@ public class BioDots extends Game {
 
 		///////////////////////////////////////////////////////////
 
-		// NIVEL 18
+		// NIVEL 19
 
 		level = new ScreenCreator();
-		level.setInitial_pOfDying(0.8f);
+		level.setInitial_pOfDying(1f);
 		level.setMutationStDev(0.1f);
 		level.setMaxBlocks(3);
 		level.setpOfRep(0.0005);
