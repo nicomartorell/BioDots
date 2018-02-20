@@ -217,8 +217,9 @@ public class ConfigScreen implements Screen, InputProcessor {
                         Music s = (Music) game.manager.get("menu-music.ogg", Music.class);
                         s.play();
                     }
-                    preferences.flush();
+
                 }
+                preferences.flush();
             }
         }
 

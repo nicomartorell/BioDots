@@ -106,7 +106,12 @@ public class HighScoresScreen implements Screen, InputProcessor {
         table.add(l).expandX().padTop(30);;
         table.row();
 
-        for(int i = 0; i<game.getLevels().size; i++){
+        for(int i = 0; i<=preferences.getInteger("lastLevel", 0); i++){
+
+            if(i>=game.getLevels().size){
+                break;
+            }
+
             if(preferences.contains("score" + i)){
                 Gdx.app.log("tag", "It's there");
             } else {
@@ -133,7 +138,14 @@ public class HighScoresScreen implements Screen, InputProcessor {
 
         float scale = 0.75f;
         float height = ((Texture)game.manager.get("menu-button.png", Texture.class)).getHeight() * scale;
-        button.setButtonPosition(game.WIDTH/2, game.HEIGHT - tableHeight - height + 100);
+
+        if(tableHeight + height > game.HEIGHT){
+            button.setButtonPosition(game.WIDTH/2, game.HEIGHT - tableHeight - height + 100);
+        } else {
+            float offset = 120;
+            button.setButtonPosition(game.WIDTH/2,  offset + height/2);
+        }
+
     }
 
     public void setAsInput(){

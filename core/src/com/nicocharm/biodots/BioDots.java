@@ -1053,7 +1053,7 @@ public class BioDots extends Game {
 		// NIVEL 15
 
 		level = new ScreenCreator();
-		level.setInitial_pOfDying(0.8f);
+		level.setInitial_pOfDying(1f);
 		level.setMutationStDev(0.1f);
 		level.setMaxBlocks(3);
 		level.setpOfRep(0.004);
@@ -1077,7 +1077,7 @@ public class BioDots extends Game {
 
 			@Override
 			public boolean met() {
-				return getScreen().getInfobar().getPoints() >= 3000;
+				return getScreen().getBacterias().size < 1 && getScreen().getInfobar().getPoints() >= 3000;
 			}
 
 			@Override
@@ -1160,7 +1160,7 @@ public class BioDots extends Game {
 		buttonTypes[4] = Antibiotic.ANTIBIOTIC_GRAY;
 		level.setButtonTypes(buttonTypes);
 
-		level.setInitialTime(120f);
+		level.setInitialTime(90f);
 
 		goals = new String[1];
 		goals[0] = "¿Y si el único anti-\n" +
@@ -1253,7 +1253,7 @@ public class BioDots extends Game {
 		buttonTypes[4] = Antibiotic.ANTIBIOTIC_GRAY;
 		level.setButtonTypes(buttonTypes);
 
-		level.setInitialTime(120f);
+		level.setInitialTime(100f);
 
 		goals = new String[1];
 		goals[0] = "Este nivel puede ser\n" +
@@ -1264,6 +1264,123 @@ public class BioDots extends Game {
 			@Override
 			public boolean met() {
 				return getScreen().getBacterias().size < 1;
+			}
+
+			@Override
+			public boolean failed() {
+				return false;
+			}
+		});
+
+		levels.add(screen);
+
+		///////////////////////////////////////////////////////////
+
+		// NIVEL 20
+
+		level = new ScreenCreator();
+		level.setInitial_pOfDying(0.8f);
+		level.setMutationStDev(0.1f);
+		level.setMaxBlocks(0);
+		level.setpOfRep(0.001);
+
+		nBacterias = 15;
+		types = new short[nBacterias];
+		for(int i = 0; i < nBacterias; i++){
+			types[i] = (short)(random.nextInt(5) + 1);
+		}
+		level.setBacteriaTypes(types);
+
+		level.setInitialTime(90f);
+
+		goals = new String[1];
+		goals[0] = "Ahora que estamos entrenados,\n" +
+				"¿Podés ganar sin\n" +
+				"congelar cuadrantes?";
+
+		screen = new PlayScreen(this, level, new Goal(goals){
+
+			@Override
+			public boolean met() {
+				return getScreen().getBacterias().size < 1;
+			}
+
+			@Override
+			public boolean failed() {
+				return false;
+			}
+		});
+
+		levels.add(screen);
+
+		///////////////////////////////////////////////////////////
+
+		// NIVEL 21
+
+		level = new ScreenCreator();
+		level.setInitial_pOfDying(0.8f);
+		level.setMutationStDev(0.1f);
+		level.setMaxBlocks(0);
+		level.setpOfRep(0.001);
+
+		nBacterias = 25;
+		types = new short[nBacterias];
+		for(int i = 0; i < nBacterias; i++){
+			types[i] = (short)(random.nextInt(5) + 1);
+		}
+		level.setBacteriaTypes(types);
+
+		level.setInitialTime(90f);
+
+		goals = new String[1];
+		goals[0] = "Se va poniendo\n" +
+				"difícil, no?";
+
+		screen = new PlayScreen(this, level, new Goal(goals){
+
+			@Override
+			public boolean met() {
+				return getScreen().getBacterias().size < 1;
+			}
+
+			@Override
+			public boolean failed() {
+				return false;
+			}
+		});
+
+		levels.add(screen);
+
+		///////////////////////////////////////////////////////////
+
+		// NIVEL 22
+
+		level = new ScreenCreator();
+		level.setInitial_pOfDying(0.8f);
+		level.setMutationStDev(0.1f);
+		level.setMaxBlocks(0);
+		level.setpOfRep(0.002);
+
+		nBacterias = 25;
+		types = new short[nBacterias];
+		for(int i = 0; i < nBacterias; i++){
+			types[i] = (short)(random.nextInt(5) + 1);
+		}
+		level.setBacteriaTypes(types);
+
+		level.setInitialTime(60f);
+
+		goals = new String[2];
+		goals[0] = "Para ganar y no perder,\n" +
+				"10,000 puntos hay que hacer.";
+		goals[1] = "Qué se yo, yo hago juegos,\n" +
+				"no soy poeta. Es lo que hay.";
+
+		screen = new PlayScreen(this, level, new Goal(goals){
+
+			@Override
+			public boolean met() {
+				return getScreen().getInfobar().getPoints() >= 10000;
 			}
 
 			@Override

@@ -89,14 +89,14 @@ public class Antibiotic extends Actor{
                 path = "antibiotic-blue.png";
                 pOfKilling = 0.8f;
                 duration = 4f;
-                inactiveTime = 20;
+                inactiveTime = 15;
                 cost = -50;
                 break;
             case ANTIBIOTIC_GREEN:
                 path = "antibiotic-green.png";
                 pOfKilling = 0.75f;
                 duration = 2f;
-                inactiveTime = 15;
+                inactiveTime = 13;
                 cost = -50;
                 break;
             case ANTIBIOTIC_PINK:
