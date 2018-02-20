@@ -31,6 +31,8 @@ import java.util.Random;
 
 public class PlayScreen implements Screen {
 
+    private float interval;
+
     public ScreenCreator getSettings() {
         return settings;
     }
@@ -231,6 +233,8 @@ public class PlayScreen implements Screen {
 
         maxBlocks = settings.getMaxBlocks();
 
+        interval = settings.getInterval();
+
         final Music s = (Music) game.manager.get("menu-music.ogg", Music.class);
         s.stop();
 
@@ -280,7 +284,7 @@ public class PlayScreen implements Screen {
             }
         }
 
-        if(settings.isFreeGame() && !ended && timer - lastBacteria >= 4){
+        if(settings.isFreeGame() && !ended && timer - lastBacteria >= interval){
             addBacteria();
         }
 

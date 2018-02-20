@@ -88,6 +88,16 @@ public class ScreenCreator {
 
     private float mutationStDev;
 
+    public float getInterval() {
+        return interval;
+    }
+
+    public void setInterval(float interval) {
+        this.interval = interval;
+    }
+
+    private float interval;
+
     public ScreenCreator(){
         initial_pOfDying = 1.0f;
 
@@ -114,6 +124,8 @@ public class ScreenCreator {
         pOfRep = 0.0011;
         
         mutationStDev = 0.1f;
+
+        interval = 4f;
     }
 
     public int getMaxBlocks() {
