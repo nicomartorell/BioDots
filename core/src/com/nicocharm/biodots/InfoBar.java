@@ -98,7 +98,7 @@ public class InfoBar extends Actor {
         /*Table table = new Table();
         table.top();
         table.setFillParent(true);*/
-        int printTime = screen.getSettings().isFreeGame() ? (int)(time*-1) : (int)time;
+        int printTime = screen.game.isInFreeGame() ? (int)(time*-1) : (int)time;
         timeLabel = new Label("Tiempo: " + printTime, style);
         timeLabel.setFontScale(upScale);
         pointsLabel = new Label("Puntos: " + points, style);
@@ -153,7 +153,7 @@ public class InfoBar extends Actor {
         time-=delta;
         timer+=delta;
 
-        int printTime = screen.getSettings().isFreeGame() ? (int)(time*-1) : (int)time;
+        int printTime = screen.game.isInFreeGame() ? (int)(time*-1) : (int)time;
         pointsLabel.setText("Puntos: " + points);
         timeLabel.setText("Tiempo: " + printTime);
 

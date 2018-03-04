@@ -268,7 +268,7 @@ public class PlayScreen implements Screen {
         if(!ended){
             if(bacterias.size >= 60 || goal.failed()){
                 lose();
-            } else if(!settings.isFreeGame() && infobar.getTime() < 1){
+            } else if(!game.isInFreeGame() && infobar.getTime() < 1){
                 if(goal.met()){
                     win();
                 } else lose();
