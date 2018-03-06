@@ -1741,7 +1741,7 @@ public class BioDots extends Game {
 		level.setMaxBlocks(1);
 		level.setpOfRep(0.0011);
 
-		nBacterias = 25;
+		nBacterias = 23;
 		types = new short[nBacterias];
 		for(int i = 0; i < nBacterias; i++){
 			types[i] = (short)(random.nextInt(5) + 1);
@@ -1781,7 +1781,7 @@ public class BioDots extends Game {
 		level = new ScreenCreator();
 		level.setFreeGame(true);
 		level.setInterval(3f);
-		level.setInitial_pOfDying(0.9f);
+		level.setInitial_pOfDying(0.8f);
 		level.setMutationStDev(0.1f);
 		level.setMaxBlocks(1);
 		level.setpOfRep(0.0011);
@@ -1793,10 +1793,10 @@ public class BioDots extends Game {
 		}
 		level.setBacteriaTypes(types);
 
-		level.setInitialTime(150f);
+		level.setInitialTime(120f);
 
 		goals = new String[1];
-		goals[0] = "¿Podés llegar a 20 mil\n" +
+		goals[0] = "¿Podés llegar a 15 mil\n" +
 				"puntos antes de que se\n" +
 				"acabe el tiempo?";
 
@@ -1805,7 +1805,7 @@ public class BioDots extends Game {
 
 			@Override
 			public boolean met() {
-				return getScreen().getInfobar().getPoints() >= 20000;
+				return getScreen().getInfobar().getPoints() >= 15000;
 			}
 
 			@Override
@@ -1828,7 +1828,7 @@ public class BioDots extends Game {
 		level.setMaxBlocks(1);
 		level.setpOfRep(0.0011);
 
-		nBacterias = 25;
+		nBacterias = 20;
 		types = new short[nBacterias];
 		for(int i = 0; i < types.length; i++){
 			short type;
@@ -1877,7 +1877,7 @@ public class BioDots extends Game {
 		level.setFreeGame(true);
 		level.setInterval(2f);
 		level.setInitial_pOfDying(0.8f);
-		level.setMutationStDev(0.1f);
+		level.setMutationStDev(0.05f);
 		level.setMaxBlocks(1);
 		level.setpOfRep(0.0011);
 
@@ -1932,15 +1932,17 @@ public class BioDots extends Game {
 
 		level.setInitialTime(120f);
 
-		goals = new String[1];
+		goals = new String[2];
 		goals[0] = "...y además se\n" +
 				"reproducen más?";
+		goals[1] = "Tratá de llegar a\n" +
+				"20 mil puntos.";
 
 		screen = new PlayScreen(this, level, new Goal(goals){
 
 			@Override
 			public boolean met() {
-				return getScreen().getBacterias().size < 1;
+				return getScreen().getInfobar().getPoints() >= 20000;
 			}
 
 			@Override
@@ -1976,11 +1978,11 @@ public class BioDots extends Game {
 		}
 		level.setBacteriaTypes(types);
 
-		level.setInitialTime(120f);
+		level.setInitialTime(50f);
 
 		goals = new String[1];
-		goals[0] = "...y tenés que dejar vivas\n" +
-				"sólo a las verdes?";
+		goals[0] = "...y si ahora encima tenés que\n" +
+				"dejar vivas sólo a las verdes?";
 
 		screen = new PlayScreen(this, level, new Goal(goals){
 
@@ -2015,7 +2017,7 @@ public class BioDots extends Game {
 		level.setMaxBlocks(3);
 		level.setpOfRep(0.003);
 
-		nBacterias = 23;
+		nBacterias = 20;
 		types = new short[nBacterias];
 		for(int i = 0; i < nBacterias; i++){
 			types[i] = (short)(random.nextInt(5) + 1);

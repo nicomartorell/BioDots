@@ -234,6 +234,7 @@ public class PlayScreen implements Screen {
         maxBlocks = settings.getMaxBlocks();
 
         interval = settings.getInterval();
+        lastBacteria = timer;
 
         final Music s = (Music) game.manager.get("menu-music.ogg", Music.class);
         s.stop();
@@ -267,12 +268,15 @@ public class PlayScreen implements Screen {
 
         if(!ended){
             if(bacterias.size >= 60 || goal.failed()){
+                Gdx.app.log("tag4", "bacterias.size >= 60 || goal.failed()");
                 lose();
             } else if(!game.isInFreeGame() && infobar.getTime() < 1){
+                Gdx.app.log("tag4", "!game.isInFreeGame() && infobar.getTime() < 1");
                 if(goal.met()){
                     win();
                 } else lose();
             }else if (bacterias.size < 1){
+                Gdx.app.log("tag4", "bacterias.size < 1");
                 if(goal.met()){
                     win();
                 } else if(this.getClass() == TutorialScreen.class && ((TutorialScreen)this).getState()!=((TutorialScreen)this).STATE_FINAL){
@@ -280,11 +284,17 @@ public class PlayScreen implements Screen {
                     lose();
                 }
             } else if(goal.met()){
+                Gdx.app.log("tag4", "goal.met()");
                 win();
             }
         }
 
-        if(settings.isFreeGame() && !ended && timer - lastBacteria >= interval){
+        //Gdx.app.log("tag2", "IS THE TIME FROM LAST GREATER THAN INTERVAL? " + (timer - lastBacteria >= interval));
+
+        Gdx.app.log("tag2", "Timer - lastBacteria - interval: " + (timer - lastBacteria - interval) + "; timer: " + timer + "; lastBacteria: " + lastBacteria + "; Ended? " + ended + "; Free Game? " + settings.isFreeGame());
+
+        if(settings.isFreeGame() && !ended && timer - lastBacteria - interval > 0){
+            Gdx.app.log("tag3", "Bacteria added!");
             addBacteria();
         }
 
@@ -307,7 +317,6 @@ public class PlayScreen implements Screen {
 
             //si se está dividiendo la elimino
             if(b.isDividing()){
-                Gdx.app.log("tag", "I divided!!");
                 bacterias.removeIndex(i);
                 world.destroyBody(b.getBody());
                 if(bacterias.size > 0){ //si es 0 ya no hay bacterias y da error
@@ -321,7 +330,6 @@ public class PlayScreen implements Screen {
                 currentAntibiotic.checkBacteria(b); //está cerca?
 
                 if(b.isDead()) { // si la maté, la elimino
-                    Gdx.app.log("tag", "Killed by antibiotic");
                     bacterias.removeIndex(i);
                     world.destroyBody(b.getBody());
                     infobar.updatePoints(100); // sumo puntos!
@@ -456,6 +464,7 @@ public class PlayScreen implements Screen {
     }
 
     private void lose(){
+        Gdx.app.log("tag4", "omg LOSING");
         endTime = timer;
         ended = true;
         won = false;
@@ -466,6 +475,7 @@ public class PlayScreen implements Screen {
     }
 
     public void win(){
+        Gdx.app.log("tag4", "omg WINNING");
         endTime = timer;
         ended = true;
         won = true;
