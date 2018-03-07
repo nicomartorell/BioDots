@@ -2677,6 +2677,10 @@ public class BioDots extends Game {
 	    Gdx.app.exit();
     }
 
+    public void addLevel(PlayScreen screen){
+		levels.add(screen);
+	}
+
 	public void setToMenu(boolean toMenu) {
 		this.toMenu = toMenu;
 	}
@@ -2693,6 +2697,7 @@ public class BioDots extends Game {
 		Preferences preferences = Gdx.app.getPreferences("BioDots");
 		preferences.putInteger("lastLevel", 0);
 		preferences.flush();
+		levelScreen.setLevelCreated(false);
 		levelScreen.dispose();
 		levelScreen = new LevelScreen(this);
 		completed = false;
@@ -2705,6 +2710,7 @@ public class BioDots extends Game {
 		levelScreen.dispose();
 		completed = true;
 		levelScreen = new LevelScreen(this);
+		levelScreen.setLevelCreated(true);
 	}
 
 	public Array<Float> getSineFunction() {

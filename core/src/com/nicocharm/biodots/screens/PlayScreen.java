@@ -518,7 +518,7 @@ public class PlayScreen implements Screen {
     public void resume() {
         paused = false;
 
-        if(game.getGSound() || game.getMusic()){
+        if(game.getMusic()){
             final Music s1 = (Music) game.manager.get("play-song.ogg", Music.class);
             s1.play();
         }

@@ -106,9 +106,11 @@ public class HighScoresScreen implements Screen, InputProcessor {
         table.add(l).expandX().padTop(30);;
         table.row();
 
+        int last = (game.isCompleted() && game.getLevelScreen().hasBeenLevelCreated()) ? game.getLevels().size-1 : game.getLevels().size;
+
         for(int i = 0; i<=preferences.getInteger("lastLevel", 0); i++){
 
-            if(i>=game.getLevels().size){
+            if(i>=last){
                 break;
             }
 

@@ -19,9 +19,12 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.nicocharm.biodots.Bacteria;
 import com.nicocharm.biodots.BioDots;
 import com.nicocharm.biodots.Button;
 import com.nicocharm.biodots.Level;
+
+import java.util.Random;
 
 public class LevelScreen implements Screen, InputProcessor {
 
@@ -55,6 +58,16 @@ public class LevelScreen implements Screen, InputProcessor {
 
     private int i;
 
+    public boolean hasBeenLevelCreated() {
+        return levelCreated;
+    }
+
+    public void setLevelCreated(boolean levelCreated) {
+        this.levelCreated = levelCreated;
+    }
+
+    private boolean levelCreated = false;
+
     public LevelScreen(BioDots game){
         this.game = game;
 
@@ -84,11 +97,22 @@ public class LevelScreen implements Screen, InputProcessor {
         levels.add(level0);
         stage.addActor(level0.getLabel());
 
-        int last = Gdx.app.getPreferences("BioDots").getInteger("lastLevel", 0);
+        Preferences preferences = Gdx.app.getPreferences("BioDots");
+
+        if(game.isCompleted()){
+            preferences.putInteger("lastLevel", levels.size-1);
+        }
+
+        int last = preferences.getInteger("lastLevel", 0);
+
+        Gdx.app.log("tag6", "Last Level: " + last + "; array size: " + game.getLevels().size);
+
         if(last == game.getLevels().size){
             Gdx.app.log("tag", "Decreasing last");
             last-=1;
         }
+
+        Gdx.app.log("tag6", "i is " + i);
 
         for(i = 1; i <= last; i++){
             Level level = new Level(this, /*"Nivel " + */Integer.toString(i), 1, game.WIDTH/2 + game.WIDTH*i, game.HEIGHT/2 + 50, false, 2.5f);
@@ -96,14 +120,17 @@ public class LevelScreen implements Screen, InputProcessor {
             stage.addActor(level.getLabel());
         }
 
+        Gdx.app.log("tag6", "i is " + i);
+
         if(i<game.getLevels().size){
             Level level = new Level(this, "No", 1,
                     game.WIDTH/2 + game.WIDTH*i, game.HEIGHT/2 + 50, true, 1);
             levels.add(level);
         } else {
             game.setCompleted(true);
+            //createLevel();
         }
-
+        Gdx.app.log("tag6", "i is " + i);
 
         BitmapFont font = (BitmapFont) game.manager.get("Roboto-Regular.ttf", BitmapFont.class);
         Label.LabelStyle style = new Label.LabelStyle();
@@ -132,6 +159,15 @@ public class LevelScreen implements Screen, InputProcessor {
         int current = Gdx.app.getPreferences("BioDots").getInteger("lastLevel", 0);
 
         if(current == game.getLevels().size) current -=1;
+
+        if(game.isCompleted()){
+            if(levelCreated){
+                game.getLevels().removeIndex(game.getLevels().size-1);
+                levels.removeIndex(levels.size-1);
+                levelCreated = false;
+            }
+            createLevel();
+        }
 
         for(int i = 0; i < levels.size; i++){
             float x = game.WIDTH/2 + game.WIDTH*(i - current);
@@ -226,6 +262,258 @@ public class LevelScreen implements Screen, InputProcessor {
             levels.get(i).setX(x);
             levels.get(i).setPreferedX(x);
         }
+    }
+
+    private void createLevel(){
+        Level ran = new Level(this, "?", 1, game.WIDTH/2, game.HEIGHT/2 + 50, false, 2.5f);
+        levels.add(ran);
+        stage.addActor(ran.getLabel());
+
+
+        levelCreated = true;
+        final Random r = new Random();
+
+
+        ///////////////////////////////////////////////////////////
+
+        // NIVEL CON PARÁMETROS ALEATORIOS...
+
+        // Puedo hacer distintos tipos de niveles y switchear
+
+        // tipo 0: baja pOfDying - 1 bloque
+        // tipo 1: alta pOfRep - 3 bloques
+        // tipo 2: alta stDev - 3 bloques
+        // tipo 3: matá a un tipo de bacterias
+        // tipo 4: llegá a una cantidad de puntos
+
+        int switcher = r.nextInt(5);
+        ScreenCreator level = new ScreenCreator();
+
+        int nBacterias;
+        short[] types;
+        String[] goals = new String[2];
+        PlayScreen screen;
+
+        switch(switcher){
+            case 0:
+                level.setInitial_pOfDying(r.nextFloat()*0.2f + 0.5f);
+                level.setMutationStDev(r.nextFloat()*0.02f + 0.05f);
+                level.setMaxBlocks(1);
+                level.setpOfRep(r.nextFloat()*0.001f + 0.0005f);
+
+                nBacterias = r.nextInt(10) + 20;
+                types = new short[nBacterias];
+                for(int i = 0; i < nBacterias; i++){
+                    types[i] = (short)(r.nextInt(5) + 1);
+                }
+                level.setBacteriaTypes(types);
+
+                level.setInitialTime(120f);
+
+                goals[0] = "Este nivel fue diseñado\n" +
+                        "de manera aleatoria, sólo\n" +
+                        "para vos :)";
+                goals[1] = "En esta ocasión,\n" +
+                        "las bacterias no\n" +
+                        "mueren muy fácil...";
+
+                screen = new PlayScreen(game, level, new Goal(goals){
+
+                    @Override
+                    public boolean met() {
+                        return getScreen().getBacterias().size < 1;
+                    }
+
+                    @Override
+                    public boolean failed() {
+                        return false;
+                    }
+                });
+
+                break;
+            case 1:
+                level.setInitial_pOfDying(r.nextFloat()*0.2f + 0.75f);
+                level.setMutationStDev(r.nextFloat()*0.02f + 0.05f);
+                level.setMaxBlocks(3);
+                level.setpOfRep(r.nextFloat()*0.0040f + 0.0025f);
+
+                nBacterias = r.nextInt(10) + 15;
+                types = new short[nBacterias];
+                for(int i = 0; i < nBacterias; i++){
+                    types[i] = (short)(r.nextInt(5) + 1);
+                }
+                level.setBacteriaTypes(types);
+
+                level.setInitialTime(120f);
+
+                goals[0] = "Este nivel fue diseñado\n" +
+                        "de manera aleatoria, sólo\n" +
+                        "para vos :)";
+                goals[1] = "En esta ocasión,\n" +
+                        "las bacterias no\n" +
+                        "paran de duplicarse...";
+
+                screen = new PlayScreen(game, level, new Goal(goals){
+
+                    @Override
+                    public boolean met() {
+                        return getScreen().getBacterias().size < 1;
+                    }
+
+                    @Override
+                    public boolean failed() {
+                        return false;
+                    }
+                });
+
+                break;
+            case 2:
+                level.setInitial_pOfDying(r.nextFloat()*0.2f + 0.75f);
+                level.setMutationStDev(r.nextFloat()*0.2f + 0.15f);
+                level.setMaxBlocks(3);
+                level.setpOfRep(r.nextFloat()*0.001f + 0.0005f);
+
+                nBacterias = r.nextInt(10) + 20;
+                types = new short[nBacterias];
+                for(int i = 0; i < nBacterias; i++){
+                    types[i] = (short)(r.nextInt(5) + 1);
+                }
+                level.setBacteriaTypes(types);
+
+                level.setInitialTime(120f);
+
+                goals[0] = "Este nivel fue diseñado\n" +
+                        "de manera aleatoria, sólo\n" +
+                        "para vos :)";
+                goals[1] = "En esta ocasión,\n" +
+                        "las bacterias están\n" +
+                        "mutando muy rápido...";
+
+                screen = new PlayScreen(game, level, new Goal(goals){
+
+                    @Override
+                    public boolean met() {
+                        return getScreen().getBacterias().size < 1;
+                    }
+
+                    @Override
+                    public boolean failed() {
+                        return false;
+                    }
+                });
+
+                break;
+            case 3:
+                level.setInitial_pOfDying(r.nextFloat()*0.3f + 0.6f);
+                level.setMutationStDev(r.nextFloat()*0.04f + 0.08f);
+                level.setMaxBlocks(1);
+                level.setpOfRep(r.nextFloat()*0.001f + 0.0005f);
+
+                nBacterias = r.nextInt(10) + 27;
+                types = new short[nBacterias];
+                final short wantedType = (short)(r.nextInt(5) + 1);
+                short otherType1;
+                short otherType2;
+
+                while(true){
+                    otherType1 = (short)(r.nextInt(5) + 1);
+                    if(otherType1 != wantedType){
+                        break;
+                    }
+                }
+
+                while(true){
+                    otherType2 = (short)(r.nextInt(5) + 1);
+                    if(otherType2 != wantedType && otherType2 != otherType1){
+                        break;
+                    }
+                }
+
+                int desiredQuantity = nBacterias/4;
+                int otherQuantity = desiredQuantity + r.nextInt(nBacterias/3) + nBacterias/4;
+
+                for(int i = 0; i < nBacterias; i++){
+                    if(i<desiredQuantity){
+                        types[i] = wantedType;
+                    } else if(i<otherQuantity){
+                        types[i] = otherType1;
+                    } else {
+                        types[i] = otherType2;
+                    }
+                }
+                level.setBacteriaTypes(types);
+
+                level.setInitialTime(120f);
+
+                goals[0] = "Este nivel fue diseñado\n" +
+                        "de manera aleatoria, sólo\n" +
+                        "para vos :)";
+                goals[1] = "En esta ocasión,\n" +
+                        "tenés que matar a\n" +
+                        "cierto tipo de bacterias.\n" +
+                        "¿Adivinás cuáles?";
+
+                screen = new PlayScreen(game, level, new Goal(goals){
+
+                    @Override
+                    public boolean met() {
+                        for(Bacteria b: getScreen().getBacterias()){
+                            if(b.getType() != wantedType) return false;
+                        }
+                        return true;
+                    }
+
+                    @Override
+                    public boolean failed() {
+                        for(Bacteria b: getScreen().getBacterias()){
+                            if(b.getType() == wantedType) return false;
+                        }
+                        return true;
+                    }
+                });
+
+                break;
+            case 4:
+                level.setInitial_pOfDying(r.nextFloat()*0.3f + 0.6f);
+                level.setMutationStDev(r.nextFloat()*0.04f + 0.08f);
+                level.setMaxBlocks(1);
+                level.setpOfRep(r.nextFloat()*0.001f + 0.0005f);
+
+                nBacterias = r.nextInt(15) + 30;
+                types = new short[nBacterias];
+                for(int i = 0; i < nBacterias; i++){
+                    types[i] = (short)(r.nextInt(5) + 1);
+                }
+                level.setBacteriaTypes(types);
+
+                level.setInitialTime(120f);
+
+                goals[0] = "Este nivel fue diseñado\n" +
+                        "de manera aleatoria, sólo\n" +
+                        "para vos :)";
+                goals[1] = "En esta ocasión,\n" +
+                        "tenés que hacer muchos\n" +
+                        "puntos para ganar...";
+
+                screen = new PlayScreen(game, level, new Goal(goals){
+
+                    @Override
+                    public boolean met() {
+                        return getScreen().getInfobar().getPoints() >= r.nextInt(15000) + 15000;
+                    }
+                    @Override
+                    public boolean failed() {
+                        return false;
+                    }
+                });
+
+                break;
+            default:
+                screen = null;
+                break;
+        }
+        Gdx.app.log("tag5", "pOfRep: " + level.getpOfRep());
+        game.addLevel(screen);
     }
 
     @Override
