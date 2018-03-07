@@ -2071,7 +2071,7 @@ public class BioDots extends Game {
 		}
 		level.setBacteriaTypes(types);
 
-		level.setInitialTime(120f);
+		level.setInitialTime(50f);
 
 		goals = new String[1];
 		goals[0] = "Se me están acabando las\n" +
@@ -2098,7 +2098,7 @@ public class BioDots extends Game {
 		// NIVEL 39
 
 		level = new ScreenCreator();
-		level.setInitial_pOfDying(0.8f);
+		level.setInitial_pOfDying(0.65f);
 		level.setMutationStDev(0.1f);
 		level.setMaxBlocks(1);
 		level.setpOfRep(0.002);
@@ -2164,7 +2164,7 @@ public class BioDots extends Game {
 		}
 		level.setBacteriaTypes(types);
 
-		level.setInitialTime(120f);
+		level.setInitialTime(70f);
 
 		goals = new String[2];
 		goals[0] = "Frustrante, quizás.\n" +
@@ -2204,14 +2204,14 @@ public class BioDots extends Game {
 		buttonTypes[4] = Antibiotic.ANTIBIOTIC_RED;
 		level.setButtonTypes(buttonTypes);
 
-		nBacterias = 10;
+		nBacterias = 15;
 		types = new short[nBacterias];
 		for(int i = 0; i < nBacterias; i++){
 			types[i] = Bacteria.BACTERIA_RED;
 		}
 		level.setBacteriaTypes(types);
 
-		level.setInitialTime(125f);
+		level.setInitialTime(40f);
 
 		goals = new String[1];
 		goals[0] = "¿Tenías ganas de esperar?";
@@ -2237,7 +2237,7 @@ public class BioDots extends Game {
 
 		level = new ScreenCreator();
 		level.setInitial_pOfDying(0.8f);
-		level.setMutationStDev(0.1f);
+		level.setMutationStDev(0.05f);
 		level.setMaxBlocks(1);
 		level.setpOfRep(0.002);
 
@@ -2283,7 +2283,7 @@ public class BioDots extends Game {
 
 		level = new ScreenCreator();
 		level.setInitial_pOfDying(0.8f);
-		level.setMutationStDev(0.1f);
+		level.setMutationStDev(0.05f);
 		level.setMaxBlocks(1);
 		level.setpOfRep(0.002);
 
@@ -2443,7 +2443,7 @@ public class BioDots extends Game {
 		}
 		level.setBacteriaTypes(types);
 
-		level.setInitialTime(120f);
+		level.setInitialTime(60f);
 
 		goals = new String[1];
 		goals[0] = "¿Todo bien?";
@@ -2475,7 +2475,7 @@ public class BioDots extends Game {
 
 		level = new ScreenCreator();
 		level.setInitial_pOfDying(0.8f);
-		level.setMutationStDev(0.1f);
+		level.setMutationStDev(0.05f);
 		level.setMaxBlocks(5);
 		level.setpOfRep(0.003);
 
