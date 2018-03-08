@@ -81,7 +81,7 @@ public class MainMenu implements Screen, InputProcessor {
         style.font = font;
         style.fontColor = new Color(197/255f, 215/255f, 254/255f, 1);
 
-        String text = "Bio Dots";
+        String text = "Antibium";
         title = new Label(text, style);
         title.setAlignment(Align.center);
         GlyphLayout gl = new GlyphLayout(style.font, text);
