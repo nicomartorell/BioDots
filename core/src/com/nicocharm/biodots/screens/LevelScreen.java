@@ -107,9 +107,9 @@ public class LevelScreen implements Screen, InputProcessor {
 
         Gdx.app.log("tag6", "Last Level: " + last + "; array size: " + game.getLevels().size);
 
-        if(last == game.getLevels().size){
+        if(last >= game.getLevels().size){
             Gdx.app.log("tag", "Decreasing last");
-            last-=1;
+            last = game.getLevels().size - 1;
         }
 
         Gdx.app.log("tag6", "i is " + i);
@@ -156,10 +156,6 @@ public class LevelScreen implements Screen, InputProcessor {
 
     @Override
     public void show() {
-        int current = Gdx.app.getPreferences("BioDots").getInteger("lastLevel", 0);
-
-        if(current == game.getLevels().size) current -=1;
-
         if(game.isCompleted()){
             if(levelCreated){
                 game.getLevels().removeIndex(game.getLevels().size-1);
@@ -168,6 +164,12 @@ public class LevelScreen implements Screen, InputProcessor {
             }
             createLevel();
         }
+
+        int current = Gdx.app.getPreferences("BioDots").getInteger("lastLevel", 0);
+
+        if(current >= game.getLevels().size) current = game.getLevels().size - 1;
+
+
 
         for(int i = 0; i < levels.size; i++){
             float x = game.WIDTH/2 + game.WIDTH*(i - current);

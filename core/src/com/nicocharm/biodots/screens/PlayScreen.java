@@ -489,7 +489,7 @@ public class PlayScreen implements Screen {
 
         int current = preferences.getInteger("lastLevel");
         int thisOne = game.getLevels().indexOf(this, true) + 1;
-        if(thisOne > current){
+        if(thisOne > current && thisOne < game.getLevels().size - 1){
             game.getLevelScreen().addLevel();
             preferences.putInteger("lastLevel", thisOne);
             preferences.flush();
