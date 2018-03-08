@@ -99,9 +99,9 @@ public class LevelScreen implements Screen, InputProcessor {
 
         Preferences preferences = Gdx.app.getPreferences("BioDots");
 
-        if(game.isCompleted()){
+        /*if(game.isCompleted()){
             preferences.putInteger("lastLevel", levels.size-1);
-        }
+        }*/
 
         int last = preferences.getInteger("lastLevel", 0);
 
@@ -157,7 +157,7 @@ public class LevelScreen implements Screen, InputProcessor {
     @Override
     public void show() {
         if(game.isCompleted()){
-            if(levelCreated){
+            if(game.getLevels().size >= 51){
                 game.getLevels().removeIndex(game.getLevels().size-1);
                 levels.removeIndex(levels.size-1);
                 levelCreated = false;
