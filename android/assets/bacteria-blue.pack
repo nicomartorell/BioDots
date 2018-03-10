@@ -1,0 +1,67 @@
+bacteria-blue.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+f1
+  rotate: false
+  xy: 1, 1029
+  size: 350, 512
+  orig: 350, 512
+  offset: 0, 0
+  index: -1
+f2
+  rotate: false
+  xy: 1, 515
+  size: 350, 512
+  orig: 350, 512
+  offset: 0, 0
+  index: -1
+f3
+  rotate: false
+  xy: 353, 1029
+  size: 350, 512
+  orig: 350, 512
+  offset: 0, 0
+  index: -1
+f4
+  rotate: false
+  xy: 1, 1
+  size: 350, 512
+  orig: 350, 512
+  offset: 0, 0
+  index: -1
+f5
+  rotate: false
+  xy: 353, 515
+  size: 350, 512
+  orig: 350, 512
+  offset: 0, 0
+  index: -1
+f6
+  rotate: false
+  xy: 705, 1029
+  size: 350, 512
+  orig: 350, 512
+  offset: 0, 0
+  index: -1
+f7
+  rotate: false
+  xy: 353, 1
+  size: 350, 512
+  orig: 350, 512
+  offset: 0, 0
+  index: -1
+f8
+  rotate: false
+  xy: 705, 515
+  size: 350, 512
+  orig: 350, 512
+  offset: 0, 0
+  index: -1
+f9
+  rotate: false
+  xy: 1057, 1029
+  size: 350, 512
+  orig: 350, 512
+  offset: 0, 0
+  index: -1

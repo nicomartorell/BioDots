@@ -5,6 +5,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.collision.BoundingBox;
@@ -140,13 +141,22 @@ public class Bacteria extends Actor {
     // simplemente busco la textura, seteo la animación y la inicializo
     @Override
     protected void setVisuals() {
-        setTexture((Texture)screen.game.manager.get(path, Texture.class));
+        /*setTexture((Texture)screen.game.manager.get(path, Texture.class));
         frames = new Array<TextureRegion>();
         for(int i = 0; i < 9; i++){
             frames.add(new TextureRegion(getTexture(), 0, i*(int)height, (int)width, (int)height));
         }
         for(int i = 8; i >= 0; i--){
             frames.add(new TextureRegion(getTexture(), 0, i*(int)height, (int)width, (int)height));
+        }*/
+
+        TextureAtlas atlas = (TextureAtlas)screen.game.manager.get(path, TextureAtlas.class);
+        frames = new Array<TextureRegion>();
+        for(int i = 1; i <= 9; i++){
+            frames.add(atlas.findRegion("f" + i));
+        }
+        for(int i = 8; i >= 2; i--){
+            frames.add(atlas.findRegion("f" + i));
         }
 
         animation = new Animation<TextureRegion>(1/40f, frames);
@@ -301,19 +311,19 @@ public class Bacteria extends Actor {
         //switch el path para cada type
         switch(type){
             case BACTERIA_BLUE:
-                path = "bacteria-blue.png";
+                path = "bacteria-blue.pack";
                 break;
             case BACTERIA_GREEN:
-                path = "bacteria-green.png";
+                path = "bacteria-green.pack";
                 break;
             case BACTERIA_ORANGE:
-                path = "bacteria-orange.png";
+                path = "bacteria-orange.pack";
                 break;
             case BACTERIA_PINK:
-                path = "bacteria-pink.png";
+                path = "bacteria-pink.pack";
                 break;
             case BACTERIA_RED:
-                path = "bacteria-red.png";
+                path = "bacteria-red.pack";
                 break;
         }
     }

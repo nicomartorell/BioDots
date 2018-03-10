@@ -70,7 +70,7 @@ public class AboutScreen implements Screen, InputProcessor {
         style2.font = font2;
         style2.fontColor = new Color(248/255f, 95/255f, 95/255f, 1);
 
-        String text = "**¿Qué es Bio Dots?\n" +
+        String text = "**¿Qué es Antibium?\n" +
                 "\n" +
                 "Bio Dots es un juego de estrategia\n" +
                 "y habilidad, basado vagamente en\n" +

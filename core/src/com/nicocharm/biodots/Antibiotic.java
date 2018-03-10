@@ -7,6 +7,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -79,35 +80,35 @@ public class Antibiotic extends Actor{
     private void setPath(short type) {
         switch (type){
             case ANTIBIOTIC_RED:
-                path = "antibiotic-red.png";
+                path = "antibiotic-red.pack";
                 pOfKilling = 0.95f;
                 duration = 4f;
                 inactiveTime = 30;
                 cost = -200;
                 break;
             case ANTIBIOTIC_BLUE:
-                path = "antibiotic-blue.png";
+                path = "antibiotic-blue.pack";
                 pOfKilling = 0.8f;
                 duration = 4f;
                 inactiveTime = 15;
                 cost = -50;
                 break;
             case ANTIBIOTIC_GREEN:
-                path = "antibiotic-green.png";
+                path = "antibiotic-green.pack";
                 pOfKilling = 0.75f;
                 duration = 2f;
                 inactiveTime = 13;
                 cost = -50;
                 break;
             case ANTIBIOTIC_PINK:
-                path = "antibiotic-pink.png";
+                path = "antibiotic-pink.pack";
                 pOfKilling = 0.85f;
                 duration = 8f;
                 inactiveTime = 10;
                 cost = -100;
                 break;
             case ANTIBIOTIC_WHITE:
-                path = "antibiotic-white.png";
+                path = "antibiotic-white.pack";
                 pOfKilling = 0.45f;
                 duration = 4f;
                 inactiveTime = 0;
@@ -121,13 +122,22 @@ public class Antibiotic extends Actor{
     protected void setVisuals() {
         if(type == ANTIBIOTIC_GRAY) return;
 
-        setTexture((Texture)screen.game.manager.get(path, Texture.class));
+        /*setTexture((Texture)screen.game.manager.get(path, Texture.class));
         frames = new Array<TextureRegion>();
         for(int i = 0; i < 11; i++){
             frames.add(new TextureRegion(getTexture(), 0, i*400, 400, 400));
         }
         for(int i = 10; i >= 0; i--){
             frames.add(new TextureRegion(getTexture(), 0, i*400, 400, 400));
+        }*/
+
+        TextureAtlas atlas = (TextureAtlas)screen.game.manager.get(path, TextureAtlas.class);
+        frames = new Array<TextureRegion>();
+        for(int i = 1; i <= 11; i++){
+            frames.add(atlas.findRegion("f" + i));
+        }
+        for(int i = 10; i >= 2; i--){
+            frames.add(atlas.findRegion("f" + i));
         }
 
         animation = new Animation<TextureRegion>(1/20f, frames);
