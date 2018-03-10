@@ -52,8 +52,8 @@ public class Antibiotic extends Actor{
     public Antibiotic(PlayScreen screen, AntibioticButton button, short type) {
         super(screen, 0, 0, false);
         scale = 2.5f;
-        width = 400;
-        height = 400;
+        //width = 400;
+        //height = 400;
         setPath(type);
         this.type = type;
 
@@ -201,8 +201,11 @@ public class Antibiotic extends Actor{
         Vector2 difference = playerPos.sub(bPos);
         float distance = difference.len();
         //esto está buenisimo
-        TextureRegion region = animation.getKeyFrame(timer, true);
-        float i = region.getRegionY() / region.getRegionHeight();
+        //TextureRegion region = animation.getKeyFrame(timer, true);
+        int i = animation.getKeyFrameIndex(timer);
+        if(i>10){
+            i = 20 - i;
+        }
 
         if(distance < (20 + i*7.5)*scale){
             b.die(pOfKilling);

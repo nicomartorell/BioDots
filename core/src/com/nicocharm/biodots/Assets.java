@@ -164,8 +164,6 @@ public class Assets {
         manager.unload("level-border.png");
         manager.unload("level-border-locked.png");
         manager.unload("config-icon.png");
-        manager.unload("thumb-up.png");
-        manager.unload("thumb-down.png");
         manager.unload("button-mask.png");
         manager.unload("frozen.ogg");
         manager.unload("menu-music.ogg");

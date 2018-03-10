@@ -349,7 +349,11 @@ public class Bacteria extends Actor {
 
     public void die(float pOfKilling) { //me muero, quizás, segun pOfDying
         Random r = new Random();
-        if(r.nextFloat() < pOfDying*pOfKilling){
+        float f = r.nextFloat();
+
+        Gdx.app.log("tag7", "random is " + f + ", p is " + pOfDying*pOfKilling);
+
+        if(f < pOfDying*pOfKilling){
             Gdx.app.log("tag", "I am dying!!");
             isDead = true;
             if(screen.game.getSound()){
