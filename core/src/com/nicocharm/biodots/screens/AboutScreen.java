@@ -72,7 +72,7 @@ public class AboutScreen implements Screen, InputProcessor {
 
         String text = "**¿Qué es Antibium?\n" +
                 "\n" +
-                "Bio Dots es un juego de estrategia\n" +
+                "Antibium es un juego de estrategia\n" +
                 "y habilidad, basado vagamente en\n" +
                 "conceptos de biología. La idea\n" +
                 "del juego es mostrar lo difíciles\n" +

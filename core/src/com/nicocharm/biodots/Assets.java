@@ -22,23 +22,30 @@ public class Assets {
     }
     public void load(){
         manager.load("title.png", Texture.class);
+
+        //manager.load("small-textures.pack", TextureAtlas.class);
+
         manager.load("menu-button.png", Texture.class);
         manager.load("menu-button-transparent.png", Texture.class);
         manager.load("power-bar-bg.png", Texture.class);
         manager.load("info-bar-blue.png", Texture.class);
         manager.load("box.png", Texture.class);
         manager.load("box-active.png", Texture.class);
+
         manager.load("bacteria-red.pack", TextureAtlas.class);
         manager.load("bacteria-green.pack", TextureAtlas.class);
         manager.load("bacteria-blue.pack", TextureAtlas.class);
         manager.load("bacteria-pink.pack", TextureAtlas.class);
         manager.load("bacteria-orange.pack", TextureAtlas.class);
+
         manager.load("background-goal.png", Texture.class);
+
         manager.load("antibiotic-white.pack", TextureAtlas.class);
         manager.load("antibiotic-red.pack", TextureAtlas.class);
         manager.load("antibiotic-green.pack", TextureAtlas.class);
         manager.load("antibiotic-blue.pack", TextureAtlas.class);
         manager.load("antibiotic-pink.pack", TextureAtlas.class);
+
         manager.load("antibiotic-box-gray.png", Texture.class);
         manager.load("antibiotic-box-blue.png", Texture.class);
         manager.load("antibiotic-box-blue-active.png", Texture.class);
@@ -55,15 +62,16 @@ public class Assets {
         manager.load("antibiotic-box-white.png", Texture.class);
         manager.load("antibiotic-box-white-active.png", Texture.class);
         manager.load("pause-button.png", Texture.class);
+
         manager.load("background-play.png", Texture.class);
         manager.load("background-lose.png", Texture.class);
         manager.load("background-win.png", Texture.class);
         manager.load("level-border.png", Texture.class);
         manager.load("level-border-locked.png", Texture.class);
+
         manager.load("config-icon.png", Texture.class);
-        manager.load("thumb-up.png", Texture.class);
-        manager.load("thumb-down.png", Texture.class);
         manager.load("button-mask.png", Texture.class);
+
         manager.load("frozen.ogg", Sound.class);
         manager.load("menu-music.ogg", Music.class);
         manager.load("antibiotic.ogg", Sound.class);
