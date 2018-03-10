@@ -21,6 +21,7 @@ public class Assets {
         manager  = new AssetManager();
     }
     public void load(){
+        manager.load("title.png", Texture.class);
         manager.load("menu-button.png", Texture.class);
         manager.load("menu-button-transparent.png", Texture.class);
         manager.load("power-bar-bg.png", Texture.class);
@@ -116,6 +117,7 @@ public class Assets {
 
     public void unload(){
         Gdx.app.log("tag", "Unloading assets");
+        manager.unload("title.png");
         manager.unload("menu-button.png");
         manager.unload("menu-button-transparent.png");
         manager.unload("power-bar-bg.png");

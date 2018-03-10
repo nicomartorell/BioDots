@@ -51,7 +51,7 @@ public class MainMenu implements Screen, InputProcessor {
     public OrthographicCamera cam;
     public Viewport viewport;
 
-    private Label title;
+    //private Label title;
     private int counter;
 
     private Array<MenuButton> buttons;
@@ -64,6 +64,9 @@ public class MainMenu implements Screen, InputProcessor {
     private Button config;
     private Button highScores;
 
+    private Texture title;
+    private float scale;
+
     public MainMenu(BioDots game){
         this.game = game;
         backgroundColor = new Color(0, 0 , 0.2f, 1);
@@ -75,7 +78,7 @@ public class MainMenu implements Screen, InputProcessor {
 
         stage = new Stage(viewport, game.batch);
 
-        BitmapFont font = (BitmapFont) game.manager.get("GloriaHallelujah.ttf", BitmapFont.class);
+        /*BitmapFont font = (BitmapFont) game.manager.get("GloriaHallelujah.ttf", BitmapFont.class);
         Label.LabelStyle style = new Label.LabelStyle();
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         style.font = font;
@@ -87,8 +90,11 @@ public class MainMenu implements Screen, InputProcessor {
         GlyphLayout gl = new GlyphLayout(style.font, text);
         title.setPosition(game.WIDTH/2 - gl.width/2, game.HEIGHT - 20 - font.getLineHeight());
         counter = 0;
-        stage.addActor(title);
+        stage.addActor(title);*/
 
+        title = (Texture)game.manager.get("title.png", Texture.class);
+
+        scale = 1;
 
         buttons = new Array<MenuButton>();
 
@@ -167,6 +173,12 @@ public class MainMenu implements Screen, InputProcessor {
         for(Bacteria b: bacterias){b.render(game.batch);}
         for(MenuButton button: buttons) button.render(game.batch);
         config.render(game.batch);
+
+        game.batch.draw(title, game.WIDTH/2 - (title.getWidth()*scale)/2,
+                game.HEIGHT - 240 - (title.getHeight()*scale)/2,
+                title.getWidth()*scale,
+                title.getHeight()*scale);
+
         game.batch.end();
 
         stage.draw();
@@ -174,7 +186,8 @@ public class MainMenu implements Screen, InputProcessor {
 
     private void update(float delta) {
 
-        title.setFontScale(0.85f + game.getSineFunction().get(counter)*0.05f);
+        //title.setFontScale(0.85f + game.getSineFunction().get(counter)*0.05f);
+        scale = 0.95f + game.getSineFunction().get(counter)*0.05f;
         counter++;
         if(counter == game.getSineFunction().size) counter = 0;
 
