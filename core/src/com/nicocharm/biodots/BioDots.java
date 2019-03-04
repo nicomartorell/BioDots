@@ -331,7 +331,7 @@ public class BioDots extends Game {
         freeGame.setInitialTime(0);
         freeGame.setnBacterias(15);
         freeGame.setMutationStDev(0.033f);
-        freeGame.setpOfRep(0.0025);
+        freeGame.setpOfRep(0.0005);
         freeGame.setFreeGame(true);
         freeGame.setInterval(2f);
 
@@ -404,6 +404,7 @@ public class BioDots extends Game {
 
 		level = new ScreenCreator();
 		level.setInitial_pOfDying(1f);
+        level.setpOfRep(0.0008);
 
 		buttonTypes = new short[5];
 		buttonTypes[0] = Antibiotic.ANTIBIOTIC_WHITE;
@@ -420,7 +421,7 @@ public class BioDots extends Game {
 		}
 		level.setBacteriaTypes(types);
 
-		level.setInitialTime(60f);
+		level.setInitialTime(120f);
 
 		goals = new String[2];
 		goals[0] = "Matá a las bacterias!\nSi no te apurás se dividen!";
@@ -448,6 +449,7 @@ public class BioDots extends Game {
 
 		level = new ScreenCreator();
 		level.setInitial_pOfDying(1f);
+		level.setpOfRep(0.0007);
 
 		buttonTypes = new short[5];
 		buttonTypes[0] = Antibiotic.ANTIBIOTIC_WHITE;
@@ -464,7 +466,7 @@ public class BioDots extends Game {
 		}
 		level.setBacteriaTypes(types);
 
-		level.setInitialTime(60f);
+		level.setInitialTime(120f);
 
 		goals = new String[2];
 		goals[0] = "El antibiotico azul es más\n" +
@@ -497,7 +499,8 @@ public class BioDots extends Game {
 
 		level = new ScreenCreator();
 		level.setInitial_pOfDying(1f);
-		level.setInitialTime(60f);
+		level.setInitialTime(120f);
+        level.setpOfRep(0.0010);
 
 		buttonTypes = new short[5];
 		buttonTypes[0] = Antibiotic.ANTIBIOTIC_WHITE;
@@ -554,6 +557,7 @@ public class BioDots extends Game {
 
 		level = new ScreenCreator();
 		level.setInitial_pOfDying(1f);
+        level.setpOfRep(0.0008);
 
 		buttonTypes = new short[5];
 		buttonTypes[0] = Antibiotic.ANTIBIOTIC_WHITE;
@@ -617,6 +621,7 @@ public class BioDots extends Game {
 
 		level = new ScreenCreator();
 		level.setInitial_pOfDying(1f);
+        level.setpOfRep(0.0008);
 
 		buttonTypes = new short[5];
 		buttonTypes[0] = Antibiotic.ANTIBIOTIC_WHITE;

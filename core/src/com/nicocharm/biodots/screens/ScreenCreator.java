@@ -123,7 +123,7 @@ public class ScreenCreator {
 
         pOfRep = 0.0011;
         
-        mutationStDev = 0.1f;
+        mutationStDev = 0.05f;
 
         interval = 4f;
     }

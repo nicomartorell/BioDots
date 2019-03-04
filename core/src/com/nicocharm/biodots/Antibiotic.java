@@ -109,7 +109,7 @@ public class Antibiotic extends Actor{
                 break;
             case ANTIBIOTIC_WHITE:
                 path = "antibiotic-white.pack";
-                pOfKilling = 0.45f;
+                pOfKilling = 0.5f;
                 duration = 4f;
                 inactiveTime = 0;
                 cost = 0;

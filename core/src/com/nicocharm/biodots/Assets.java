@@ -21,10 +21,11 @@ public class Assets {
         manager  = new AssetManager();
     }
     public void load(){
+
         manager.load("title.png", Texture.class);
 
         //manager.load("small-textures.pack", TextureAtlas.class);
-
+        Gdx.app.log("tag", "loading assets");
         manager.load("menu-button.png", Texture.class);
         manager.load("menu-button-transparent.png", Texture.class);
         manager.load("power-bar-bg.png", Texture.class);
@@ -105,7 +106,7 @@ public class Assets {
         font4.fontParameters.size = 80;
         manager.load("Roboto-Regular.ttf", BitmapFont.class, font4);*/
 
-
+        Gdx.app.log("tag", "finishing loading assets");
     }
     public void finishLoading(){
         manager.finishLoading();
